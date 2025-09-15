@@ -35,10 +35,10 @@ const copy = {
     tours: {
       title: "Nos Parcours",
       items: [
-        { name: "Découverte des Sources", level: "Facile", dur: "2h", desc: "Parfait familles, toboggans naturels, petites vasques.", img: "https://images.unsplash.com/photo-1503435824048-a799a3a84bf7?q=80&w=1200&auto=format&fit=crop" },
-        { name: "Seythenex Intégral", level: "Intermédiaire", dur: "3h", desc: "Rappels, ressauts, sauts (optionnels), ambiance forêt.", img: "https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop" },
-        { name: "Fournel Sport", level: "Sportif", dur: "3h30", desc: "Verticalité, vasques profondes, pour amateurs de sensations.", img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop" },
-        { name: "Crépuscule Lumière", level: "Expérience", dur: "2h30", desc: "Sortie dorée + pack photos, ambiance fin de journée.", img: "https://images.unsplash.com/photo-1533577116850-9cc66cad8a9b?q=80&w=1200&auto=format&fit=crop" },
+        { name: "Découverte des Sources", level: "Facile", dur: "2h", desc: "Parfait familles, toboggans naturels, petites vasques.", img: "/canyoning/2_v2.jpg" },
+        { name: "Seythenex Intégral", level: "Intermédiaire", dur: "3h", desc: "Rappels, ressauts, sauts (optionnels), ambiance forêt.", img: "/canyoning/3_v2.jpg" },
+        { name: "Fournel Sport", level: "Sportif", dur: "3h30", desc: "Verticalité, vasques profondes, pour amateurs de sensations.", img: "/canyoning/4_v2.jpg" },
+        { name: "Crépuscule Lumière", level: "Expérience", dur: "2h30", desc: "Sortie dorée + pack photos, ambiance fin de journée.", img: "/canyoning/5_v2.jpg" },
       ],
       chip: { level: "Niveau", dur: "Durée" },
     },
@@ -115,10 +115,10 @@ const copy = {
     tours: {
       title: "Our Tours",
       items: [
-        { name: "Spring Discovery", level: "Easy", dur: "2h", desc: "Family-friendly slides and pools.", img: "https://images.unsplash.com/photo-1503435824048-a799a3a84bf7?q=80&w=1200&auto=format&fit=crop" },
-        { name: "Seythenex Integral", level: "Intermediate", dur: "3h", desc: "Rappels, optional jumps, forest ambiance.", img: "https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop" },
-        { name: "Fournel Sport", level: "Sport", dur: "3h30", desc: "Vertical sections and deep pools.", img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop" },
-        { name: "Golden Hour", level: "Experience", dur: "2h30", desc: "Sunset vibes + photo pack.", img: "https://images.unsplash.com/photo-1533577116850-9cc66cad8a9b?q=80&w=1200&auto=format&fit=crop" },
+        { name: "Spring Discovery", level: "Easy", dur: "2h", desc: "Family-friendly slides and pools.", img: "/canyoning/2_v2.jpg" },
+        { name: "Seythenex Integral", level: "Intermediate", dur: "3h", desc: "Rappels, optional jumps, forest ambiance.", img: "/canyoning/3_v2.jpg" },
+        { name: "Fournel Sport", level: "Sport", dur: "3h30", desc: "Vertical sections and deep pools.", img: "/canyoning/4_v2.jpg" },
+        { name: "Golden Hour", level: "Experience", dur: "2h30", desc: "Sunset vibes + photo pack.", img: "/canyoning/5_v2.jpg" },
       ],
       chip: { level: "Level", dur: "Duration" },
     },
@@ -243,34 +243,51 @@ export default function CascadeNomadeCanyoning() {
               {t.hero.badges.map(({ Icon, text }, i) => <Pill key={i}><Icon size={14}/>{text}</Pill>)}
             </div>
           </div>
-          <div className="relative h-64 w-full overflow-hidden rounded-3xl bg-[url('https://images.unsplash.com/photo-1503437313881-503a91226402?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center shadow-lg md:h-80">
-            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-600/40 to-cyan-500/30" />
+          <div className="relative h-64 w-full overflow-hidden rounded-3xl bg-[url('/canyoning/1_v2.jpg')] bg-cover bg-center shadow-lg md:h-80">
+            <div className="absolute inset-0 bg-gradient-to-tr" />
           </div>
         </div>
       </Section>
 
       {/* Tours */}
-      <Section id="tours" className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{t.tours.title}</h2>
-        <div className="grid gap-5 md:grid-cols-2">
-          {t.tours.items.map((tour, i) => (
-            <Card key={i} className="overflow-hidden p-0">
-              <div className="grid gap-0 md:grid-cols-2">
-                <div className="h-48 w-full bg-cover bg-center" style={{ backgroundImage: `url('${tour.img}')` }} />
-                <div className="p-5">
-                  <div className="flex flex-wrap gap-2 text-xs mb-2">
-                    <Pill><CheckCircle2 size={14}/> {t.tours.chip.level}: {tour.level}</Pill>
-                    <Pill><Clock size={14}/> {t.tours.chip.dur}: {tour.dur}</Pill>
-                  </div>
-                  <p className="font-medium">{tour.name}</p>
-                  <p className="text-sm opacity-70">{tour.desc}</p>
-                  <div className="mt-4"><a href="#contact" className="text-sm underline underline-offset-4">Je veux réserver →</a></div>
-                </div>
+<Section id="tours" className="pb-10">
+  <h2 className="mb-4 text-2xl font-semibold">{t.tours.title}</h2>
+  <div className="grid gap-5 md:grid-cols-2">
+    {t.tours.items.map((tour, i) => {
+      const imgRight = i % 2 === 1; // 0,2 left — 1,3 right
+      return (
+        <Card key={i} className="overflow-hidden p-0">
+          <div className="grid gap-0 md:grid-cols-2">
+            {/* IMAGE */}
+            <div
+              className={[
+                "relative h-48 w-full overflow-hidden",
+                // Mobile: rounded on top; Desktop: reset all, then round left or right only
+                "rounded-t-2xl md:rounded-none",
+                imgRight ? "md:order-2 md:rounded-r-2xl" : "md:order-1 md:rounded-l-2xl",
+              ].join(" ")}
+            >
+              <img src={tour.img} alt={tour.name} className="h-full w-full object-cover" />
+            </div>
+
+            {/* TEXT */}
+            <div className={["p-5", imgRight ? "md:order-1" : "md:order-2"].join(" ")}>
+              <div className="mb-2 flex flex-wrap gap-2 text-xs">
+                <Pill><CheckCircle2 size={14}/> {t.tours.chip.level}: {tour.level}</Pill>
+                <Pill><Clock size={14}/> {t.tours.chip.dur}: {tour.dur}</Pill>
               </div>
-            </Card>
-          ))}
-        </div>
-      </Section>
+              <p className="font-medium">{tour.name}</p>
+              <p className="text-sm opacity-70">{tour.desc}</p>
+              <div className="mt-4">
+                <a href="#contact" className="text-sm underline underline-offset-4">Je veux réserver →</a>
+              </div>
+            </div>
+          </div>
+        </Card>
+      );
+    })}
+  </div>
+</Section>
 
       {/* Why us */}
       <Section className="pb-10">
@@ -345,14 +362,14 @@ export default function CascadeNomadeCanyoning() {
         <h2 className="mb-4 text-2xl font-semibold">{t.gallery.title}</h2>
         <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
           {[
-            "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1503437313881-503a91226402?q=80&w=1200&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1503435824048-a799a3a84bf7?q=80&w=1200&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1533577116850-9cc66cad8a9b?q=80&w=1200&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1520963183138-0d42a0f0a829?q=80&w=1200&auto=format&fit=crop"
+            "/canyoning/7_v2.jpg",
+            "/canyoning/8_v2.jpg",
+            "/canyoning/9_v2.jpg",
+            "/canyoning/10_v2.jpg",
+            "/canyoning/11_v2.jpg",
+            "/canyoning/1_v2.jpg",
+            "/canyoning/3_v2.jpg",
+            "/canyoning/2_v2.jpg",
           ].map((src, i) => (
             <div key={i} className="group relative aspect-[4/3] overflow-hidden rounded-xl">
               <img src={src} alt={`canyoning ${i}`} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]" />
