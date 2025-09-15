@@ -9,9 +9,9 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // --- Hero carousel images ----------------------------------------------------
 const HERO_IMAGES = [
-  "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop",
+  "/hero/1.jpg",
+  "/hero/2.jpg",
+  "/hero/2.jpg",
 ];
 
 // --- Projects (replace with real ones) --------------------------------------
@@ -80,7 +80,7 @@ const STRINGS = {
       title: "Services",
       items: [
         { t: "Site vitrine / e‑commerce", d: "Design & développement responsive, SEO technique, suivi analytique." },
-        { t: "Refonte optimisée", d: "+ Vitesse, + conversions, + crédibilité." },
+        { t: "Refonte optimisée", d: "+ Rapide, + de conversions, + de crédibilité." },
         { t: "Maintenance & SEO", d: "Mises à jour, sécurité, contenus, performance continue." },
       ],
     },
