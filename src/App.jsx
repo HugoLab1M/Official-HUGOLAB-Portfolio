@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const HERO_IMAGES = [
   "/hero/1.jpg",
   "/hero/2.jpg",
-  "/hero/2.jpg",
+  "/hero/3.jpg",
 ];
 
 // --- Projects (replace with real ones) --------------------------------------
