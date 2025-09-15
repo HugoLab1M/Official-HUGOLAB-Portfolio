@@ -185,7 +185,15 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
   return (
     <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-neutral-900/60 border-b border-neutral-200/60 dark:border-neutral-800">
       <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-        <a href="#top" className="font-semibold tracking-tight text-lg">HügoLab</a>
+      <a href="#top" className="flex items-center gap-3 group" aria-label="HügoLab — accueil">
+  {/* Logo */}
+  <img src="/logo.svg" alt="HügoLab" className="h-9 w-auto" />
+
+  {/* Wordmark (hidden on very small screens) */}
+  <span className="hidden sm:inline-block text-base font-semibold tracking-tight text-neutral-900 dark:text-white group-hover:opacity-90 transition-opacity">
+    HügoLab
+  </span>
+</a>
         <div className="hidden md:flex items-center gap-6">
           {items.map((item) => (
             <a key={item.id} href={`#${item.id}`} className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white">
