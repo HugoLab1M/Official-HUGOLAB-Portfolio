@@ -25,7 +25,7 @@ const PROJECTS = [
     industry: "Local Business",
     stack: ["Next.js", "Tailwind", "Framer Motion", "SEO"],
     image:
-      "https://images.unsplash.com/photo-1503437313881-503a91226402?q=80&w=1400&auto=format&fit=crop",
+      "/projects/1_v2.jpg",
     url: "/demos/coup-de-pompe",               // ⇦ route interne
     caseStudyUrl: "#case-au-coup-de-pompe",
   },
@@ -36,7 +36,7 @@ const PROJECTS = [
     industry: "Tourism",
     stack: ["React", "Tailwind", "Vite"],
     image:
-      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1400&auto=format&fit=crop",
+      "/projects/2_v2.jpg",
     url: "/demos/le-deck-pedalos",            // ⇦ route interne
     caseStudyUrl: "#case-annecy-velos",
   },
@@ -46,7 +46,7 @@ const PROJECTS = [
     tagline: "Acompte en ligne, empreinte de caution, slots météo-aware.",
     industry: "Tourisme",
     stack: ["React", "Tailwind", "Stripe-ready"],
-    image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1400&auto=format&fit=crop",
+    image: "/projects/3_v2.jpg",
     url: "/demos/sans-permis-saint-jorioz",
     caseStudyUrl: "#case-sans-permis",
   },
@@ -56,7 +56,7 @@ const PROJECTS = [
     tagline: "Créneaux biplace, options photo/vidéo, report météo.",
     industry: "Outdoor",
     stack: ["React", "Tailwind", "i18n"],
-    image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1400&auto=format&fit=crop",
+    image: "/projects/4_v2.jpg",
     url: "/demos/micro-ecole-parapente",
     caseStudyUrl: "#case-parapente",
   },
@@ -66,7 +66,7 @@ const PROJECTS = [
     tagline: "Parcours pour tous, encadrement diplômé, site coloré et immersif.",
     industry: "Outdoor",
     stack: ["React", "Tailwind", "i18n", "UX"],
-    image: "https://images.unsplash.com/photo-1503437313881-503a91226402?q=80&w=1400&auto=format&fit=crop",
+    image: "/projects/5_v2.jpg",
     url: "/demos/cascade-nomade-canyoning",
     caseStudyUrl: "#case-cascade-nomade",
   }
