@@ -1,6 +1,9 @@
 'use client';
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Routes, Route, Link } from "react-router-dom";
+import CoupDePompe from "./demos/CoupDePompe.jsx";
+import LeDeckPedalos from "./demos/LeDeckPedalos.jsx";
 
 // =============================================
 // HügoLab — Portfolio Website (Agency Branding)
@@ -8,11 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // =============================================
 
 // --- Hero carousel images ----------------------------------------------------
-const HERO_IMAGES = [
-  "/hero/1.jpg",
-  "/hero/2.jpg",
-  "/hero/3.jpg",
-];
+const HERO_IMAGES = ["/hero/1.jpg", "/hero/2.jpg", "/hero/3.jpg"];
 
 // --- Projects (replace with real ones) --------------------------------------
 const PROJECTS = [
@@ -24,18 +23,18 @@ const PROJECTS = [
     stack: ["Next.js", "Tailwind", "Framer Motion", "SEO"],
     image:
       "https://images.unsplash.com/photo-1506224774223-ddd7c9131fc0?q=80&w=1400&auto=format&fit=crop",
-    url: "https://example.com/au-coup-de-pompe",
+    url: "/demos/coup-de-pompe",               // ⇦ route interne
     caseStudyUrl: "#case-au-coup-de-pompe",
   },
   {
-    slug: "annecy-velos",
-    title: "Annecy Vélos — Rentals",
+    slug: "annecy-pedalos",
+    title: "Le Deck Pédalos",
     tagline: "Conversion-focused booking flow + dynamic pricing table.",
     industry: "Tourism",
     stack: ["React", "Tailwind", "Vite"],
     image:
       "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1400&auto=format&fit=crop",
-    url: "https://example.com/annecy-velos",
+    url: "/demos/le-deck-pedalos",            // ⇦ route interne
     caseStudyUrl: "#case-annecy-velos",
   },
   {
@@ -46,7 +45,7 @@ const PROJECTS = [
     stack: ["Astro", "Tailwind", "Image CDN"],
     image:
       "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=1400&auto=format&fit=crop",
-    url: "https://example.com/gelateria",
+    url: "https://example.com/gelateria",     // externe (exemple)
     caseStudyUrl: "#case-gelateria",
   },
 ];
@@ -55,7 +54,6 @@ const PROJECTS = [
 const SOCIALS = [
   { name: "LinkedIn", href: "https://www.linkedin.com/in/mateo-hugues/" },
   { name: "Instagram", href: "https://www.instagram.com/" },
-  { name: "Email", href: "mailto:contact@hugolab.fr" },
 ];
 
 const CONTACT = {
@@ -72,14 +70,14 @@ const STRINGS = {
       kicker: "Agence web créative à Annecy",
       title: "HügoLab — des sites modernes qui convertissent",
       subtitle:
-        "Nous créons des sites vitrines et e‑commerce pour les entreprises locales et marques en croissance. Notre ADN : rapidité, SEO, et une expérience utilisateur pensée pour la conversion.",
+        "Nous créons des sites vitrines et e-commerce pour les entreprises locales et marques en croissance. Notre ADN : rapidité, SEO, et une expérience utilisateur pensée pour la conversion.",
       ctaPrimary: "Voir nos projets",
       ctaSecondary: "Discuter de votre besoin",
     },
     services: {
       title: "Services",
       items: [
-        { t: "Site vitrine / e‑commerce", d: "Design & développement responsive, SEO technique, suivi analytique." },
+        { t: "Site vitrine / e-commerce", d: "Design & développement responsive, SEO technique, suivi analytique." },
         { t: "Refonte optimisée", d: "+ Rapide, + de conversions, + de crédibilité." },
         { t: "Maintenance & SEO", d: "Mises à jour, sécurité, contenus, performance continue." },
       ],
@@ -95,10 +93,7 @@ const STRINGS = {
       p: "Expliquez en 3 lignes votre activité, votre objectif, et si vous avez déjà un site. Nous revenons vers vous sous 24h avec un plan simple et un devis clair.",
       btn: "Écrire un message",
     },
-    footer: {
-      rights: "Tous droits réservés.",
-      builtBy: "Site par HügoLab",
-    },
+    footer: { rights: "Tous droits réservés.", builtBy: "Site par HügoLab" },
     langLabel: "FR",
   },
   en: {
@@ -107,22 +102,22 @@ const STRINGS = {
       kicker: "Creative web agency from Annecy",
       title: "HügoLab — modern websites that convert",
       subtitle:
-        "We build high‑performing showcase and e‑commerce sites for local businesses and growing brands. Our DNA: speed, SEO, and UX designed for conversions.",
+        "We build high-performing showcase and e-commerce sites for local businesses and growing brands. Our DNA: speed, SEO, and UX designed for conversions.",
       ctaPrimary: "See our projects",
       ctaSecondary: "Discuss your brief",
     },
     services: {
       title: "Services",
       items: [
-        { t: "Business / e‑commerce websites", d: "Responsive design & dev, technical SEO, analytics." },
-        { t: "High‑impact redesigns", d: "Faster, clearer, more credible." },
+        { t: "Business / e-commerce websites", d: "Responsive design & dev, technical SEO, analytics." },
+        { t: "High-impact redesigns", d: "Faster, clearer, more credible." },
         { t: "Maintenance & SEO", d: "Updates, security, content, continuous performance." },
       ],
     },
     work: { title: "Featured Work" },
     about: {
       title: "Our story",
-      p1: "HügoLab was born from a simple idea: giving local businesses in Annecy and beyond access to modern, fast, and business‑driven websites. Founded by Mateo Hugues, a finance and digital enthusiast, HügoLab combines strategy and design to help brands grow.",
+      p1: "HügoLab was born from a simple idea: giving local businesses in Annecy and beyond access to modern, fast, and business-driven websites. Founded by Mateo Hugues, a finance and digital enthusiast, HügoLab combines strategy and design to help brands grow.",
       p2: "Our approach: listen, prototype fast, test with real users, and keep improving. We blend creativity with technical rigor to deliver solutions that inspire trust and drive sales.",
     },
     contact: {
@@ -185,15 +180,12 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
   return (
     <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-neutral-900/60 border-b border-neutral-200/60 dark:border-neutral-800">
       <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-      <a href="#top" className="flex items-center gap-3 group" aria-label="HügoLab — accueil">
-  {/* Logo */}
-  <img src="/logo.svg" alt="HügoLab" className="h-9 w-auto" />
-
-  {/* Wordmark (hidden on very small screens) */}
-  <span className="hidden sm:inline-block text-base font-semibold tracking-tight text-neutral-900 dark:text-white group-hover:opacity-90 transition-opacity">
-    HügoLab
-  </span>
-</a>
+        <a href="#top" className="flex items-center gap-3 group" aria-label="HügoLab — accueil">
+          <img src="/logo.svg" alt="HügoLab" className="h-9 w-auto" />
+          <span className="hidden sm:inline-block text-base font-semibold tracking-tight text-neutral-900 dark:text-white group-hover:opacity-90 transition-opacity">
+            HügoLab
+          </span>
+        </a>
         <div className="hidden md:flex items-center gap-6">
           {items.map((item) => (
             <a key={item.id} href={`#${item.id}`} className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white">
@@ -230,7 +222,6 @@ function Hero({ t }) {
     const id = setInterval(() => setIndex((i) => (i + 1) % HERO_IMAGES.length), 4000);
     return () => clearInterval(id);
   }, []);
-
   return (
     <section id="top" className="relative overflow-hidden">
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-950 dark:to-neutral-900" />
@@ -267,20 +258,13 @@ function Hero({ t }) {
   );
 }
 
+// util pour ProjectCard
+const isExternalUrl = (u) => /^https?:\/\//i.test(u);
+
 function ProjectCard({ p }) {
-  return (
-    <motion.a
-      href={p.url}
-      target="_blank"
-      rel="noreferrer"
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4 }}
-      className="group block rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:shadow-xl transition-shadow"
-    >
+  const CardInner = (
+    <>
       <div className="relative aspect-[16/10] overflow-hidden">
-        {/* HOVER ZOOM effect only on these grid images */}
         <img
           src={p.image}
           alt={p.title}
@@ -303,15 +287,41 @@ function ProjectCard({ p }) {
         <h3 className="text-lg font-medium mb-1">{p.title}</h3>
         <p className="text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2">{p.tagline}</p>
         <div className="mt-3 flex items-center gap-3">
-          <a href={p.url} target="_blank" rel="noreferrer" className="text-sm underline underline-offset-4">
-            Live →
-          </a>
+          {isExternalUrl(p.url) ? (
+            <a href={p.url} target="_blank" rel="noreferrer" className="text-sm underline underline-offset-4">
+              Live →
+            </a>
+          ) : (
+            <Link to={p.url} className="text-sm underline underline-offset-4">
+              Live →
+            </Link>
+          )}
           <a href={p.caseStudyUrl} className="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-white">
             Case study
           </a>
         </div>
       </div>
-    </motion.a>
+    </>
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4 }}
+      className="group rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:shadow-xl transition-shadow"
+    >
+      {isExternalUrl(p.url) ? (
+        <a href={p.url} target="_blank" rel="noreferrer" className="block">
+          {CardInner}
+        </a>
+      ) : (
+        <Link to={p.url} className="block">
+          {CardInner}
+        </Link>
+      )}
+    </motion.div>
   );
 }
 
@@ -427,19 +437,35 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-white">
+      {/* La Nav reste affichée partout */}
       <Nav
         t={t}
         lang={lang}
         onLangToggle={() => setLang(lang === "fr" ? "en" : "fr")}
         onContactClick={() => (window.location.hash = "#contact")}
       />
-      <main>
-        <Hero t={t} />
-        <Work t={t} />
-        <Services t={t} />
-        <About t={t} />
-        <Contact t={t} />
-      </main>
+
+      {/* Ici on gère les routes */}
+      <Routes>
+        {/* Page d’accueil (portfolio existant) */}
+        <Route
+          path="/"
+          element={
+            <main>
+              <Hero t={t} />
+              <Work t={t} />
+              <Services t={t} />
+              <About t={t} />
+              <Contact t={t} />
+            </main>
+          }
+        />
+        {/* Pages démos */}
+        <Route path="/demos/coup-de-pompe" element={<CoupDePompe />} />
+        <Route path="/demos/le-deck-pedalos" element={<LeDeckPedalos />} />
+      </Routes>
+
+      {/* Footer reste affiché partout */}
       <Footer t={t} />
     </div>
   );
@@ -448,9 +474,7 @@ export default function App() {
 // --- Self-tests (basic smoke tests) -----------------------------------------
 (function runSelfTests() {
   const tests = [];
-  function assert(name, cond) {
-    tests.push({ name, pass: !!cond });
-  }
+  function assert(name, cond) { tests.push({ name, pass: !!cond }); }
   try {
     assert("Hero component defined", typeof Hero === "function");
     assert("Nav component defined", typeof Nav === "function");
