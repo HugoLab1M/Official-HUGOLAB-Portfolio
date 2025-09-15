@@ -4,6 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Routes, Route, Link } from "react-router-dom";
 import CoupDePompe from "./demos/CoupDePompe.jsx";
 import LeDeckPedalos from "./demos/LeDeckPedalos.jsx";
+import SansPermisSaintJorioz from "./demos/SansPermisSaintJorioz.jsx";
+import MicroEcoleParapente from "./demos/MicroEcoleParapente.jsx";
+import CascadeNomadeCanyoning from "./demos/CascadeNomadeCanyoning.jsx";
 
 // =============================================
 // HügoLab — Portfolio Website (Agency Branding)
@@ -11,7 +14,7 @@ import LeDeckPedalos from "./demos/LeDeckPedalos.jsx";
 // =============================================
 
 // --- Hero carousel images ----------------------------------------------------
-const HERO_IMAGES = ["/hero/1.jpg", "/hero/2.jpg", "/hero/3.jpg"];
+const HERO_IMAGES = ["/hero/1_v2.jpg", "/hero/2_v2.jpg", "/hero/3_v2.jpg"];
 
 // --- Projects (replace with real ones) --------------------------------------
 const PROJECTS = [
@@ -22,7 +25,7 @@ const PROJECTS = [
     industry: "Local Business",
     stack: ["Next.js", "Tailwind", "Framer Motion", "SEO"],
     image:
-      "https://images.unsplash.com/photo-1506224774223-ddd7c9131fc0?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1503437313881-503a91226402?q=80&w=1400&auto=format&fit=crop",
     url: "/demos/coup-de-pompe",               // ⇦ route interne
     caseStudyUrl: "#case-au-coup-de-pompe",
   },
@@ -38,16 +41,35 @@ const PROJECTS = [
     caseStudyUrl: "#case-annecy-velos",
   },
   {
-    slug: "gelateria-lago",
-    title: "Gelateria del Lago — Snack & Gelato",
-    tagline: "Warm brand palette + photo-first menu & allergens labels.",
-    industry: "Food & Beverage",
-    stack: ["Astro", "Tailwind", "Image CDN"],
-    image:
-      "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=1400&auto=format&fit=crop",
-    url: "https://example.com/gelateria",     // externe (exemple)
-    caseStudyUrl: "#case-gelateria",
+    slug: "sans-permis-saint-jorioz",
+    title: "Sans Permis Saint-Jorioz — Bateaux à l’heure",
+    tagline: "Acompte en ligne, empreinte de caution, slots météo-aware.",
+    industry: "Tourisme",
+    stack: ["React", "Tailwind", "Stripe-ready"],
+    image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1400&auto=format&fit=crop",
+    url: "/demos/sans-permis-saint-jorioz",
+    caseStudyUrl: "#case-sans-permis",
   },
+  {
+    slug: "micro-ecole-parapente",
+    title: "Micro-École Parapente — Doussard",
+    tagline: "Créneaux biplace, options photo/vidéo, report météo.",
+    industry: "Outdoor",
+    stack: ["React", "Tailwind", "i18n"],
+    image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1400&auto=format&fit=crop",
+    url: "/demos/micro-ecole-parapente",
+    caseStudyUrl: "#case-parapente",
+  },
+  {
+    slug: "cascade-nomade-canyoning",
+    title: "Cascade Nomade — Guides Canyoning",
+    tagline: "Parcours pour tous, encadrement diplômé, site coloré et immersif.",
+    industry: "Outdoor",
+    stack: ["React", "Tailwind", "i18n", "UX"],
+    image: "https://images.unsplash.com/photo-1503437313881-503a91226402?q=80&w=1400&auto=format&fit=crop",
+    url: "/demos/cascade-nomade-canyoning",
+    caseStudyUrl: "#case-cascade-nomade",
+  }
 ];
 
 // --- Contact / Socials -------------------------------------------------------
@@ -463,6 +485,9 @@ export default function App() {
         {/* Pages démos */}
         <Route path="/demos/coup-de-pompe" element={<CoupDePompe />} />
         <Route path="/demos/le-deck-pedalos" element={<LeDeckPedalos />} />
+        <Route path="/demos/sans-permis-saint-jorioz" element={<SansPermisSaintJorioz />} />
+        <Route path="/demos/micro-ecole-parapente" element={<MicroEcoleParapente />} />
+        <Route path="/demos/cascade-nomade-canyoning" element={<CascadeNomadeCanyoning />} />
       </Routes>
 
       {/* Footer reste affiché partout */}
