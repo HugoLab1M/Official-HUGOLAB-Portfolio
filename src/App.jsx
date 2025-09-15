@@ -107,8 +107,10 @@ const STRINGS = {
     work: { title: "Projets en avant" },
     about: {
       title: "Notre histoire",
-      p1: "HügoLab est né d’une idée simple : offrir aux entreprises locales d’Annecy et d’ailleurs des sites modernes, rapides et vraiment utiles au business. L’agence a été fondée par Mateo Hugues, passionné de design et de stratégie digitale, avec la conviction qu’un bon site peut transformer une activité.",
-      p2: "Notre approche : écouter, prototyper vite, tester et améliorer en continu. Nous aimons mêler créativité et rigueur technique pour livrer des solutions qui inspirent confiance et qui convertissent.",
+      p1: "HügoLab conçoit des sites modernes, rapides et orientés résultats pour les entreprises locales d’Annecy et les marques en croissance. Fondée par Mateo Hugues, passionné de design et de stratégie digitale, notre mission est simple : transformer une visite en prise de contact, réservation ou vente.",
+      p2: "Nous allions design soigné, performance technique et leviers d’IA (2025) pour produire des interfaces claires, SEO-friendly et mesurables. Notre méthode : écouter, prototyper vite, tester, itérer — jusqu’à ce que ça convertisse.",
+      quote: "À l’ère de l’IA, votre site est la porte d’entrée de votre marque : clair, rapide, crédible. Avant de se déplacer, la grande majorité des clients vérifie le site. Notre rôle, c’est de transformer cette visite en action.",
+      quoteAuthor: "Mateo Hugues — Fondateur de HügoLab",
     },
     contact: {
       title: "Parlons de votre projet",
@@ -139,8 +141,10 @@ const STRINGS = {
     work: { title: "Featured Work" },
     about: {
       title: "Our story",
-      p1: "HügoLab was born from a simple idea: giving local businesses in Annecy and beyond access to modern, fast, and business-driven websites. Founded by Mateo Hugues, a finance and digital enthusiast, HügoLab combines strategy and design to help brands grow.",
-      p2: "Our approach: listen, prototype fast, test with real users, and keep improving. We blend creativity with technical rigor to deliver solutions that inspire trust and drive sales.",
+      p1: "HügoLab designs modern, fast, results-driven websites for local businesses in Annecy and growing brands. Founded by Mateo Hugues, our mission is simple: turn visits into inquiries, bookings, or sales.",
+      p2: "We blend refined design, strong performance and 2025-ready AI tooling to ship clear, SEO-friendly, measurable interfaces. Our method: listen, prototype fast, test, iterate — until it converts.",
+      quote: "In the age of AI, your website is the front door to your brand: clear, fast, credible. Before showing up, most customers will check your site. Our job is to turn that visit into action.",
+      quoteAuthor: "Mateo Hugues — HügoLab Founder",
     },
     contact: {
       title: "Let's talk",
@@ -387,9 +391,29 @@ function About({ t }) {
   return (
     <section id="about" className="py-14 md:py-20">
       <SectionTitle kicker="Who we are">{t.about.title}</SectionTitle>
-      <div className="max-w-3xl mx-auto px-4 text-neutral-700 dark:text-neutral-300 space-y-4">
-        <p>{t.about.p1}</p>
-        <p>{t.about.p2}</p>
+
+      {/* → Passe en grille 12 colonnes pour contrôler les proportions */}
+      <div className="mx-auto max-w-6xl px-4 grid gap-8 items-start md:grid-cols-12">
+        {/* IMAGE (gauche) — col 5/12 = plus “slim” pour libérer la place du texte */}
+        <figure className="md:col-span-5">
+          {/* Wrapper avec aspect paysage */}
+          <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800">
+            <img
+              src="/about/hugolab-team.webp"
+              alt="HügoLab — l’équipe au travail"
+              /* object-top = on “crope” davantage le bas de l’image */
+              className="h-full w-full object-cover
+             object-[50%_22%] md:object-[50%_30%]"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+          </div>
+        </figure>
+
+        {/* TEXTE (droite) — col 7/12 = plus large */}
+        <div className="md:col-span-7 text-neutral-700 dark:text-neutral-300 space-y-4">
+          <p>{t.about.p1}</p>
+          <p>{t.about.p2}</p>
+        </div>
       </div>
     </section>
   );
