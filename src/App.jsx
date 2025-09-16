@@ -108,8 +108,8 @@ const STRINGS = {
     about: {
       title: "Notre histoire",
       p1: "HügoLab conçoit des sites modernes, rapides et orientés résultats pour les entreprises locales d’Annecy et les marques en croissance. Fondée par Mateo Hugues, passionné de design et de stratégie digitale, notre mission est simple : transformer une visite en prise de contact, réservation ou vente.",
-      p2: "Nous allions design soigné, performance technique et leviers d’IA (2025) pour produire des interfaces claires, SEO-friendly et mesurables. Notre méthode : écouter, prototyper vite, tester, itérer — jusqu’à ce que ça convertisse.",
-      quote: "À l’ère de l’IA, votre site est la porte d’entrée de votre marque : clair, rapide, crédible. Avant de se déplacer, la grande majorité des clients vérifie le site. Notre rôle, c’est de transformer cette visite en action.",
+      p2: "Nous allions design soigné, performance technique et leviers d’IA (2025) pour produire des interfaces claires, SEO-friendly et mesurables. Notre approche : écouter, prototyper, tester et améliorer en continu. Nous aimons mêler créativité et rigueur technique pour livrer des solutions qui inspirent confiance et qui convertissent.",
+      quote: "À l’ère de l’IA, votre site est la porte d’entrée principale de votre marque : clair, rapide, crédible. Avant de se déplacer, la grande majorité des clients regardent votre site. Notre rôle, c’est de transformer cette visite en action.",
       quoteAuthor: "Mateo Hugues — Fondateur de HügoLab",
     },
     contact: {
@@ -392,29 +392,40 @@ function About({ t }) {
     <section id="about" className="py-14 md:py-20">
       <SectionTitle kicker="Who we are">{t.about.title}</SectionTitle>
 
-      {/* → Passe en grille 12 colonnes pour contrôler les proportions */}
-      <div className="mx-auto max-w-6xl px-4 grid gap-8 items-start md:grid-cols-12">
-        {/* IMAGE (gauche) — col 5/12 = plus “slim” pour libérer la place du texte */}
+      {/* Image + text side-by-side */}
+      <div className="mx-auto max-w-6xl px-4 grid gap-8 md:gap-10 items-start md:grid-cols-12">
+        {/* IMAGE (left) */}
         <figure className="md:col-span-5">
-          {/* Wrapper avec aspect paysage */}
-          <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800">
+          <div className="relative aspect-[16/9] md:aspect-[19/9] overflow-hidden rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800">
             <img
-              src="/about/hugolab-team.webp"
+              src="/about/hugolab-team.webp"   // ← your image (public/about/hugolab-team.webp)
               alt="HügoLab — l’équipe au travail"
-              /* object-top = on “crope” davantage le bas de l’image */
-              className="h-full w-full object-cover
-             object-[50%_22%] md:object-[50%_30%]"
+              className="h-full w-full object-cover object-[50%_30%]"  // adjust crop (Y%) if needed
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
           </div>
         </figure>
 
-        {/* TEXTE (droite) — col 7/12 = plus large */}
+        {/* TEXT (right) */}
         <div className="md:col-span-7 text-neutral-700 dark:text-neutral-300 space-y-4">
           <p>{t.about.p1}</p>
           <p>{t.about.p2}</p>
         </div>
       </div>
+
+      {/* QUOTE centered BELOW image+text */}
+      {t.about.quote && (
+        <figure className="mt-8 md:mt-12 mx-auto max-w-3xl px-4 text-center">
+          <blockquote className="rounded-2xl border border-neutral-200 bg-white/70 p-6 md:p-7 italic leading-relaxed text-neutral-800 backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/60 dark:text-neutral-100">
+            {t.about.quote}
+          </blockquote>
+          {t.about.quoteAuthor && (
+            <figcaption className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+              {t.about.quoteAuthor}
+            </figcaption>
+          )}
+        </figure>
+      )}
     </section>
   );
 }
