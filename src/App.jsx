@@ -98,18 +98,63 @@ const STRINGS = {
     },
     services: {
       title: "Services",
-      items: [
-        { t: "Site vitrine / e-commerce", d: "Design & développement responsive, SEO technique, suivi analytique." },
-        { t: "Refonte optimisée", d: "+ Rapide, + de conversions, + de crédibilité." },
-        { t: "Maintenance & SEO", d: "Mises à jour, sécurité, contenus, performance continue." },
+      cta: "Voir les maquettes",
+      sections: [
+        {
+          tag: "Site vitrine",
+          title: "Création de site vitrine",
+          desc:
+            "Nous concevons et mettons en ligne votre site vitrine : design soigné, texte clair, chargement rapide. Nous travaillons en React/Next.js pour un front ultra-léger et durable. Si besoin, on ajoute un petit CMS pour éditer vos pages en autonomie.",
+          bullets: [
+            "Architecture claire & mobile-first",
+            "SEO technique (balises, perf, méta)",
+            "CMS léger optionnel (édition simple)",
+            "Analytics & mesure des conversions",
+            "Mise en ligne sur Vercel + maintenance légère",
+          ],
+          img: "/services/vitrine.jpg",
+          imgAlt: "Exemple de site vitrine par HügoLab",
+          href: "#work",
+        },
+        {
+          tag: "Site e-commerce",
+          title: "Création de site e-shop",
+          desc:
+            "Une boutique en ligne simple et fiable, avec paiement sécurisé via Stripe. Front en React/Next.js, parcours d’achat fluide, e-mails de confirmation et tableau de bord de suivi. Nous configurons uniquement l'essentiel.",
+          bullets: [
+            "Catalogue & pages produit claires",
+            "Paiement Stripe (CB, Apple/Google Pay)",
+            "Livraison / retrait selon vos besoins",
+            "E-mails commande & facture",
+            "Stats ventes & événements de conversion",
+          ],
+          img: "/services/eshop.jpg",
+          imgAlt: "Exemple de boutique en ligne",
+          href: "#work",
+        },
+        {
+          tag: "Identité visuelle",
+          title: "Logo & identité de marque",
+          desc:
+            "Nous créons une identité qui vous ressemble et qui fonctionne partout : logo, palette, typos et règles d’usage. Vous repartez avec les fichiers sources et un mini guide pour garder de la cohérence sur tous vos supports.",
+          bullets: [
+            "2–3 pistes créatives, allers-retours inclus",
+            "Versions horizontales/verticales + favicon",
+            "Guide d’usage (couleurs, typo, marges)",
+            "Gabarits réseaux sociaux (option)",
+          ],
+          img: "/services/branding.jpg",
+          imgAlt: "Création de logo et identité",
+          href: "#work",
+        },
       ],
     },
     work: { title: "Projets en avant" },
     about: {
       title: "Notre histoire",
       p1: "HügoLab conçoit des sites modernes, rapides et orientés résultats pour les entreprises locales d’Annecy et les marques en croissance. Fondée par Mateo Hugues, passionné de design et de stratégie digitale, notre mission est simple : transformer une visite en prise de contact, réservation ou vente.",
-      p2: "Nous allions design soigné, performance technique et leviers d’IA (2025) pour produire des interfaces claires, SEO-friendly et mesurables. Notre approche : écouter, prototyper, tester et améliorer en continu. Nous aimons mêler créativité et rigueur technique pour livrer des solutions qui inspirent confiance et qui convertissent.",
-      quote: "À l’ère de l’IA, votre site est la porte d’entrée principale de votre marque : clair, rapide, crédible. Avant de se déplacer, la grande majorité des clients regardent votre site. Notre rôle, c’est de transformer cette visite en action.",
+      p2: "Nous allions design soigné, performance technique et leviers d’IA (2025) pour produire des interfaces claires, SEO-friendly et mesurables. Notre méthode : écouter, prototyper vite, tester, itérer — jusqu’à ce que ça convertisse.",
+      quote: "À l’ère de l’IA, votre site est la porte d’entrée de votre marque : clair, rapide, crédible. Avant de se déplacer, la grande majorité des clients vérifie le site. Notre rôle, c’est de transformer cette visite en action.",
       quoteAuthor: "Mateo Hugues — Fondateur de HügoLab",
     },
     contact: {
@@ -120,6 +165,7 @@ const STRINGS = {
     footer: { rights: "Tous droits réservés.", builtBy: "Site par HügoLab" },
     langLabel: "FR",
   },
+
   en: {
     nav: { work: "Work", services: "Services", about: "About", contact: "Contact" },
     hero: {
@@ -132,10 +178,55 @@ const STRINGS = {
     },
     services: {
       title: "Services",
-      items: [
-        { t: "Business / e-commerce websites", d: "Responsive design & dev, technical SEO, analytics." },
-        { t: "High-impact redesigns", d: "Faster, clearer, more credible." },
-        { t: "Maintenance & SEO", d: "Updates, security, content, continuous performance." },
+      cta: "See mockups",
+      sections: [
+        {
+          tag: "Showcase website",
+          title: "Business website",
+          desc:
+            "We design and launch your showcase website with clear copy, refined design and fast loading. We work with React/Next.js for a lean, future-proof front end. If you need to edit pages, we add a lightweight CMS.",
+          bullets: [
+            "Clear, mobile-first architecture",
+            "Technical SEO (tags, perf, meta)",
+            "Optional lightweight CMS (easy editing)",
+            "Analytics & conversion tracking",
+            "Deployment on Vercel + light maintenance",
+          ],
+          img: "/services/vitrine.jpg",
+          imgAlt: "Showcase website by HügoLab",
+          href: "#work",
+        },
+        {
+          tag: "E-commerce",
+          title: "Online store",
+          desc:
+            "A simple, reliable store with secure Stripe payments. React/Next.js front end, smooth checkout, order emails and a small dashboard. We set up only what you really need. ",
+          bullets: [
+            "Clean catalog & product pages",
+            "Stripe payments (cards, Apple/Google Pay)",
+            "Shipping or click & collect as needed",
+            "Order & invoice emails",
+            "Sales stats & conversion events",
+          ],
+          img: "/services/eshop.jpg",
+          imgAlt: "Online store example",
+          href: "#work",
+        },
+        {
+          tag: "Brand identity",
+          title: "Logo & visual identity",
+          desc:
+            "We craft an identity that looks good and works everywhere: logo, color palette, type and usage rules. Delivered with source files and a quick style guide to keep everything consistent.",
+          bullets: [
+            "2–3 creative routes with revisions",
+            "Horizontal/vertical versions + favicon",
+            "Quick style guide (colors, type, spacing)",
+            "Social templates (optional)",
+          ],
+          img: "/services/branding.jpg",
+          imgAlt: "Logo and identity work",
+          href: "#work",
+        },
       ],
     },
     work: { title: "Featured Work" },
@@ -352,23 +443,74 @@ function ProjectCard({ p }) {
 }
 
 function Services({ t }) {
+  // petit composant pour une ligne “image + contenu” qui alterne gauche/droite
+  function FeatureRow({ section, reverse = false }) {
+    return (
+      <div
+        className={classNames(
+          "grid items-start gap-8 md:grid-cols-2",
+          reverse ? "md:[&>div:first-child]:order-2" : ""
+        )}
+      >
+        {/* Image */}
+        <div className="relative overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800">
+          <div className="aspect-[4/3] md:aspect-[3/2]">
+            <img
+              src={section.img}
+              alt={section.imgAlt}
+              className="h-full w-full object-cover"
+              style={{ objectPosition: "center 65%" }}
+            />
+          </div>
+        </div>
+  
+        {/* Texte (reste en haut) */}
+        <div>
+          <p className="mb-2 text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+            {section.tag}
+          </p>
+          <h3 className="text-xl md:text-2xl font-semibold">{section.title}</h3>
+          <p className="mt-3 text-neutral-700 dark:text-neutral-300">{section.desc}</p>
+  
+          <ul className="mt-4 space-y-2 text-sm">
+            {section.bullets.map((b, i) => (
+              <li key={i} className="flex items-center gap-2">
+                <span className="inline-block h-2 w-2 rounded-full bg-black dark:bg-white"></span>
+                <span className="text-neutral-700 dark:text-neutral-300">{b}</span>
+              </li>
+            ))}
+          </ul>
+  
+          <div className="mt-5 flex gap-3">
+            <a
+              href="#work"
+              className="rounded-2xl px-4 py-2 text-sm bg-black text-white dark:bg-white dark:text-black"
+            >
+              {t.services.cta}
+            </a>
+            <a
+              href="#contact"
+              className="rounded-2xl px-4 py-2 text-sm border border-neutral-300 dark:border-neutral-700"
+            >
+              {t.contact.btn}
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <section id="services" className="py-14 md:py-20">
       <SectionTitle kicker="What we do">{t.services.title}</SectionTitle>
-      <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-5">
-        {t.services.items.map((s, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.05 }}
-            className="rounded-3xl border border-neutral-200 dark:border-neutral-800 p-6 bg-white dark:bg-neutral-900"
-          >
-            <h3 className="font-medium mb-2">{s.t}</h3>
-            <p className="text-sm text-neutral-600 dark:text-neutral-300">{s.d}</p>
-          </motion.div>
-        ))}
+
+      <div className="mx-auto max-w-6xl space-y-14 px-4">
+        {/* 1 */}
+        <FeatureRow section={t.services.sections[0]} />
+        {/* 2 (image à droite sur desktop) */}
+        <FeatureRow section={t.services.sections[1]} reverse />
+        {/* 3 */}
+        <FeatureRow section={t.services.sections[2]} />
       </div>
     </section>
   );
