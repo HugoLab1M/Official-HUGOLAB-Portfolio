@@ -261,6 +261,25 @@ function useDarkMode() {
   return [enabled, setEnabled];
 }
 
+// NEW: robust email launcher + Gmail fallback
+function openMail(to, subject = "", body = "") {
+  const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  // Try via a hidden anchor (less likely to be blocked)
+  const a = document.createElement("a");
+  a.href = mailto;
+  a.style.display = "none";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  // Fallback: open Gmail compose if no default mail client is set
+  setTimeout(() => {
+    const gmail = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(gmail, "_blank", "noopener,noreferrer");
+  }, 500);
+}
+
 // --- UI Components -----------------------------------------------------------
 function LangToggle({ lang, onToggle }) {
   return (
@@ -488,12 +507,19 @@ function Services({ t }) {
             >
               {t.services.cta}
             </a>
-            <a
-              href="#contact"
+            <button
+              type="button"
+              onClick={() =>
+                openMail(
+                "contact@hugolab.fr",
+                "Demande via hugolab.fr",
+                "Bonjour HügoLab,\n\nJ’ai un projet de site :\n- Activité :\n- Objectif :\n- Site actuel (si oui) :\n\nMerci !"
+                )
+              }
               className="rounded-2xl px-4 py-2 text-sm border border-neutral-300 dark:border-neutral-700"
             >
               {t.contact.btn}
-            </a>
+              </button>
           </div>
         </div>
       </div>
@@ -641,9 +667,16 @@ export default function App() {
         t={t}
         lang={lang}
         onLangToggle={() => setLang(lang === "fr" ? "en" : "fr")}
-        onContactClick={() => (window.location.hash = "#contact")}
+        onContactClick={() =>
+          openMail(
+            "contact@hugolab.fr",
+            t.langLabel === "FR" ? "Demande via hugolab.fr" : "Inquiry via hugolab.fr",
+            t.langLabel === "FR"
+          ? "Bonjour HügoLab,\n\nJ’ai un projet de site :\n- Activité :\n- Objectif :\n- Site actuel (si oui) :\n\nMerci !"
+          : "Hello HügoLab,\n\nI have a website project:\n- Business:\n- Goal:\n- Current site (if any):\n\nThanks!"
+          )
+        }
       />
-
       {/* Ici on gère les routes */}
       <Routes>
         {/* Page d’accueil (portfolio existant) */}
