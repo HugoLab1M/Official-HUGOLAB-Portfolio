@@ -153,8 +153,8 @@ const STRINGS = {
     about: {
       title: "Notre histoire",
       p1: "HügoLab conçoit des sites modernes, rapides et orientés résultats pour les entreprises locales d’Annecy et les marques en croissance. Fondée par Mateo Hugues, passionné de design et de stratégie digitale, notre mission est simple : transformer une visite en prise de contact, réservation ou vente.",
-      p2: "Nous allions design soigné, performance technique et leviers d’IA (2025) pour produire des interfaces claires, SEO-friendly et mesurables. Notre méthode : écouter, prototyper vite, tester, itérer — jusqu’à ce que ça convertisse.",
-      quote: "À l’ère de l’IA, votre site est la porte d’entrée de votre marque : clair, rapide, crédible. Avant de se déplacer, la grande majorité des clients vérifie le site. Notre rôle, c’est de transformer cette visite en action.",
+      p2: "Nous allions design soigné, performance technique et leviers d’IA (2025) pour produire des interfaces claires, SEO-friendly et mesurables. Notre approche ? Comprendre vos besoins, concevoir et tester — jusqu’à obtenir un site qui attire, convertit vos visiteurs.",
+      quote: "À l’ère du digital, votre site web est bien plus qu’une vitrine : c’est la première impression que vos clients se font de votre marque. Clair, attractif et crédible, il reflète votre identité et inspire confiance. Chez HügoLab, notre mission est de traduire fidèlement la réalité de votre activité en ligne, pour que vos visiteurs deviennent vos clients.",
       quoteAuthor: "Mateo Hugues — Fondateur de HügoLab",
     },
     contact: {
@@ -233,8 +233,8 @@ const STRINGS = {
     about: {
       title: "Our story",
       p1: "HügoLab designs modern, fast, results-driven websites for local businesses in Annecy and growing brands. Founded by Mateo Hugues, our mission is simple: turn visits into inquiries, bookings, or sales.",
-      p2: "We blend refined design, strong performance and 2025-ready AI tooling to ship clear, SEO-friendly, measurable interfaces. Our method: listen, prototype fast, test, iterate — until it converts.",
-      quote: "In the age of AI, your website is the front door to your brand: clear, fast, credible. Before showing up, most customers will check your site. Our job is to turn that visit into action.",
+      p2: "We blend refined design, strong performance and 2025-ready AI tooling to ship clear, SEO-friendly, measurable interfaces. Our method: listen, prototype, test, iterate — until it converts.",
+      quote: "In the age of digital, your website is the front door to your brand: clear, fast, credible. Before showing up, most customers will check your site. Our job is to turn that visit into action.",
       quoteAuthor: "Mateo Hugues — HügoLab Founder",
     },
     contact: {
