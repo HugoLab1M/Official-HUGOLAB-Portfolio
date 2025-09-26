@@ -7,6 +7,8 @@ import LeDeckPedalos from "./demos/LeDeckPedalos.jsx";
 import SansPermisSaintJorioz from "./demos/SansPermisSaintJorioz.jsx";
 import MicroEcoleParapente from "./demos/MicroEcoleParapente.jsx";
 import CascadeNomadeCanyoning from "./demos/CascadeNomadeCanyoning.jsx";
+import LaCuillereAOmble from "./demos/LaCuillereAOmble.jsx";
+import PricingSection from "./components/PricingSection.jsx"; // +++
 
 // =============================================
 // HügoLab — Portfolio Website (Agency Branding)
@@ -69,6 +71,16 @@ const PROJECTS = [
     image: "/projects/5_v2.jpg",
     url: "/demos/cascade-nomade-canyoning",
     caseStudyUrl: "#case-cascade-nomade",
+  },
+  {
+    slug: "la-cuillere-a-omble",
+    title: "La Cuillère à Omble — Restaurant",
+    tagline: "Cuisine de lac, terrasse lumineuse, vins sélectionnés.",
+    industry: "Restaurant",
+    stack: ["React", "Tailwind", "SEO"],
+    image: "/projects/6_v2.jpg",        // mets une vignette ici (ou réutilise /omble/hero.jpg)
+    url: "/demos/la-cuillere-a-omble",  // ⇦ route interne
+    caseStudyUrl: "#case-omble",
   }
 ];
 
@@ -87,7 +99,7 @@ const CONTACT = {
 // --- i18n strings ------------------------------------------------------------
 const STRINGS = {
   fr: {
-    nav: { work: "Projets", services: "Services", about: "À propos", contact: "Contact" },
+    nav: { work: "Projets", services: "Services", pricing: "Offres", about: "À propos", contact: "Contact" },
     hero: {
       kicker: "Agence web créative à Annecy",
       title: "HügoLab — des sites modernes qui convertissent",
@@ -167,7 +179,7 @@ const STRINGS = {
   },
 
   en: {
-    nav: { work: "Work", services: "Services", about: "About", contact: "Contact" },
+    nav: { work: "Work", services: "Services", pricing: "Pricing", about: "About", contact: "Contact" },
     hero: {
       kicker: "Creative web agency from Annecy",
       title: "HügoLab — modern websites that convert",
@@ -310,6 +322,7 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
   const items = [
     { id: "work", label: t.nav.work },
     { id: "services", label: t.nav.services },
+    { id: "pricing", label: t.nav.pricing },   // +++ Offres
     { id: "about", label: t.nav.about },
     { id: "contact", label: t.nav.contact },
   ];
@@ -687,6 +700,7 @@ export default function App() {
               <Hero t={t} />
               <Work t={t} />
               <Services t={t} />
+              <PricingSection />      {/* +++ Nouvelle section Offres (id="pricing") */}
               <About t={t} />
               <Contact t={t} />
             </main>
@@ -698,6 +712,7 @@ export default function App() {
         <Route path="/demos/sans-permis-saint-jorioz" element={<SansPermisSaintJorioz />} />
         <Route path="/demos/micro-ecole-parapente" element={<MicroEcoleParapente />} />
         <Route path="/demos/cascade-nomade-canyoning" element={<CascadeNomadeCanyoning />} />
+        <Route path="/demos/la-cuillere-a-omble" element={<LaCuillereAOmble />} />
       </Routes>
 
       {/* Footer reste affiché partout */}
