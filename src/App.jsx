@@ -700,7 +700,16 @@ export default function App() {
               <Hero t={t} />
               <Work t={t} />
               <Services t={t} />
-              <PricingSection />      {/* +++ Nouvelle section Offres (id="pricing") */}
+              <PricingSection 
+              briefFormUrl="https://tally.so/r/mJ7Zgd"    // Brief site
+              logoFormUrl="https://tally.so/r/mOveKp"     // Brief logo
+              paymentLinks={{
+                starterDeposit: "https://buy.stripe.com/eVq6oJ8QC3SzdoH6LV8so00",
+                vitrineDeposit: "https://buy.stripe.com/5kQ6oJ7My0Gn1FZgmv8so01",
+                maintenance49:  "https://buy.stripe.com/7sYdRbaYKagXbgz4DN8so02", // Basic
+                maintenance99:  "https://buy.stripe.com/4gMaEZ7MygFl2K39Y78so03", // Premium
+              }}
+              />
               <About t={t} />
               <Contact t={t} />
             </main>
