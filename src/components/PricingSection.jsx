@@ -178,31 +178,30 @@ export default function PricingSection({
 
 /* ---------- Iframe modal for Tally ---------- */
 function TallyModal({ url, onClose, title }) {
-  return (
-    <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="absolute inset-0 flex items-center justify-center p-4">
-        <div className="w-full max-w-3xl rounded-2xl bg-white dark:bg-neutral-900 shadow-2xl ring-1 ring-neutral-200 dark:ring-neutral-800 overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
-            <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-50">{title}</h3>
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-lg px-2 py-1 text-sm border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            >
-              Fermer
-            </button>
-          </div>
-          <div className="aspect-[3/4] md:aspect-[16/10]">
+    return (
+      <div className="fixed inset-0 z-50">
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-full h-full bg-white dark:bg-neutral-900">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
+              <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-50">{title}</h3>
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-lg px-3 py-1 text-sm border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              >
+                Fermer ✕
+              </button>
+            </div>
             <iframe
               title={title}
               src={url}
-              className="w-full h-full"
+              className="w-full h-[calc(100%-48px)]" // prend toute la hauteur sauf la barre de titre
               allow="fullscreen; clipboard-read; clipboard-write; camera; microphone"
             />
           </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+  
