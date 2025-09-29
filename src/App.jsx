@@ -380,10 +380,10 @@ function Hero({ t }) {
           <h1 className="text-3xl md:text-5xl font-semibold leading-tight mb-4">{t.hero.title}</h1>
           <p className="text-neutral-700 dark:text-neutral-300 max-w-xl mb-6">{t.hero.subtitle}</p>
           <div className="flex gap-3">
-            <a href="#work" className="rounded-2xl px-4 py-2 text-sm bg-black text-white dark:bg-white dark:text-black">
+            <a href="#work" className="btn-primary">
               {t.hero.ctaPrimary}
             </a>
-            <a href="#contact" className="rounded-2xl px-4 py-2 text-sm border border-neutral-300 dark:border-neutral-700">
+            <a href="#contact" className="btn-ghost">
               {t.hero.ctaSecondary}
             </a>
           </div>
@@ -459,7 +459,7 @@ function ProjectCard({ p }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
-      className="group rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:shadow-xl transition-shadow"
+      className="group rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:shadow-xl hover-lift"
     >
       {isExternalUrl(p.url) ? (
         <a href={p.url} target="_blank" rel="noreferrer" className="block">
@@ -516,7 +516,9 @@ function Services({ t }) {
           <div className="mt-5 flex gap-3">
             <a
               href="#work"
-              className="rounded-2xl px-4 py-2 text-sm bg-black text-white dark:bg-white dark:text-black"
+              className="rounded-2xl px-4 py-2 text-sm bg-black text-white dark:bg-white dark:text-black
+             transform-gpu transition-transform motion-safe:hover:scale-[1.03] motion-safe:active:scale-[0.98]
+             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black/30 dark:focus:ring-white/30"
             >
               {t.services.cta}
             </a>
@@ -529,7 +531,11 @@ function Services({ t }) {
                 "Bonjour HügoLab,\n\nJ’ai un projet de site :\n- Activité :\n- Objectif :\n- Site actuel (si oui) :\n\nMerci !"
                 )
               }
-              className="rounded-2xl px-4 py-2 text-sm border border-neutral-300 dark:border-neutral-700"
+              className="inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm
+              border border-neutral-300 dark:border-neutral-700
+              transform-gpu transition-transform motion-safe:hover:scale-[1.05] motion-safe:active:scale-[0.98]
+              hover:bg-neutral-900 hover:text-white dark:hover:bg-white dark:hover:text-black
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-300 dark:focus:ring-neutral-700"
             >
               {t.contact.btn}
               </button>
