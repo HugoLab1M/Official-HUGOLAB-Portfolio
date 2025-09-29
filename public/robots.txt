@@ -1,4 +1,17 @@
+# robots.txt for https://hugolab.fr
+# Allow all crawlers to index the site.
+
 User-agent: *
 Allow: /
 
+# (Optional) If these paths ever exist and should NOT be indexed,
+# uncomment the relevant lines:
+# Disallow: /admin/
+# Disallow: /api/
+# Disallow: /drafts/
+# Disallow: /private/
+# Disallow: /tmp/
+# Disallow: /404
+
+# Point crawlers to your XML sitemap:
 Sitemap: https://hugolab.fr/sitemap.xml

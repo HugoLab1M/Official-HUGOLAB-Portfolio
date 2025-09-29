@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="fr">
   <head>
+    <!-- Google Analytics 4 (place immediately after <head>) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2YGFBZL9PD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-2YGFBZL9PD');
+    </script>
+
     <!-- Base -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,8 +21,13 @@
       name="description"
       content="HügoLab conçoit des sites modernes, rapides et propres pour commerces & entrepreneurs. Découvrez mes projets et contactez-moi pour votre site."
     />
-    <link rel="canonical" href="https://hugolab.fr" />
-    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://hugolab.fr/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+    <!-- Optional language alternates (keep commented until you publish /en) -->
+    <!-- <link rel="alternate" href="https://hugolab.fr/" hreflang="fr" /> -->
+    <!-- <link rel="alternate" href="https://hugolab.fr/en" hreflang="en" /> -->
+    <!-- <link rel="alternate" href="https://hugolab.fr/" hreflang="x-default" /> -->
 
     <!-- Favicons / Manifest -->
     <link rel="icon" href="/favicon.ico" sizes="any">
@@ -27,28 +41,66 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="HügoLab" />
     <meta property="og:locale" content="fr_FR" />
-    <meta property="og:url" content="https://hugolab.fr" />
+    <meta property="og:url" content="https://hugolab.fr/" />
     <meta property="og:title" content="HügoLab — Portfolio" />
-    <meta
-      property="og:description"
-      content="Sites modernes, rapides et propres pour commerces & entrepreneurs. Parcourez mes réalisations et briefons votre projet."
-    />
+    <meta property="og:description" content="Sites modernes, rapides et propres pour commerces & entrepreneurs. Parcourez mes réalisations et briefons votre projet." />
     <meta property="og:image" content="/og-image.jpg" />
-    <!-- (optional but nice if you know them) -->
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="HügoLab — Portfolio" />
-    <meta
-      name="twitter:description"
-      content="Sites modernes, rapides et propres pour commerces & entrepreneurs. Parcourez mes réalisations et briefons votre projet."
-    />
+    <meta name="twitter:description" content="Sites modernes, rapides et propres pour commerces & entrepreneurs. Parcourez mes réalisations et briefons votre projet." />
     <meta name="twitter:image" content="/og-image.jpg" />
 
     <!-- Browser theme color -->
     <meta name="theme-color" content="#0F1730" />
+
+    <!-- Organization + LocalBusiness + WebSite (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["Organization","LocalBusiness","ProfessionalService"],
+          "@id": "https://hugolab.fr/#org",
+          "name": "HügoLab",
+          "url": "https://hugolab.fr/",
+          "logo": "https://hugolab.fr/logo.svg",
+          "image": "https://hugolab.fr/og-image.jpg",
+          "description": "Agence web à Annecy : sites vitrines, e-commerce et identité visuelle. Rapides, SEO-friendly et orientés conversion.",
+          "email": "contact@hugolab.fr",
+          "telephone": "+33 6 26 23 14 09",
+          "sameAs": [
+            "https://www.linkedin.com/in/mateo-hugues/",
+            "https://g.page/r/CSjpwPvLGK4YEAE/review"
+          ],
+          "areaServed": [
+            { "@type": "City", "name": "Annecy" },
+            { "@type": "City", "name": "Talloires" },
+            { "@type": "City", "name": "Saint-Jorioz" },
+            { "@type": "City", "name": "Paris" }
+          ],
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "FR"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://hugolab.fr/#website",
+          "url": "https://hugolab.fr/",
+          "name": "HügoLab",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://hugolab.fr/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+    </script>
   </head>
 
   <body class="bg-white dark:bg-neutral-950">
