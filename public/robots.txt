@@ -4,14 +4,9 @@
 User-agent: *
 Allow: /
 
-# (Optional) If these paths ever exist and should NOT be indexed,
-# uncomment the relevant lines:
-# Disallow: /admin/
-# Disallow: /api/
-# Disallow: /drafts/
-# Disallow: /private/
-# Disallow: /tmp/
-# Disallow: /404
+# Safety: disallow internal/dev paths if they ever existed publicly
+Disallow: /node_modules/
+Disallow: /src/
 
-# Point crawlers to your XML sitemap:
+# Sitemap location
 Sitemap: https://hugolab.fr/sitemap.xml

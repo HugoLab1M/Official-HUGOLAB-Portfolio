@@ -102,9 +102,9 @@ const STRINGS = {
     nav: { work: "Projets", services: "Services", pricing: "Offres", about: "À propos", contact: "Contact" },
     hero: {
       kicker: "Agence web créative à Annecy",
-      title: "HügoLab — des sites modernes qui convertissent",
+      title: "HügoLab — Création de sites internet à Annecy",
       subtitle:
-        "Nous créons des sites vitrines et e-commerce pour les entreprises locales et marques en croissance. Notre ADN : rapidité, SEO, et une expérience utilisateur pensée pour la conversion.",
+        "Nous créons des sites vitrines et e-commerce pour les entreprises locales de Haute-Savoie et marques en croissance. Notre ADN : rapidité, SEO, et une expérience utilisateur pensée pour la conversion.",
       ctaPrimary: "Voir nos projets",
       ctaSecondary: "Discuter de votre besoin",
     },
@@ -164,9 +164,9 @@ const STRINGS = {
     work: { title: "Projets en avant" },
     about: {
       title: "Notre histoire",
-      p1: "HügoLab conçoit des sites modernes, rapides et orientés résultats pour les entreprises locales d’Annecy et les marques en croissance. Fondée par Mateo Hugues, passionné de design et de stratégie digitale, notre mission est simple : transformer une visite en prise de contact, réservation ou vente.",
-      p2: "Nous allions design soigné, performance technique et leviers d’IA (2025) pour produire des interfaces claires, SEO-friendly et mesurables. Notre approche ? Comprendre vos besoins, concevoir et tester — jusqu’à obtenir un site qui attire, convertit vos visiteurs.",
-      quote: "À l’ère du digital, votre site web est bien plus qu’une vitrine : c’est la première impression que vos clients se font de votre marque. Clair, attractif et crédible, il reflète votre identité et inspire confiance. Chez HügoLab, notre mission est de traduire fidèlement la réalité de votre activité en ligne, pour que vos visiteurs deviennent vos clients.",
+      p1: "HügoLab est une jeune entreprise dynamique qui conçoit des sites modernes, orientés résultats pour les artisans, entreprises, associations, institutions et particuliers de Haute-Savoie. Fondée par Mateo Hugues, passionné de design et de stratégie digitale, notre mission est simple : transformer une visite en prise de contact, réservation ou vente.",
+      p2: "Nous allions design soigné, et leviers d’IA pour produire des interfaces claires, SEO-friendly et mesurables. Notre approche ? Comprendre vos besoins, concevoir et tester — jusqu’à obtenir un site à votre image qui attire, séduit et convertit vos visiteurs.",
+      quote: "À l’ère du digital, votre site web est bien plus qu’une vitrine : c’est la première impression que vos clients se font de votre marque. Clair, attractif et crédible, il reflète votre identité et inspire confiance. Chez HügoLab, notre mission est de traduire fidèlement la réalité de votre activité en page internet, pour que vos visiteurs deviennent vos clients.",
       quoteAuthor: "Mateo Hugues — Fondateur de HügoLab",
     },
     contact: {
@@ -623,6 +623,7 @@ function Contact({ t }) {
       <SectionTitle kicker="Get in touch">{t.contact.title}</SectionTitle>
       <div className="max-w-3xl mx-auto px-4">
         <p className="text-neutral-700 dark:text-neutral-300 mb-6">{t.contact.p}</p>
+
         <div className="grid sm:grid-cols-2 gap-4">
           <a
             href={`mailto:${CONTACT.email}`}
@@ -631,28 +632,52 @@ function Contact({ t }) {
             <div className="text-xs text-neutral-500">Email</div>
             <div className="font-medium">{CONTACT.email}</div>
           </a>
+
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
             <div className="text-xs text-neutral-500">Phone</div>
             <div className="font-medium">{CONTACT.phone}</div>
           </div>
+
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
             <div className="text-xs text-neutral-500">Location</div>
             <div className="font-medium">{CONTACT.location}</div>
           </div>
+
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
             <div className="text-xs text-neutral-500 mb-2">Socials</div>
             <div className="flex flex-wrap gap-3">
               {SOCIALS.map((s) => (
-                <a key={s.name} href={s.href} target="_blank" rel="noreferrer" className="underline underline-offset-4 text-sm">
+                <a
+                  key={s.name}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-4 text-sm"
+                >
                   {s.name}
                 </a>
               ))}
             </div>
           </div>
         </div>
-        <div className="mt-6">
-          <a href={`mailto:${CONTACT.email}`} className="inline-flex rounded-2xl px-4 py-2 text-sm bg-black text-white dark:bg-white dark:text-black">
+
+        {/* CTAs */}
+        <div className="mt-6 flex flex-wrap gap-3">
+          <a
+            href={`mailto:${CONTACT.email}`}
+            className="btn-primary"
+          >
             {t.contact.btn}
+          </a>
+
+          <a
+            href="https://g.page/r/CSjpwPvLGK4YEAE/review"
+            target="_blank"
+            rel="noreferrer"
+            className="btn-ghost"
+            aria-label="Laisser un avis Google pour HügoLab (ouvre un nouvel onglet)"
+          >
+            Laisser un avis Google
           </a>
         </div>
       </div>

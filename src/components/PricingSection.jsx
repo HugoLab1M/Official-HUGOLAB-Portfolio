@@ -122,7 +122,7 @@ export default function PricingSection({
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
               <h4 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">Option Logo & Branding léger</h4>
-              <p className="text-neutral-600 dark:text-neutral-300 mt-1">Gratuit de vous renseigner : donnez-nous les infos, on revient vers vous sous 24–72h.</p>
+              <p className="text-neutral-600 dark:text-neutral-300 mt-1">C'est gratuit de vous renseigner : vous avez un projet de création ou refonte de site internet ? Prenons contact et discutons ensemble !</p>
             </div>
             <div className="text-left md:text-right">
               <p className="text-base text-neutral-500 dark:text-neutral-400">Deux formules au choix</p>
