@@ -6,7 +6,7 @@ export default function Home() {
         <section className="max-w-6xl mx-auto py-24 px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Bienvenue sur HügoLab</h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-            Je crée des sites modernes, rapides et professionnels pour entrepreneurs et commerces.
+            Je crée des sites modernes, soignés et professionnels pour entrepreneurs et commerces.
           </p>
           <a
             href="/projects"

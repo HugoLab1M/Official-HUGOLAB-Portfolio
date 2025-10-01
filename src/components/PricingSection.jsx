@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TallyModal from "./TallyModal.jsx";
 
 export default function PricingSection({
   // COLLE ICI TES LIENS TALLY :
@@ -23,7 +24,7 @@ export default function PricingSection({
             Des offres simples, transparentes
           </h2>
           <p className="text-neutral-600 dark:text-neutral-300 mt-3">
-            Des sites rapides, beaux et efficaces — boostés à l’IA pour aller plus vite sans sacrifier la qualité.
+            Des sites modernes, soignés et efficaces — boostés à l’IA pour aller plus vite sans sacrifier la qualité.
           </p>
         </div>
 
@@ -34,7 +35,7 @@ export default function PricingSection({
               <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-50">Landing Express</h3>
               <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-neutral-300">Délais courts</span>
             </div>
-            <p className="text-neutral-600 dark:text-neutral-300 mb-6">1 page claire et efficace pour être visible et contactable rapidement.</p>
+            <p className="text-neutral-600 dark:text-neutral-300 mb-6">1 page claire et efficace pour être visible et contactable dès maintenant.</p>
             <ul className="text-neutral-700 dark:text-neutral-200 space-y-2 mb-8 text-sm">
               <li>✔ 1 page (héros, 3 sections, contact)</li>
               <li>✔ Design responsive (mobile/tablette)</li>
@@ -98,7 +99,7 @@ export default function PricingSection({
             <ul className="text-neutral-700 dark:text-neutral-200 space-y-2 mb-8 text-sm">
               <li>✔ Sauvegardes & mises à jour</li>
               <li>✔ Petites modifications incluses</li>
-              <li>✔ Support rapide (email / WhatsApp)</li>
+              <li>✔ Support réactif (email / WhatsApp)</li>
             </ul>
             <div className="mt-auto">
               <div className="space-y-1 mb-3">
@@ -175,33 +176,3 @@ export default function PricingSection({
     </section>
   );
 }
-
-/* ---------- Iframe modal for Tally ---------- */
-function TallyModal({ url, onClose, title }) {
-    return (
-      <div className="fixed inset-0 z-50">
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-full h-full bg-white dark:bg-neutral-900">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
-              <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-50">{title}</h3>
-              <button
-                type="button"
-                onClick={onClose}
-                className="rounded-lg px-3 py-1 text-sm border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-              >
-                Fermer ✕
-              </button>
-            </div>
-            <iframe
-              title={title}
-              src={url}
-              className="w-full h-[calc(100%-48px)]" // prend toute la hauteur sauf la barre de titre
-              allow="fullscreen; clipboard-read; clipboard-write; camera; microphone"
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-  

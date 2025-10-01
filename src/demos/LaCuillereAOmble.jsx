@@ -1,134 +1,318 @@
-import { MapPin, Phone, Clock, UtensilsCrossed } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import {
+  UtensilsCrossed,
+  MapPin,
+  Phone,
+  Clock,
+  Wine,
+  Sprout,
+  Flame,
+  CalendarDays,
+  ArrowRight,
+} from "lucide-react";
+
+const HERO_IMAGES = [
+  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=1600&q=80",
+];
+
+const copy = {
+  fr: {
+    brand: "La Cuillère à Omble",
+    location: "Duingt • Lac d'Annecy",
+    nav: [
+      { id: "menu", label: "La carte" },
+      { id: "experience", label: "L'expérience" },
+      { id: "galerie", label: "Galerie" },
+      { id: "reservation", label: "Réserver" },
+    ],
+    hero: {
+      kicker: "Cuisine de lac & produits du terroir",
+      title: "Une table chaleureuse face au lac",
+      sub: "Poissons du lac, légumes des maraîchers voisins, cave soignée. Déjeuner sur la terrasse ou dîner dans notre salle lumineuse.",
+      cta: "Réserver une table",
+      ghost: "Télécharger la carte",
+      stats: [
+        { label: "Terrasse", value: "40 couverts" },
+        { label: "Menu du midi", value: "32 €" },
+        { label: "Carte des vins", value: "60 références" },
+      ],
+    },
+    menu: {
+      title: "La carte du moment",
+      desc: "Une sélection courte, qui change au rythme des arrivages.",
+      sections: [
+        {
+          title: "Entrées",
+          items: [
+            { name: "Tartare de féra", note: "Herbes du jardin, huile citronnée." },
+            { name: "Velouté de courge", note: "Crème fumée, noisettes torréfiées." },
+          ],
+        },
+        {
+          title: "Plats",
+          items: [
+            { name: "Omble chevalier", note: "Beurre noisette, fenouil confit." },
+            { name: "Filet de veau", note: "Réduction thym, purée de topinambours." },
+          ],
+        },
+        {
+          title: "Desserts",
+          items: [
+            { name: "Poire pochée", note: "Chocolat 70%, glace vanille." },
+            { name: "Crémeux citron", note: "Meringue croustillante." },
+          ],
+        },
+      ],
+    },
+    experience: {
+      title: "Les essentiels",
+      items: [
+        { icon: Wine, title: "Accords vins", text: "Sélection de vignerons savoyards et pépites européennes." },
+        { icon: Sprout, title: "Produits frais", text: "Approvisionnement quotidien en circuit court." },
+        { icon: Flame, title: "Cuisine ouverte", text: "Voir l'équipe travailler depuis la salle." },
+      ],
+      note: "Menu déjeuner (lundi, jeudi, vendredi) — 32 € entrée/plat ou plat/dessert.",
+    },
+    gallery: {
+      title: "Ambiances",
+      images: [
+        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80",
+      ],
+    },
+    reservation: {
+      title: "Réserver une table",
+      desc: "Par téléphone ou en quelques secondes en ligne.",
+      phone: "+33 4 50 44 30 71",
+      address: "Quai du Port, 74410 Duingt",
+      hours: "Jeu – Lun : 9:00 – 22:00 (fermé mar/mer)",
+      form: {
+        name: "Nom",
+        date: "Date",
+        time: "Heure",
+        guests: "Nombre de couverts",
+        note: "Demande particulière",
+        submit: "Envoyer la demande",
+      },
+    },
+    footer: "La Cuillère à Omble — démonstration HügoLab",
+  },
+};
 
 export default function LaCuillereAOmble() {
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const content = copy.fr;
+
+  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+
   return (
-    <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-white">
-      {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-neutral-200/70 dark:border-neutral-800 bg-white/70 dark:bg-neutral-950/70 backdrop-blur">
-        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+    <div className="min-h-screen bg-[#F7F4F1] text-[#1F1F1F]">
+      <header className="sticky top-0 z-40 border-b border-black/10 bg-[#F7F4F1]/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-black grid place-items-center">
-              <UtensilsCrossed size={16}/>
+            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-[#1F1F1F] to-[#4F4C4A] text-white">
+              <UtensilsCrossed className="h-5 w-5" />
             </div>
             <div>
-              <p className="font-semibold">La Cuillère à Omble</p>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">Duingt • Lac d’Annecy</p>
+              <p className="text-base font-semibold tracking-tight">{content.brand}</p>
+              <p className="text-xs uppercase tracking-[0.35em] text-[#6F6B68]">{content.location}</p>
             </div>
           </div>
-          <nav className="hidden md:flex items-center gap-5 text-sm">
-            <a href="#carte" className="hover:opacity-80">La carte</a>
-            <a href="#histoire" className="hover:opacity-80">Notre histoire</a>
-            <a href="#galerie" className="hover:opacity-80">Galerie</a>
-            <a href="#contact" className="hover:opacity-80">Contact</a>
-            <a href="tel:+33450443071" className="rounded-2xl px-3 py-1.5 bg-black text-white dark:bg-white dark:text-black">Réserver</a>
+          <nav className="hidden items-center gap-6 text-sm font-medium text-[#6F6B68] md:flex">
+            {content.nav.map((item) => (
+              <button key={item.id} onClick={() => scrollTo(item.id)} className="transition hover:text-[#1F1F1F]">
+                {item.label}
+              </button>
+            ))}
+            <a
+              href="tel:+33450443071"
+              className="inline-flex items-center gap-2 rounded-full bg-[#1F1F1F] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#383533]"
+            >
+              <Phone className="h-4 w-4" />
+              Réserver
+            </a>
           </nav>
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="relative">
-        <div className="mx-auto max-w-6xl px-4 py-10 md:py-16 grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <p className="uppercase tracking-widest text-xs text-neutral-500 dark:text-neutral-400">Cuisine de lac, produits frais</p>
-            <h1 className="mt-2 text-3xl md:text-5xl font-semibold leading-tight">La Cuillère à Omble</h1>
-            <p className="mt-4 text-neutral-700 dark:text-neutral-300">
-              Restaurant à Duingt, face au lac d’Annecy. Cuisine de saison, vins sélectionnés, terrasse lumineuse.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3 text-sm">
-              <span className="inline-flex items-center gap-2 rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1"><MapPin size={14}/> Quai du Port, Duingt</span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1"><Clock size={14}/> Jeu–Lun 9:00–22:00</span>
-              <a href="tel:+33450443071" className="inline-flex items-center gap-2 rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1"><Phone size={14}/> +33 4 50 44 30 71</a>
+      <main>
+        <section className="relative isolate overflow-hidden">
+          <motion.div
+            key={heroIndex}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2 }}
+            className="absolute inset-0"
+            style={{ backgroundImage: `url(${HERO_IMAGES[heroIndex]})`, backgroundSize: "cover", backgroundPosition: "center" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/55 to-black/75" />
+          <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-20 text-white lg:flex-row lg:items-center lg:py-24">
+            <div className="lg:w-3/5">
+              <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-[#F6D9A7]">
+                {content.hero.kicker}
+              </span>
+              <h1 className="mt-4 text-3xl font-semibold leading-tight md:text-5xl">{content.hero.title}</h1>
+              <p className="mt-4 max-w-xl text-base text-white/85 md:text-lg">{content.hero.sub}</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="tel:+33450443071"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#1F1F1F] shadow-lg shadow-black/20 transition hover:bg-[#FBE8C8]"
+                >
+                  <CalendarDays className="h-4 w-4" />
+                  {content.hero.cta}
+                </a>
+                <a
+                  href="https://drive.google.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-[#F6D9A7] hover:text-[#F6D9A7]"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                  {content.hero.ghost}
+                </a>
+              </div>
             </div>
-            <div className="mt-6 flex gap-3">
-              <a href="#carte" className="rounded-2xl px-4 py-2 text-sm bg-black text-white dark:bg-white dark:text-black">Voir la carte</a>
-              <a href="#contact" className="rounded-2xl px-4 py-2 text-sm border border-neutral-300 dark:border-neutral-700">Nous contacter</a>
+            <div className="grid flex-1 gap-3 sm:grid-cols-3">
+              {content.hero.stats.map((stat) => (
+                <div key={stat.label} className="rounded-3xl border border-white/20 bg-white/10 p-5 text-center shadow-sm backdrop-blur">
+                  <p className="text-2xl font-semibold text-white">{stat.value}</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-[#F6D9A7]/90">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="relative h-64 md:h-80 rounded-3xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800">
-            <img src="/omble/hero.jpg" alt="Terrasse avec vue sur le lac" className="h-full w-full object-cover" />
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Carte (3 highlights) */}
-      <section id="carte" className="py-12 md:py-16">
-        <div className="mx-auto max-w-6xl px-4">
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6">La carte</h2>
-          <div className="grid gap-5 md:grid-cols-3">
-            {[
-              { src: "/omble/dish-1.jpg", t: "Omble chevalier", d: "Beurre citronné, herbes du jardin." },
-              { src: "/omble/dish-2.jpg", t: "Filet de féra", d: "Cuisson douce, légumes de saison." },
-              { src: "/omble/dessert.jpg", t: "Dessert du moment", d: "Pâtisserie maison, fruits." },
-            ].map((x,i)=>(
-              <div key={i} className="overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
-                <div className="h-44 w-full overflow-hidden">
-                  <img src={x.src} alt={x.t} className="h-full w-full object-cover" />
-                </div>
-                <div className="p-4">
-                  <p className="font-medium">{x.t}</p>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-300">{x.d}</p>
-                </div>
+        <section id="menu" className="mx-auto max-w-6xl px-4 py-16">
+          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h2 className="text-2xl font-semibold md:text-3xl">{content.menu.title}</h2>
+              <p className="text-sm text-[#6F6B68]">{content.menu.desc}</p>
+            </div>
+            <a
+              href="mailto:contact@lacuilleeraomble.fr"
+              className="hidden items-center gap-2 text-sm font-semibold text-[#1F1F1F] underline underline-offset-4 md:inline-flex"
+            >
+              Obtenir la carte complète
+            </a>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {content.menu.sections.map((section) => (
+              <div key={section.title} className="rounded-3xl border border-[#E2DED9] bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-semibold text-[#1F1F1F]">{section.title}</h3>
+                <ul className="mt-4 space-y-3 text-sm text-[#6F6B68]">
+                  {section.items.map((item) => (
+                    <li key={item.name}>
+                      <p className="font-medium text-[#1F1F1F]">{item.name}</p>
+                      <p>{item.note}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
-          <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">Carte et prix susceptibles d’évoluer selon arrivage. Réservation conseillée.</p>
-        </div>
-      </section>
+          <p className="mt-4 text-xs text-[#8C8884]">Carte indicative susceptible d'évoluer selon arrivage.</p>
+        </section>
 
-      {/* Histoire */}
-      <section id="histoire" className="py-12 md:py-16">
-        <div className="mx-auto max-w-6xl px-4 grid md:grid-cols-2 gap-8 items-start">
-          <div className="relative h-64 md:h-80 rounded-3xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800">
-            <img src="/omble/interior.jpg" alt="Salle du restaurant" className="h-full w-full object-cover"/>
-          </div>
-          <div>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-3">Notre histoire</h2>
-            <p className="text-neutral-700 dark:text-neutral-300">
-              Une cuisine sincère, un service attentif et la passion du terroir savoyard. Nous travaillons des produits frais,
-              au fil des saisons et des pêches du lac.
+        <section id="experience" className="bg-white py-16">
+          <div className="mx-auto max-w-6xl px-4">
+            <h2 className="text-2xl font-semibold md:text-3xl">{content.experience.title}</h2>
+            <div className="mt-6 grid gap-6 md:grid-cols-3">
+              {content.experience.items.map((item) => (
+                <div key={item.title} className="flex items-start gap-3 rounded-3xl border border-[#E2DED9] bg-[#FDFBF7] p-5">
+                  <item.icon className="h-5 w-5 text-[#D2975C]" />
+                  <div>
+                    <p className="font-semibold text-[#1F1F1F]">{item.title}</p>
+                    <p className="text-sm text-[#6F6B68]">{item.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 rounded-3xl border border-[#E2DED9] bg-[#FFF7E5] p-4 text-sm text-[#6F6B68]">
+              {content.experience.note}
             </p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Galerie */}
-      <section id="galerie" className="py-12 md:py-16">
-        <div className="mx-auto max-w-6xl px-4">
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6">Galerie</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {Array.from({length:8}).map((_,i)=>(
-              <div key={i} className="aspect-[4/3] overflow-hidden rounded-xl">
-                <img src={`/omble/gallery-${i+1}.jpg`} alt={`Galerie ${i+1}`} className="h-full w-full object-cover"/>
+        <section id="galerie" className="mx-auto max-w-6xl px-4 py-16">
+          <h2 className="text-2xl font-semibold md:text-3xl">{content.gallery.title}</h2>
+          <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3">
+            {content.gallery.images.map((src, idx) => (
+              <div key={idx} className="aspect-[4/3] overflow-hidden rounded-2xl">
+                <img src={src} alt={`Galerie ${idx + 1}`} className="h-full w-full object-cover" />
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact */}
-      <section id="contact" className="py-12 md:py-16">
-        <div className="mx-auto max-w-6xl px-4 grid md:grid-cols-2 gap-6">
-          <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 p-6">
-            <p className="text-lg font-semibold mb-2">Réserver</p>
-            <p className="text-neutral-700 dark:text-neutral-300 mb-4">Par téléphone ou sur place.</p>
-            <div className="flex flex-wrap gap-3">
-              <a href="tel:+33450443071" className="rounded-2xl px-4 py-2 text-sm bg-black text-white dark:bg-white dark:text-black">
-                <Phone size={14} className="mr-1 inline"/> Appeler
-              </a>
-              <a href="https://maps.app.goo.gl/" target="_blank" rel="noreferrer" className="rounded-2xl px-4 py-2 text-sm border border-neutral-300 dark:border-neutral-700">
-                <MapPin size={14} className="mr-1 inline"/> Itinéraire
+        <section id="reservation" className="bg-[#1F1F1F] py-20 text-white">
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.9fr_1.1fr]">
+            <div>
+              <h2 className="text-2xl font-semibold md:text-3xl">{content.reservation.title}</h2>
+              <p className="mt-2 text-sm text-white/80">{content.reservation.desc}</p>
+              <div className="mt-6 space-y-3 text-sm text-white/80">
+                <p className="flex items-center gap-3"><Phone className="h-4 w-4 text-[#F6D9A7]" /> {content.reservation.phone}</p>
+                <p className="flex items-center gap-3"><MapPin className="h-4 w-4 text-[#F6D9A7]" /> {content.reservation.address}</p>
+                <p className="flex items-center gap-3"><Clock className="h-4 w-4 text-[#F6D9A7]" /> {content.reservation.hours}</p>
+              </div>
+              <a
+                href="https://maps.app.goo.gl/"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-[#F6D9A7] hover:text-[#F6D9A7]"
+              >
+                <ArrowRight className="h-4 w-4" /> Itinéraire
               </a>
             </div>
+            <form className="grid gap-4 rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur">
+              <label className="text-sm text-white/80">
+                {content.reservation.form.name}
+                <input className="mt-1 w-full rounded-xl border border-white/20 bg-white/5 px-3 py-2 text-white placeholder-white/50 focus:border-[#F6D9A7] focus:outline-none" placeholder="Votre nom" />
+              </label>
+              <div className="grid gap-4 md:grid-cols-2">
+                <label className="text-sm text-white/80">
+                  {content.reservation.form.date}
+                  <input type="date" className="mt-1 w-full rounded-xl border border-white/20 bg-white/5 px-3 py-2 text-white focus:border-[#F6D9A7] focus:outline-none" />
+                </label>
+                <label className="text-sm text-white/80">
+                  {content.reservation.form.time}
+                  <input type="time" className="mt-1 w-full rounded-xl border border-white/20 bg-white/5 px-3 py-2 text-white focus:border-[#F6D9A7] focus:outline-none" />
+                </label>
+              </div>
+              <label className="text-sm text-white/80">
+                {content.reservation.form.guests}
+                <input type="number" min={1} max={10} className="mt-1 w-full rounded-xl border border-white/20 bg-white/5 px-3 py-2 text-white focus:border-[#F6D9A7] focus:outline-none" placeholder="2" />
+              </label>
+              <label className="text-sm text-white/80">
+                {content.reservation.form.note}
+                <textarea rows={3} className="mt-1 w-full rounded-xl border border-white/20 bg-white/5 px-3 py-2 text-white focus:border-[#F6D9A7] focus:outline-none" placeholder="Allergies, poussette, etc." />
+              </label>
+              <button type="button" className="inline-flex items-center justify-center rounded-xl bg-[#F6D9A7] px-4 py-3 text-sm font-semibold text-[#1F1F1F] transition hover:bg-[#F3C888]">
+                {content.reservation.form.submit}
+              </button>
+            </form>
           </div>
-          <div className="overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800">
-            <iframe
-              title="Duingt"
-              className="h-64 w-full"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=6.187%2C45.828%2C6.225%2C45.855&layer=mapnik&marker=45.839%2C6.206"
-            />
-          </div>
-        </div>
-      </section>
+        </section>
+      </main>
+
+      <footer className="border-t border-black/10 bg-[#F7F4F1] py-6 text-center text-sm text-[#6F6B68]">
+        {content.footer}
+      </footer>
     </div>
   );
 }

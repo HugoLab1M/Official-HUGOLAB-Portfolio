@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Menu, X, ArrowUp } from "lucide-react";
+import { Routes, Route, Link, useLocation, Navigate } from "react-router-dom";
 import CoupDePompe from "./demos/CoupDePompe.jsx";
 import LeDeckPedalos from "./demos/LeDeckPedalos.jsx";
 import SansPermisSaintJorioz from "./demos/SansPermisSaintJorioz.jsx";
@@ -9,6 +10,18 @@ import MicroEcoleParapente from "./demos/MicroEcoleParapente.jsx";
 import CascadeNomadeCanyoning from "./demos/CascadeNomadeCanyoning.jsx";
 import LaCuillereAOmble from "./demos/LaCuillereAOmble.jsx";
 import PricingSection from "./components/PricingSection.jsx"; // +++
+import CookieBanner, { getStoredConsent, storeConsent } from "./components/CookieBanner.jsx";
+import { initAnalytics, disableAnalytics } from "./utils/analytics.js";
+import TallyModal from "./components/TallyModal.jsx";
+import WhyUs from "./sections/WhyUs.jsx";
+import ServicesTeaser from "./sections/ServicesTeaser.jsx";
+import ProcessSection from "./sections/Process.jsx";
+import AboutTeaser from "./sections/AboutTeaser.jsx";
+import MentionsLegales from "./legal/MentionsLegales.jsx";
+import Confidentialite from "./legal/Confidentialite.jsx";
+import CookiesPage from "./legal/Cookies.jsx";
+import CGV from "./legal/CGV.jsx";
+import FooterPro from "./layout/FooterPro.jsx";
 
 // =============================================
 // HügoLab — Portfolio Website (Agency Branding)
@@ -93,13 +106,13 @@ const SOCIALS = [
 const CONTACT = {
   email: "contact@hugolab.fr",
   phone: "+33 6 26 23 14 09",
-  location: "Annecy • Paris • Remote",
+  location: "Annecy • Grenoble",
 };
 
 // --- i18n strings ------------------------------------------------------------
 const STRINGS = {
   fr: {
-    nav: { work: "Projets", services: "Services", pricing: "Offres", about: "À propos", contact: "Contact" },
+    nav: { home: "Accueil", work: "Projets", services: "Services", pricing: "Tarifs", about: "À propos", contact: "Contact" },
     hero: {
       kicker: "Agence web créative à Annecy",
       title: "HügoLab — Création de sites internet à Annecy",
@@ -108,16 +121,120 @@ const STRINGS = {
       ctaPrimary: "Voir nos projets",
       ctaSecondary: "Discuter de votre besoin",
     },
+    whyUs: {
+      kicker: "Pourquoi HügoLab",
+      title: "Une micro-agence locale qui livre vite",
+      cta: "En savoir plus sur HügoLab",
+      ctaHref: "/about",
+      items: [
+        {
+          icon: "local",
+          title: "Local & réactifs",
+          desc: "Basés à Doussard, nous échangeons facilement et avançons étape par étape sur votre projet.",
+        },
+        {
+          icon: "speed",
+          title: "Rapide & propre",
+          desc: "Stack moderne (React, Tailwind) pour des sites stables, modernes et faciles à faire évoluer.",
+        },
+        {
+          icon: "seo",
+          title: "SEO local intégré",
+          desc: "Balises, performances et Google Business optimisés pour être visibles là où vos clients vous cherchent.",
+        },
+        {
+          icon: "ai",
+          title: "IA comme levier",
+          desc: "Nous utilisons l’IA pour gagner du temps sur la production sans sacrifier la qualité du rendu final.",
+        },
+      ],
+    },
+    servicesTeaser: {
+      kicker: "Ce que nous faisons",
+      title: "Des sites clairs, modernes et mesurables",
+      primaryCta: "Voir nos services",
+      primaryHref: "/services",
+      secondaryCta: "Voir nos projets",
+      secondaryHref: "/work",
+      items: [
+        {
+          tag: "Landing page",
+          title: "Landing Express",
+          desc: "Une page unique pour lancer une offre, collecter des leads ou valider un concept.",
+          href: "/services#landing",
+          cta: "Voir les détails",
+        },
+        {
+          tag: "Site vitrine",
+          title: "Vitrine complète",
+          desc: "Cinq pages, formulaire, analytics et SEO local pour être trouvé et contacté facilement.",
+          href: "/services#vitrine",
+          cta: "Voir les détails",
+        },
+        {
+          tag: "Maintenance",
+          title: "Suivi & optimisation",
+          desc: "Mises à jour, sauvegardes, rapports mensuels et petits ajustements selon vos besoins.",
+          href: "/services#maintenance",
+          cta: "Voir les détails",
+        },
+        {
+          tag: "Identité",
+          title: "Logo & branding léger",
+          desc: "Logo, palette, favicon et mini guide pour garder une identité cohérente sur vos supports.",
+          href: "/services#logo",
+          cta: "Voir les détails",
+        },
+      ],
+    },
+    process: {
+      kicker: "Notre méthode",
+      title: "Une production claire en quatre étapes",
+      cta: "Comprendre notre méthode",
+      ctaHref: "/about#process",
+      steps: [
+        {
+          step: "1",
+          title: "Découverte",
+          desc: "On clarifie vos objectifs, les pages nécessaires, le ton et les délais.",
+        },
+        {
+          step: "2",
+          title: "Maquette",
+          desc: "Vous validez l’architecture, le contenu clé et le design avant intégration.",
+        },
+        {
+          step: "3",
+          title: "Dév & SEO",
+          desc: "Intégration en React, optimisation des performances et du référencement local.",
+        },
+        {
+          step: "4",
+          title: "Mise en ligne",
+          desc: "Configuration domaine, analytics, formation claire et maintenance si besoin.",
+        },
+      ],
+    },
+    aboutTeaser: {
+      kicker: "L’agence",
+      title: "Basés à Doussard, au bord du lac d’Annecy",
+      desc: "Nous concevons des sites vitrines modernes, crédibles et mesurables pour les entreprises locales. L’objectif : transformer une visite en prise de contact ou réservation.",
+      primaryCta: "En savoir plus sur l’agence",
+      primaryHref: "/about",
+      secondaryCta: "Voir nos projets",
+      secondaryHref: "/work",
+    },
     services: {
       title: "Services",
       kicker: "Ce que nous faisons",
       cta: "Voir les maquettes",
       sections: [
         {
+          id: "landing",
           tag: "Site vitrine",
           title: "Création de site vitrine",
           desc:
-            "Nous concevons et mettons en ligne votre site vitrine : design soigné, texte clair, chargement rapide. Nous travaillons en React/Next.js pour un front ultra-léger et durable. Si besoin, on ajoute un petit CMS pour éditer vos pages en autonomie.",
+            "Nous concevons et mettons en ligne votre site vitrine : design soigné, texte clair, chargement fluide. Nous travaillons en React/Next.js pour un front ultra-léger et durable. Si besoin, on ajoute un petit CMS pour éditer vos pages en autonomie.",
           bullets: [
             "Architecture claire & mobile-first",
             "SEO technique (balises, perf, méta)",
@@ -127,9 +244,10 @@ const STRINGS = {
           ],
           img: "/services/vitrine.jpg",
           imgAlt: "Exemple de site vitrine par HügoLab",
-          href: "#work",
+          href: "#pricing",
         },
         {
+          id: "vitrine",
           tag: "Site e-commerce",
           title: "Création de site e-shop",
           desc:
@@ -143,9 +261,10 @@ const STRINGS = {
           ],
           img: "/services/eshop.jpg",
           imgAlt: "Exemple de boutique en ligne",
-          href: "#work",
+          href: "#pricing",
         },
         {
+          id: "logo",
           tag: "Identité visuelle",
           title: "Logo & identité de marque",
           desc:
@@ -158,11 +277,43 @@ const STRINGS = {
           ],
           img: "/services/branding.jpg",
           imgAlt: "Création de logo et identité",
-          href: "#work",
+          href: "#pricing",
+        },
+        {
+          id: "maintenance",
+          tag: "Maintenance",
+          title: "Suivi & optimisation",
+          desc:
+            "Nous assurons mises à jour, sauvegardes, monitoring de performances et petites évolutions pour faire évoluer votre site en continu.",
+          bullets: [
+            "Veille technique & mises à jour mensuelles",
+            "Sauvegardes automatiques & restauration",
+            "Rapport de visites & opportunités SEO",
+            "Petites évolutions incluses selon formule",
+          ],
+          img: "/services/branding3.jpg",
+          imgAlt: "Tableau de suivi et maintenance de site web",
+          href: "#pricing",
         },
       ],
     },
+    servicesPage: {
+      kicker: "Offres & prestations",
+      title: "Sites vitrines, landing pages & maintenance web",
+      desc: "Des offres claires pour lancer ou refondre votre présence en ligne. Chaque formule inclut la mise en ligne, l’optimisation mobile et un accompagnement pour rester autonome.",
+      ctaPrimary: "Planifier un appel",
+      ctaPrimaryHref: "/contact",
+      ctaSecondary: "Télécharger la plaquette",
+      ctaSecondaryHref: "https://tally.so/r/mOQNRL",
+    },
     work: { title: "Projets en avant", kicker: "Nos réalisations" },
+    workPage: {
+      kicker: "Portfolio",
+      title: "Projets et démonstrations HügoLab",
+      desc: "Sélection de projets livrés et de maquettes sectorielles conçues pour les acteurs locaux : tourisme, restauration, outdoor et services.",
+      ctaPrimary: "Demander une démo",
+      ctaPrimaryHref: "/contact",
+    },
     about: {
       title: "Notre histoire",
       kicker: "À propos",
@@ -176,16 +327,16 @@ const STRINGS = {
         kicker: "Studio digital",
         title: "Nous concevons des expériences web qui donnent envie d’agir",
         subtitle:
-          "Basés à Annecy, nous accompagnons entrepreneurs, marques et institutions à mettre en lumière leur savoir-faire avec des sites rapides, élégants et mesurables.",
-        pill: "HügoLab — fondé en 2022",
+          "Basés à Annecy, nous accompagnons entrepreneurs, marques et institutions à mettre en lumière leur savoir-faire avec des sites modernes, élégants et mesurables.",
+        pill: "HügoLab — fondé en 2025",
         ctaPrimary: "Planifier un appel",
         ctaSecondary: "Télécharger la plaquette",
         ctaSecondaryUrl: "https://tally.so/r/mOQNRL",
       },
       highlights: [
-        { label: "+ projets livrés", value: "35" },
-        { label: "Délai moyen (sem.)", value: "3" },
-        { label: "Clients récurrents", value: "82%" },
+        { label: "Maquettes sectorielles prêtes", value: "6" },
+        { label: "Mise en ligne sous", value: "30 jours" },
+        { label: "Création officielle", value: "2025" },
       ],
       values: {
         title: "Notre approche",
@@ -196,11 +347,11 @@ const STRINGS = {
           },
           {
             title: "Production agile",
-            desc: "Sprints courts, validations rapides. Nous livrons un site prêt à performer en quelques semaines.",
+            desc: "Sprints courts, validations transparentes. Nous livrons un site prêt à performer en quelques semaines.",
           },
           {
             title: "Tech minimaliste",
-            desc: "Stack moderne (React, Vite, Next.js) avec uniquement les briques utiles pour rester rapide et évolutif.",
+            desc: "Stack moderne (React, Vite, Next.js) avec uniquement les briques utiles pour rester fiable et évolutif.",
           },
           {
             title: "Suivi continu",
@@ -211,10 +362,10 @@ const STRINGS = {
       timeline: {
         title: "Étapes clés",
         items: [
-          { year: "2022", title: "Premiers sites vitrine", desc: "Lancement de HügoLab et premiers projets pour artisans autour du lac d’Annecy." },
-          { year: "2023", title: "Offres e-commerce", desc: "Mise en place des parcours Stripe et optimisation mobile pour locations & boutiques." },
-          { year: "2024", title: "Démos sectorielles", desc: "Création de modèles dédiés tourisme, restauration, outdoor pour accélérer les mises en ligne." },
-          { year: "2025", title: "Accompagnement global", desc: "Refonte de marques, maintenance SEO et campagnes d’acquisition en continu." },
+          { year: "01/04/2025", title: "Création de HügoLab", desc: "Immatriculation de la micro-entreprise et premières landing pages pour artisans du lac." },
+          { year: "15/05/2025", title: "Offres vitrines prêtes", desc: "Structuration des offres Landing & Vitrine avec maquettes sectorielles et paiements Stripe." },
+          { year: "10/06/2025", title: "Démos tourisme & restauration", desc: "Mise en ligne des démonstrations personnalisables pour acteurs locaux (tourisme, restauration, outdoor)." },
+          { year: "01/10/2025", title: "Maintenance & SEO continu", desc: "Lancement des offres de suivi : analytics, SEO local et améliorations trimestrielles." },
         ],
       },
     },
@@ -223,34 +374,52 @@ const STRINGS = {
       kicker: "Contact",
       p: "Expliquez en 3 lignes votre activité, votre objectif, et si vous avez déjà un site. Nous revenons vers vous sous 24h avec un plan simple et un devis clair.",
       btn: "Écrire un message",
+      briefCta: "Envoyer le brief",
+      logoCta: "Demander un devis logo",
     },
     footer: {
       rights: "Tous droits réservés.",
       builtBy: "Site par HügoLab",
       tagline:
-        "Studio web indépendant basé à Annecy. Nous concevons des sites rapides et orientés conversion pour les entreprises locales et marques ambitieuses.",
-      availability: "Basés à Annecy & Paris — missions partout en France.",
+        "Studio web indépendant basé à Annecy. Nous concevons des sites modernes et orientés conversion pour les entreprises locales et marques ambitieuses.",
+      availability: "Basés à Annecy & Grenoble — missions partout en France.",
       ctaPrimary: "Planifier un échange",
-      ctaPrimaryUrl: "#contact",
+      ctaPrimaryUrl: "/#contact",
       ctaSecondary: "Envoyer mon brief",
       ctaSecondaryUrl: "https://tally.so/r/mJ7Zgd",
       columns: [
         {
-          title: "À propos",
+          title: "Agence",
           links: [
-            { label: "Notre histoire", href: "/about" },
-            { label: "Nos références", href: "/#work" },
-            { label: "Offres & tarifs", href: "/#pricing" },
-            { label: "FAQ & contact", href: "/#contact" },
+            { label: "À propos", href: "/about" },
+            { label: "Process", href: "/about#process" },
+            { label: "Contact", href: "/contact" },
           ],
         },
         {
-          title: "Services",
+          title: "Offres",
           links: [
-            { label: "Site vitrine", href: "/#services" },
-            { label: "E-commerce", href: "/#services" },
-            { label: "Identité visuelle", href: "/#services" },
-            { label: "Maintenance & SEO", href: "/#pricing" },
+            { label: "Landing Express", href: "/services#landing" },
+            { label: "Vitrine complète", href: "/services#vitrine" },
+            { label: "Maintenance", href: "/services#maintenance" },
+            { label: "Logo & branding", href: "/services#logo" },
+          ],
+        },
+        {
+          title: "Ressources",
+          links: [
+            { label: "Projets", href: "/work" },
+            { label: "Services", href: "/services" },
+            { label: "Process", href: "/about#process" },
+          ],
+        },
+        {
+          title: "Légal",
+          links: [
+            { label: "Mentions légales", href: "/mentions-legales" },
+            { label: "Confidentialité", href: "/confidentialite" },
+            { label: "Cookies", href: "/cookies" },
+            { label: "CGV", href: "/cgv" },
           ],
         },
       ],
@@ -261,12 +430,14 @@ const STRINGS = {
         locationLabel: "Zones d'intervention",
         socialsLabel: "Réseaux",
       },
+      manageCookies: "Gérer les cookies",
+      bottomNav: ["work", "services", "about", "pricing", "contact"],
     },
     langLabel: "FR",
   },
 
   en: {
-    nav: { work: "Work", services: "Services", pricing: "Pricing", about: "About", contact: "Contact" },
+    nav: { home: "Home", work: "Work", services: "Services", pricing: "Pricing", about: "About", contact: "Contact" },
     hero: {
       kicker: "Creative web agency from Annecy",
       title: "HügoLab — modern websites that convert",
@@ -275,12 +446,116 @@ const STRINGS = {
       ctaPrimary: "See our projects",
       ctaSecondary: "Discuss your brief",
     },
+    whyUs: {
+      kicker: "Why HügoLab",
+      title: "A local solo studio shipping fast",
+      cta: "Learn more about HügoLab",
+      ctaHref: "/about",
+      items: [
+        {
+          icon: "local",
+          title: "Local & responsive",
+          desc: "Based in Doussard (Lake Annecy) for hands-on collaboration and easy check-ins.",
+        },
+        {
+          icon: "speed",
+          title: "Clean & modern",
+          desc: "Modern stack (React, Tailwind) for stable, future-proof websites that stay easy to update.",
+        },
+        {
+          icon: "seo",
+          title: "Local SEO ready",
+          desc: "Structured content, performance and Google Business setup to appear where clients search.",
+        },
+        {
+          icon: "ai",
+          title: "AI-assisted",
+          desc: "We leverage AI to stay efficient while keeping a polished, human-focused result.",
+        },
+      ],
+    },
+    servicesTeaser: {
+      kicker: "What we do",
+      title: "Launch-ready, modern sites for local businesses",
+      primaryCta: "See our services",
+      primaryHref: "/services",
+      secondaryCta: "View our work",
+      secondaryHref: "/work",
+      items: [
+        {
+          tag: "Landing page",
+          title: "Landing Express",
+          desc: "Single-page launchpad to capture leads or validate a new offer fast.",
+          href: "/services#landing",
+          cta: "Explore",
+        },
+        {
+          tag: "Showcase site",
+          title: "Full showcase",
+          desc: "Five pages, contact form, analytics and local SEO to turn visitors into inquiries.",
+          href: "/services#vitrine",
+          cta: "Explore",
+        },
+        {
+          tag: "Care",
+          title: "Care & optimisation",
+          desc: "Monthly maintenance, updates, backups and micro-optimisations when you need them.",
+          href: "/services#maintenance",
+          cta: "Explore",
+        },
+        {
+          tag: "Identity",
+          title: "Logo & light branding",
+          desc: "Logo kit, color palette and quick brand guide to stay consistent across channels.",
+          href: "/services#logo",
+          cta: "Explore",
+        },
+      ],
+    },
+    process: {
+      kicker: "Our process",
+      title: "A clear four-step production",
+      cta: "See the full process",
+      ctaHref: "/about#process",
+      steps: [
+        {
+          step: "1",
+          title: "Discovery",
+          desc: "We align on goals, pages, tone of voice and timeline.",
+        },
+        {
+          step: "2",
+          title: "Prototype",
+          desc: "You approve layout, key copy and UI direction before development.",
+        },
+        {
+          step: "3",
+          title: "Build & SEO",
+          desc: "React integration, performance tweaks and local SEO setup.",
+        },
+        {
+          step: "4",
+          title: "Launch",
+          desc: "Domain setup, analytics, micro-training and optional care plan.",
+        },
+      ],
+    },
+    aboutTeaser: {
+      kicker: "Studio",
+      title: "Independent studio on Lake Annecy",
+      desc: "We craft fast, credible, measurable showcase sites for local businesses. The goal: turn visits into inquiries.",
+      primaryCta: "Learn about the studio",
+      primaryHref: "/about",
+      secondaryCta: "View projects",
+      secondaryHref: "/work",
+    },
     services: {
       title: "Services",
       kicker: "What we do",
       cta: "See mockups",
       sections: [
         {
+          id: "landing",
           tag: "Showcase website",
           title: "Business website",
           desc:
@@ -294,9 +569,10 @@ const STRINGS = {
           ],
           img: "/services/vitrine.jpg",
           imgAlt: "Showcase website by HügoLab",
-          href: "#work",
+          href: "#pricing",
         },
         {
+          id: "vitrine",
           tag: "E-commerce",
           title: "Online store",
           desc:
@@ -310,9 +586,10 @@ const STRINGS = {
           ],
           img: "/services/eshop.jpg",
           imgAlt: "Online store example",
-          href: "#work",
+          href: "#pricing",
         },
         {
+          id: "logo",
           tag: "Brand identity",
           title: "Logo & visual identity",
           desc:
@@ -325,11 +602,43 @@ const STRINGS = {
           ],
           img: "/services/branding.jpg",
           imgAlt: "Logo and identity work",
-          href: "#work",
+          href: "#pricing",
+        },
+        {
+          id: "maintenance",
+          tag: "Care",
+          title: "Care & optimisation",
+          desc:
+            "We handle updates, backups, monitoring and micro improvements so your website keeps performing over time.",
+          bullets: [
+            "Monthly technical updates",
+            "Backups & recovery plan",
+            "Analytics and local SEO watch",
+            "Micro enhancements included per plan",
+          ],
+          img: "/services/branding3.jpg",
+          imgAlt: "Website care and optimisation dashboard",
+          href: "#pricing",
         },
       ],
     },
+    servicesPage: {
+      kicker: "Services & offerings",
+      title: "Showcase sites, landing pages and ongoing care",
+      desc: "Clear packages to launch or refresh your online presence. Every plan ships with mobile performance, SEO essentials and guidance so you stay autonomous.",
+      ctaPrimary: "Book a call",
+      ctaPrimaryHref: "/contact",
+      ctaSecondary: "Download the deck",
+      ctaSecondaryHref: "https://tally.so/r/mOQNRL",
+    },
     work: { title: "Featured Work", kicker: "Case studies" },
+    workPage: {
+      kicker: "Portfolio",
+      title: "Selected projects and demos",
+      desc: "Websites and sector demos crafted for tourism, hospitality, outdoor activities and ambitious local businesses.",
+      ctaPrimary: "Request a walkthrough",
+      ctaPrimaryHref: "/contact",
+    },
     about: {
       title: "Our story",
       kicker: "About us",
@@ -343,16 +652,16 @@ const STRINGS = {
         kicker: "Digital studio",
         title: "We craft conversion-driven web experiences",
         subtitle:
-          "From our base in Annecy we help founders, hospitality brands and institutions tell their story with fast, elegant, measurable websites.",
-        pill: "HügoLab — founded 2022",
+          "From our base in Annecy we help founders, hospitality brands and institutions tell their story with modern, elegant, measurable websites.",
+        pill: "HügoLab — founded 2025",
         ctaPrimary: "Book a discovery call",
         ctaSecondary: "Download the deck",
         ctaSecondaryUrl: "https://tally.so/r/mOQNRL",
       },
       highlights: [
-        { label: "Projects shipped", value: "35+" },
-        { label: "Avg. timeline (weeks)", value: "3" },
-        { label: "Repeat clients", value: "82%" },
+        { label: "Sector mockups ready", value: "6" },
+        { label: "Showcase live within", value: "30 days" },
+        { label: "Registered micro-business", value: "2025" },
       ],
       values: {
         title: "How we work",
@@ -363,11 +672,11 @@ const STRINGS = {
           },
           {
             title: "Lean production",
-            desc: "Short sprints and quick approvals so your new site ships in a matter of weeks.",
+          desc: "Short sprints and transparent approvals so your new site ships in a matter of weeks.",
           },
           {
             title: "Minimal tech",
-            desc: "A modern React/Vite/Next.js stack with only the pieces required to stay fast and scalable.",
+            desc: "A modern React/Vite/Next.js stack with only the pieces required to stay reliable and scalable.",
           },
           {
             title: "Ongoing care",
@@ -378,10 +687,10 @@ const STRINGS = {
       timeline: {
         title: "Milestones",
         items: [
-          { year: "2022", title: "First showcase sites", desc: "HügoLab launches with websites for artisans around Lake Annecy." },
-          { year: "2023", title: "E-commerce flows", desc: "We roll out Stripe-ready booking and checkout journeys for tourism & retail." },
-          { year: "2024", title: "Sector demos", desc: "Launch of ready-to-customize demos for tourism, restaurants and outdoor brands." },
-          { year: "2025", title: "Full-service care", desc: "Brand refresh, maintenance retainers and performance marketing to support growth." },
+          { year: "2025-04-01", title: "HügoLab launches", desc: "Micro-business registered with landing pages for artisans around Lake Annecy." },
+          { year: "2025-05-15", title: "Showcase packages", desc: "Packaged Landing + Vitrine offers with Stripe deposits and sector-specific mockups." },
+          { year: "2025-06-10", title: "Sector demos", desc: "Ready-to-customize demos for tourism, restaurants and outdoor brands." },
+          { year: "2025-10-01", title: "Care & SEO plans", desc: "Quarterly optimisation retainers covering analytics, local SEO and micro updates." },
         ],
       },
     },
@@ -390,34 +699,52 @@ const STRINGS = {
       kicker: "Contact",
       p: "Tell us your business, your goal, and whether you already have a site. We’ll reply within 24 hours with a simple plan and quote.",
       btn: "Send a message",
+      briefCta: "Send the brief",
+      logoCta: "Request a logo quote",
     },
     footer: {
       rights: "All rights reserved.",
       builtBy: "Site by HügoLab",
       tagline:
         "Boutique web studio from Annecy. We ship fast, conversion-first websites for local businesses and growing brands.",
-      availability: "Based in Annecy & Paris — partnering with clients across Europe.",
+      availability: "Based in Annecy & Grenoble — partnering with clients across Europe.",
       ctaPrimary: "Schedule a call",
-      ctaPrimaryUrl: "#contact",
+      ctaPrimaryUrl: "/#contact",
       ctaSecondary: "Send your brief",
       ctaSecondaryUrl: "https://tally.so/r/mJ7Zgd",
       columns: [
         {
-          title: "About",
+          title: "Studio",
           links: [
-            { label: "Our story", href: "/about" },
-            { label: "Selected work", href: "/#work" },
-            { label: "Pricing", href: "/#pricing" },
-            { label: "FAQs", href: "/#contact" },
+            { label: "About", href: "/about" },
+            { label: "Process", href: "/about#process" },
+            { label: "Contact", href: "/contact" },
           ],
         },
         {
-          title: "Services",
+          title: "Offers",
           links: [
-            { label: "Showcase websites", href: "/#services" },
-            { label: "E-commerce", href: "/#services" },
-            { label: "Visual identity", href: "/#services" },
-            { label: "Care & SEO", href: "/#pricing" },
+            { label: "Landing Express", href: "/services#landing" },
+            { label: "Full showcase", href: "/services#vitrine" },
+            { label: "Care plans", href: "/services#maintenance" },
+            { label: "Logo & branding", href: "/services#logo" },
+          ],
+        },
+        {
+          title: "Resources",
+          links: [
+            { label: "Projects", href: "/work" },
+            { label: "Services", href: "/services" },
+            { label: "Process", href: "/about#process" },
+          ],
+        },
+        {
+          title: "Legal",
+          links: [
+            { label: "Legal notice", href: "/mentions-legales" },
+            { label: "Privacy", href: "/confidentialite" },
+            { label: "Cookies", href: "/cookies" },
+            { label: "Terms", href: "/cgv" },
           ],
         },
       ],
@@ -428,6 +755,8 @@ const STRINGS = {
         locationLabel: "Based in",
         socialsLabel: "Follow",
       },
+      manageCookies: "Manage cookies",
+      bottomNav: ["work", "services", "about", "pricing", "contact"],
     },
     langLabel: "EN",
   },
@@ -522,22 +851,33 @@ function ThemeToggle() {
 }
 
 function Nav({ t, onLangToggle, lang, onContactClick }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
   const items = [
-    { label: t.nav.work, to: "/#work", isHash: true },
-    { label: t.nav.services, to: "/#services", isHash: true },
-    { label: t.nav.pricing, to: "/#pricing", isHash: true },
+    { label: t.nav.home ?? "Home", to: "/" },
+    { label: t.nav.work, to: "/work" },
+    { label: t.nav.services, to: "/services" },
     { label: t.nav.about, to: "/about" },
-    { label: t.nav.contact, to: "/#contact", isHash: true },
+    { label: t.nav.pricing, to: "/pricing" },
+    { label: t.nav.contact, to: "/contact" },
   ];
+
+  const closeMobile = () => setMobileOpen(false);
+  const mobileLabel = mobileOpen
+    ? lang === "fr"
+      ? "Fermer le menu"
+      : "Close menu"
+    : lang === "fr"
+    ? "Ouvrir le menu"
+    : "Open menu";
   return (
     <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-neutral-900/60 border-b border-neutral-200/60 dark:border-neutral-800">
       <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-3 group" aria-label="HügoLab — accueil">
+        <Link to="/" className="flex items-center gap-3 group" aria-label="HügoLab — accueil">
           <img src="/logo.svg" alt="HügoLab" className="h-9 w-auto" />
           <span className="hidden sm:inline-block text-base font-semibold tracking-tight text-neutral-900 dark:text-white group-hover:opacity-90 transition-opacity">
             HügoLab
           </span>
-        </a>
+        </Link>
         <div className="hidden md:flex items-center gap-6">
           {items.map((item) => (
             <Link
@@ -555,8 +895,42 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
           <button onClick={onContactClick} className="hidden sm:inline-flex rounded-2xl text-sm px-3 py-1.5 bg-black text-white dark:bg-white dark:text-black">
             {t.hero.ctaSecondary}
           </button>
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-xl border border-neutral-300 p-2 text-neutral-700 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800 md:hidden"
+            onClick={() => setMobileOpen((prev) => !prev)}
+            aria-label={mobileLabel}
+          >
+            {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
         </div>
       </nav>
+      {mobileOpen && (
+        <div className="md:hidden border-t border-neutral-200/70 bg-white/95 px-4 py-4 backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/95">
+          <div className="flex flex-col gap-3">
+            {items.map((item) => (
+              <Link
+                key={`mobile-${item.label}`}
+                to={item.to}
+                onClick={closeMobile}
+                className="rounded-xl px-3 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-800"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <button
+              type="button"
+              onClick={() => {
+                onContactClick();
+                closeMobile();
+              }}
+              className="rounded-xl bg-black px-3 py-2 text-sm font-medium text-white hover:bg-neutral-900 dark:bg-white dark:text-black dark:hover:bg-neutral-100"
+            >
+              {t.hero.ctaSecondary}
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -688,8 +1062,9 @@ function Services({ t }) {
   function FeatureRow({ section, reverse = false }) {
     return (
       <div
+        id={section.id || undefined}
         className={classNames(
-          "grid items-start gap-8 md:grid-cols-2",
+          "grid items-start gap-8 md:grid-cols-2 scroll-mt-24",
           reverse ? "md:[&>div:first-child]:order-2" : ""
         )}
       >
@@ -765,6 +1140,8 @@ function Services({ t }) {
         <FeatureRow section={t.services.sections[1]} reverse />
         {/* 3 */}
         <FeatureRow section={t.services.sections[2]} />
+        {/* 4 */}
+        {t.services.sections[3] && <FeatureRow section={t.services.sections[3]} reverse />}
       </div>
     </section>
   );
@@ -827,46 +1204,75 @@ function About({ t }) {
 }
 
 function Contact({ t }) {
+  const [siteBriefOpen, setSiteBriefOpen] = useState(false);
+  const [logoBriefOpen, setLogoBriefOpen] = useState(false);
+
   return (
     <section id="contact" className="py-14 md:py-20">
       <SectionTitle kicker={t.contact.kicker}>{t.contact.title}</SectionTitle>
-      <div className="max-w-3xl mx-auto px-4">
+      <div className="max-w-4xl mx-auto px-4">
         <p className="text-neutral-700 dark:text-neutral-300 mb-6">{t.contact.p}</p>
 
-        <div className="grid sm:grid-cols-2 gap-4">
-          <a
-            href={`mailto:${CONTACT.email}`}
-            className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900"
-          >
-            <div className="text-xs text-neutral-500">Email</div>
-            <div className="font-medium">{CONTACT.email}</div>
-          </a>
-
-          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
-            <div className="text-xs text-neutral-500">Phone</div>
-            <div className="font-medium">{CONTACT.phone}</div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="rounded-3xl border border-neutral-200 bg-white/95 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">Email</p>
+            <a href={`mailto:${CONTACT.email}`} className="mt-2 inline-flex items-center gap-2 text-lg font-medium text-neutral-900 transition hover:text-neutral-600 dark:text-neutral-100 dark:hover:text-neutral-300">
+              {CONTACT.email}
+            </a>
+            <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+              {t.langLabel === "FR"
+                ? "Nous répondons sous 24h avec un plan simple."
+                : "We reply within 24h with a simple plan."}
+            </p>
           </div>
 
-          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
-            <div className="text-xs text-neutral-500">Location</div>
-            <div className="font-medium">{CONTACT.location}</div>
+          <div className="rounded-3xl border border-neutral-200 bg-white/95 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">{t.langLabel === "FR" ? "Téléphone" : "Phone"}</p>
+            <a href={`tel:${CONTACT.phone.replace(/\s+/g, "")}`} className="mt-2 inline-flex items-center gap-2 text-lg font-medium text-neutral-900 transition hover:text-neutral-600 dark:text-neutral-100 dark:hover:text-neutral-300">
+              {CONTACT.phone}
+            </a>
+            <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+              {t.langLabel === "FR"
+                ? "Appel découverte (15 min) pour cadrer votre besoin."
+                : "Discovery call (15 min) to scope your needs."}
+            </p>
           </div>
 
-          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
-            <div className="text-xs text-neutral-500 mb-2">Socials</div>
-            <div className="flex flex-wrap gap-3">
+          <div className="rounded-3xl border border-neutral-200 bg-white/95 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">{t.langLabel === "FR" ? "Zones d'intervention" : "Areas we cover"}</p>
+            <p className="mt-2 text-lg font-medium text-neutral-900 dark:text-neutral-100">{CONTACT.location}</p>
+            <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+              {t.langLabel === "FR"
+                ? "Présence locale, déplacements possibles sur rendez-vous."
+                : "Local presence, on-site meetings on request."}
+            </p>
+          </div>
+
+          <div className="rounded-3xl border border-neutral-200 bg-white/95 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">{t.langLabel === "FR" ? "Réseaux" : "Socials"}</p>
+            <div className="mt-2 flex items-center gap-4 text-sm">
               {SOCIALS.map((s) => (
                 <a
                   key={s.name}
                   href={s.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="underline underline-offset-4 text-sm"
+                  className="inline-flex items-center gap-2 text-neutral-900 transition hover:text-neutral-600 dark:text-neutral-100 dark:hover:text-neutral-300"
                 >
+                  {s.name === "LinkedIn" ? (
+                    <img src="/icons/linkedin.svg" alt="LinkedIn" className="h-4 w-4" />
+                  ) : s.name === "Instagram" ? (
+                    <img src="/icons/instagram.svg" alt="Instagram" className="h-4 w-4" />
+                  ) : null}
                   {s.name}
                 </a>
               ))}
             </div>
+            <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+              {t.langLabel === "FR"
+                ? "Suivez l’évolution des maquettes et des projets."
+                : "Follow mockups and project updates."}
+            </p>
           </div>
         </div>
 
@@ -879,17 +1285,49 @@ function Contact({ t }) {
             {t.contact.btn}
           </a>
 
+          <button
+            type="button"
+            onClick={() => setSiteBriefOpen(true)}
+            className="rounded-2xl border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-800"
+          >
+            {t.contact.briefCta}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setLogoBriefOpen(true)}
+            className="rounded-2xl border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-800"
+          >
+            {t.contact.logoCta}
+          </button>
+
           <a
             href="https://g.page/r/CSjpwPvLGK4YEAE/review"
             target="_blank"
             rel="noreferrer"
-            className="btn-ghost"
+            className="btn-ghost inline-flex items-center gap-2"
             aria-label="Laisser un avis Google pour HügoLab (ouvre un nouvel onglet)"
           >
+            <img src="/icons/google.svg" alt="Google" className="h-4 w-4" />
             Laisser un avis Google
           </a>
         </div>
       </div>
+
+      {siteBriefOpen && (
+        <TallyModal
+          url="https://tally.so/r/mJ7Zgd"
+          onClose={() => setSiteBriefOpen(false)}
+          title="Brief site (gratuit)"
+        />
+      )}
+      {logoBriefOpen && (
+        <TallyModal
+          url="https://tally.so/r/mOveKp"
+          onClose={() => setLogoBriefOpen(false)}
+          title="Brief logo (gratuit)"
+        />
+      )}
     </section>
   );
 }
@@ -937,10 +1375,10 @@ function AboutPage({ t }) {
             {page.highlights.map((item, idx) => (
               <div
                 key={`${item.label}-${idx}`}
-                className="rounded-2xl border border-neutral-200 bg-white/90 px-5 py-6 text-neutral-900 shadow-sm backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/80 dark:text-white"
+                className="flex flex-col items-center gap-2 rounded-2xl border border-neutral-200 bg-white/90 px-5 py-6 text-center text-neutral-900 shadow-sm backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/80 dark:text-white"
               >
                 <div className="text-3xl font-semibold md:text-4xl">{item.value}</div>
-                <p className="mt-1 text-xs uppercase tracking-[0.24em] text-neutral-500 dark:text-neutral-400">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
                   {item.label}
                 </p>
               </div>
@@ -951,7 +1389,7 @@ function AboutPage({ t }) {
 
       <About t={t} />
 
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-20" id="process">
         <div className="mx-auto max-w-6xl px-4">
           <p className="uppercase tracking-[0.3em] text-xs text-neutral-500 dark:text-neutral-400">{valuesKicker}</p>
           <h2 className="mt-3 text-2xl font-semibold md:text-3xl">{page.values.title}</h2>
@@ -966,7 +1404,7 @@ function AboutPage({ t }) {
         </div>
       </section>
 
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-20" id="timeline">
         <div className="mx-auto max-w-6xl px-4">
           <p className="uppercase tracking-[0.3em] text-xs text-neutral-500 dark:text-neutral-400">{timelineKicker}</p>
           <h2 className="mt-3 text-2xl font-semibold md:text-3xl">{page.timeline.title}</h2>
@@ -989,119 +1427,131 @@ function AboutPage({ t }) {
   );
 }
 
-function Footer({ t }) {
-  const phoneHref = `tel:${CONTACT.phone.replace(/\s+/g, "")}`;
-  const navColumns = t.footer.columns ?? [];
-
+function ServicesPage({ t }) {
   return (
-    <footer className="mt-24 bg-neutral-950 text-neutral-50">
-      <div className="border-t border-neutral-800/60">
-        <div className="mx-auto max-w-6xl px-4 py-16 space-y-16">
-          <div className="grid gap-12 md:grid-cols-[minmax(0,2.4fr)_minmax(0,3fr)]">
-            <div>
-              <a href="#top" className="flex items-center gap-3" aria-label="HügoLab — retour haut de page">
-                <img src="/logo.svg" alt="HügoLab" className="h-10 w-auto" />
-                <span className="text-lg font-semibold tracking-tight text-white">HügoLab</span>
-              </a>
-              <p className="mt-6 max-w-md text-sm text-neutral-300">{t.footer.tagline}</p>
-              <p className="mt-4 text-xs uppercase tracking-[0.3em] text-neutral-500">{t.footer.availability}</p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href={t.footer.ctaPrimaryUrl}
-                  className="rounded-2xl bg-white px-4 py-2 text-sm font-medium text-neutral-950 transition hover:bg-neutral-200"
-                >
-                  {t.footer.ctaPrimary}
-                </a>
-                <a
-                  href={t.footer.ctaSecondaryUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-2xl border border-neutral-700 px-4 py-2 text-sm font-medium text-neutral-100 transition hover:bg-neutral-900"
-                >
-                  {t.footer.ctaSecondary}
-                </a>
-              </div>
-            </div>
-
-            <div className="grid gap-10 sm:grid-cols-3">
-              {navColumns.map((col) => (
-                <div key={col.title}>
-                  <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500">{col.title}</p>
-                  <ul className="mt-4 space-y-2 text-sm text-neutral-300">
-                    {col.links.map((link) => (
-                      <li key={`${col.title}-${link.label}`}>
-                        <a href={link.href} className="transition hover:text-white">
-                          {link.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500">{t.footer.contact.title}</p>
-                <ul className="mt-4 space-y-3 text-sm text-neutral-300">
-                  <li>
-                    <span className="block text-[11px] uppercase tracking-[0.2em] text-neutral-500">{t.footer.contact.emailLabel}</span>
-                    <a href={`mailto:${CONTACT.email}`} className="transition hover:text-white">
-                      {CONTACT.email}
-                    </a>
-                  </li>
-                  <li>
-                    <span className="block text-[11px] uppercase tracking-[0.2em] text-neutral-500">{t.footer.contact.phoneLabel}</span>
-                    <a href={phoneHref} className="transition hover:text-white">
-                      {CONTACT.phone}
-                    </a>
-                  </li>
-                  <li>
-                    <span className="block text-[11px] uppercase tracking-[0.2em] text-neutral-500">{t.footer.contact.locationLabel}</span>
-                    <p className="text-neutral-300">{CONTACT.location}</p>
-                  </li>
-                </ul>
-                <div className="mt-4">
-                  <span className="block text-[11px] uppercase tracking-[0.2em] text-neutral-500">{t.footer.contact.socialsLabel}</span>
-                  <div className="mt-3 flex flex-wrap gap-3 text-sm">
-                    {SOCIALS.map((s) => (
-                      <a
-                        key={s.name}
-                        href={s.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="transition hover:text-white"
-                      >
-                        {s.name}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-neutral-800/60 pt-6 text-xs text-neutral-500">
-            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-              <div>© {new Date().getFullYear()} HügoLab. {t.footer.rights}</div>
-              <div className="flex flex-wrap items-center gap-4">
-                <span>{t.footer.builtBy}</span>
-                <a href="#top" className="transition hover:text-white">
-                  {t.langLabel === "FR" ? "Remonter" : "Back to top"}
-                </a>
-              </div>
-            </div>
+    <main className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-white">
+      <section className="bg-neutral-50 py-16 dark:bg-neutral-900">
+        <div className="mx-auto max-w-5xl px-4 text-center">
+          <p className="uppercase tracking-[0.3em] text-xs text-neutral-500 dark:text-neutral-400">{t.servicesPage.kicker}</p>
+          <h1 className="mt-3 text-3xl font-semibold md:text-4xl">{t.servicesPage.title}</h1>
+          <p className="mt-4 text-neutral-700 dark:text-neutral-300 md:text-lg">{t.servicesPage.desc}</p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <a
+              href={t.servicesPage.ctaPrimaryHref}
+              className="inline-flex items-center justify-center rounded-2xl bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-neutral-900 dark:bg-white dark:text-black dark:hover:bg-neutral-100"
+            >
+              {t.servicesPage.ctaPrimary}
+            </a>
+            <a
+              href={t.servicesPage.ctaSecondaryHref}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center rounded-2xl border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-800"
+            >
+              {t.servicesPage.ctaSecondary}
+            </a>
           </div>
         </div>
-      </div>
-    </footer>
+      </section>
+
+      <Services t={t} />
+
+      <PricingSection
+        briefFormUrl="https://tally.so/r/mJ7Zgd"
+        logoFormUrl="https://tally.so/r/mOveKp"
+        paymentLinks={{
+          starterDeposit: "https://buy.stripe.com/eVq6oJ8QC3SzdoH6LV8so00",
+          vitrineDeposit: "https://buy.stripe.com/5kQ6oJ7My0Gn1FZgmv8so01",
+          maintenance49: "https://buy.stripe.com/7sYdRbaYKagXbgz4DN8so02",
+          maintenance99: "https://buy.stripe.com/4gMaEZ7MygFl2K39Y78so03",
+        }}
+      />
+    </main>
   );
+}
+
+function WorkPage({ t }) {
+  return (
+    <main className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-white">
+      <section className="bg-neutral-50 py-16 dark:bg-neutral-900">
+        <div className="mx-auto max-w-4xl px-4 text-center">
+          <p className="uppercase tracking-[0.3em] text-xs text-neutral-500 dark:text-neutral-400">{t.workPage.kicker}</p>
+          <h1 className="mt-3 text-3xl font-semibold md:text-4xl">{t.workPage.title}</h1>
+          <p className="mt-4 text-neutral-700 dark:text-neutral-300 md:text-lg">{t.workPage.desc}</p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <a
+              href={t.workPage.ctaPrimaryHref}
+              className="inline-flex items-center justify-center rounded-2xl bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-neutral-900 dark:bg-white dark:text-black dark:hover:bg-neutral-100"
+            >
+              {t.workPage.ctaPrimary}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <Work t={t} />
+    </main>
+  );
+}
+
+function PricingRedirect() {
+  return <Navigate to="/#pricing" replace />;
+}
+
+function ContactRedirect() {
+  return <Navigate to="/#contact" replace />;
 }
 
 // --- Main component ----------------------------------------------------------
 export default function App() {
+  const [cookieConsent, setCookieConsent] = useState("unknown");
+  const [showCookieBanner, setShowCookieBanner] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const [lang, setLang] = useState("fr");
   const location = useLocation();
   const t = useMemo(() => STRINGS[lang], [lang]);
   const emailCopy = useMemo(() => getEmailTemplate(t.langLabel), [t.langLabel]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = getStoredConsent();
+    if (stored === "accept") {
+      setCookieConsent("accept");
+      initAnalytics();
+      setShowCookieBanner(false);
+    } else if (stored === "reject") {
+      setCookieConsent("reject");
+      disableAnalytics();
+      setShowCookieBanner(false);
+    } else {
+      setShowCookieBanner(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const openHandler = () => setShowCookieBanner(true);
+    if (typeof window === "undefined") return undefined;
+    window.addEventListener("hlab-open-cookie-banner", openHandler);
+    return () => window.removeEventListener("hlab-open-cookie-banner", openHandler);
+  }, []);
+
+  useEffect(() => {
+    if (cookieConsent === "accept") {
+      initAnalytics();
+    }
+    if (cookieConsent === "reject") {
+      disableAnalytics();
+    }
+  }, [cookieConsent]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (location.hash) {
@@ -1122,6 +1572,24 @@ export default function App() {
     }
     window.scrollTo({ top: 0, left: 0 });
   }, [location.pathname, location.hash]);
+
+  const handleAcceptCookies = () => {
+    setCookieConsent("accept");
+    storeConsent("accept");
+    setShowCookieBanner(false);
+    initAnalytics();
+  };
+
+  const handleDeclineCookies = () => {
+    setCookieConsent("reject");
+    storeConsent("reject");
+    setShowCookieBanner(false);
+    disableAnalytics();
+  };
+
+  const handleManageCookies = () => {
+    setShowCookieBanner(true);
+  };
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-white">
@@ -1146,8 +1614,10 @@ export default function App() {
           element={
             <main>
               <Hero t={t} />
+              <WhyUs section={t.whyUs} />
+              <ServicesTeaser section={t.servicesTeaser} />
+              <ProcessSection section={t.process} />
               <Work t={t} />
-              <Services t={t} />
               <PricingSection 
               briefFormUrl="https://tally.so/r/mJ7Zgd"    // Brief site
               logoFormUrl="https://tally.so/r/mOveKp"     // Brief logo
@@ -1158,11 +1628,20 @@ export default function App() {
                 maintenance99:  "https://buy.stripe.com/4gMaEZ7MygFl2K39Y78so03", // Premium
               }}
               />
+              <AboutTeaser section={t.aboutTeaser} />
               <Contact t={t} />
             </main>
           }
         />
         <Route path="/about" element={<AboutPage t={t} />} />
+        <Route path="/services" element={<ServicesPage t={t} />} />
+        <Route path="/work" element={<WorkPage t={t} />} />
+        <Route path="/pricing" element={<PricingRedirect />} />
+        <Route path="/contact" element={<ContactRedirect />} />
+        <Route path="/mentions-legales" element={<MentionsLegales />} />
+        <Route path="/confidentialite" element={<Confidentialite />} />
+        <Route path="/cookies" element={<CookiesPage />} />
+        <Route path="/cgv" element={<CGV />} />
         {/* Pages démos */}
         <Route path="/demos/coup-de-pompe" element={<CoupDePompe />} />
         <Route path="/demos/le-deck-pedalos" element={<LeDeckPedalos />} />
@@ -1173,7 +1652,28 @@ export default function App() {
       </Routes>
 
       {/* Footer reste affiché partout */}
-      <Footer t={t} />
+      <FooterPro
+        t={t}
+        onManageCookies={handleManageCookies}
+        contact={CONTACT}
+        socials={SOCIALS}
+      />
+      {showScrollTop && (
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-6 right-6 z-40 inline-flex h-11 w-11 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-900 shadow-lg transition hover:-translate-y-1 hover:border-neutral-400 hover:shadow-xl dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
+          aria-label={lang === "fr" ? "Revenir en haut" : "Back to top"}
+        >
+          <ArrowUp className="h-4 w-4" />
+        </button>
+      )}
+      <CookieBanner
+        visible={showCookieBanner}
+        onAccept={handleAcceptCookies}
+        onDecline={handleDeclineCookies}
+        lang={t.langLabel}
+      />
     </div>
   );
 }

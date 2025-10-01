@@ -1,472 +1,594 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Bike,
+  Coffee,
+  MountainSnow,
+  Leaf,
+  MapPin,
+  Clock,
+  Phone,
+  Sparkles,
+  Thermometer,
+  Droplets,
+  ArrowRight,
+  ShieldCheck,
+  Sun,
+  Waves,
+  Flame,
+} from "lucide-react";
+
+const HERO_IMAGES = [
+  "https://images.unsplash.com/photo-1525104698733-6cc5cab3c08f?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1503777119540-ce54b422baff?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1504309092620-4ddc028b0c8a?auto=format&fit=crop&w=1600&q=80",
+];
+
+const copy = {
+  fr: {
+    badge: "Location vélos · Snack · Sauna",
+    brand: "Au Coup de Pompe",
+    nav: [
+      { id: "services", label: "Services" },
+      { id: "menu", label: "Menu" },
+      { id: "experience", label: "Expérience" },
+      { id: "tarifs", label: "Tarifs" },
+      { id: "infos", label: "Infos pratiques" },
+    ],
+    hero: {
+      kicker: "Au départ de la voie verte d’Annecy",
+      title: "Vélos, smoothies, sauna : tout pour une journée parfaite à Doussard",
+      sub: "Réservation instantanée, matériel inclus, retour détente au sauna scandinave. On s’occupe du reste, vous profitez.",
+      primary: "Réserver un vélo",
+      secondary: "Télécharger la brochure",
+    },
+    stats: [
+      { value: "120+", label: "itinéraires testés" },
+      { value: "12", label: "vélos premium" },
+      { value: "2", label: "espaces bien-être" },
+    ],
+    services: {
+      title: "Ce que nous proposons",
+      items: [
+        {
+          title: "Location vélo & gravels",
+          text: "VTC, VAE, tandem. Casques, antivols et appli guidée inclus.",
+          icon: Bike,
+        },
+        {
+          title: "Snack local & bar vitaminé",
+          text: "Smoothies minute, tartines chaudes, terrasses à l’ombre. Produits d’artisans locaux.",
+          icon: Coffee,
+        },
+        {
+          title: "Sauna & bain nordique",
+          text: "Relaxation scandinave privatisable. Parfait après la sortie vélo ou paddle.",
+          icon: MountainSnow,
+        },
+      ],
+    },
+    highlights: [
+      { icon: ShieldCheck, title: "Brief minute", text: "Itinéraires adaptés, météo du jour, consignes sécurité." },
+      { icon: Sun, title: "Terrasse plein sud", text: "Chaises longues, prises USB, playlists chill." },
+      { icon: Waves, title: "À 50 m du lac", text: "Accès direct plage, douche extérieure et vestiaires." },
+    ],
+    menu: {
+      title: "Carte courte & de saison",
+      list: [
+        { name: "Tartine du moment", desc: "Pain levain, charcuterie locale, pickles maison" },
+        { name: "Bowl vitaminé", desc: "Granola croquant, yaourt fermier, fruits frais" },
+        { name: "Smoothie lac bleu", desc: "Myrtille, banane, menthe, sirop agave" },
+        { name: "Boisson glacée maison", desc: "Citron verveine, infusion glacée, option pétillante" },
+        { name: "Snack sportif", desc: "Barre énergétique maison et shot de gingembre" },
+        { name: "Glaces artisanales", desc: "3 parfums du glacier voisin" },
+      ],
+    },
+    experience: {
+      title: "Parcours conseillé : 3h d’expérience",
+      steps: [
+        {
+          title: "09:30 — Picking & briefing",
+          text: "On choisit le vélo, réglage express, itinéraire Garmin préchargé.",
+          icon: Sparkles,
+        },
+        {
+          title: "10:00 — Boucle panoramique",
+          text: "20 km autour du lac, spots baignade repérés par l’équipe.",
+          icon: Leaf,
+        },
+        {
+          title: "12:00 — Pause snack",
+          text: "Smoothie + tartine sur la terrasse ensoleillée.",
+          icon: Droplets,
+        },
+        {
+          title: "12:45 — Sauna & bain nordique",
+          text: "15 min sauna sec + douche froide + relaxation au bain nordique.",
+          icon: Thermometer,
+        },
+      ],
+    },
+    pricing: {
+      title: "Tarifs & options",
+      cards: [
+        {
+          title: "Vélo gravel premium",
+          price: "39 €",
+          badge: "2h",
+          points: ["Casque + antivol inclus", "Appli d’itinéraires", "Brief personnalisé"],
+        },
+        {
+          title: "Pack journée complète",
+          price: "69 €",
+          badge: "Best seller",
+          points: ["Vélo + boisson + snack", "Sauna & bain nordique 30 min", "Serviette & sac étanche"],
+        },
+        {
+          title: "After-ride détente",
+          price: "25 €",
+          badge: "Bien-être",
+          points: ["Sauna finlandais 20 min", "Bain nordique", "Tisane maison"],
+        },
+      ],
+    },
+    info: {
+      title: "Infos pratiques",
+      address: "400 route du Taillefer, Doussard",
+      hours: "Ouvert 09:00 – 18:30 (selon météo)",
+      phone: "+33 6 99 19 37 85",
+      mapCta: "Voir sur Google Maps",
+    },
+    footerCta: "Réserver maintenant",
+  },
+  en: {
+    badge: "Bike rental · Snack · Sauna",
+    brand: "Au Coup de Pompe",
+    nav: [
+      { id: "services", label: "Services" },
+      { id: "menu", label: "Menu" },
+      { id: "experience", label: "Experience" },
+      { id: "tarifs", label: "Pricing" },
+      { id: "infos", label: "Info" },
+    ],
+    hero: {
+      kicker: "Right on Annecy’s cycle path",
+      title: "Bikes, smoothies, sauna — the full day-out experience",
+      sub: "Instant booking, gear included, Scandinavian sauna to recover. We handle logistics so you can just enjoy.",
+      primary: "Book a bike",
+      secondary: "Download brochure",
+    },
+    stats: [
+      { value: "120+", label: "routes scouted" },
+      { value: "12", label: "premium bikes" },
+      { value: "2", label: "relax areas" },
+    ],
+    services: {
+      title: "What’s included",
+      items: [
+        {
+          title: "Gravel & city bikes",
+          text: "E-bikes, tandems, helmets, locks and GPS routes included.",
+          icon: Bike,
+        },
+        {
+          title: "Local fuel bar",
+          text: "Fresh smoothies, hot tartines, artisan coffee on a sunny deck.",
+          icon: Coffee,
+        },
+        {
+          title: "Private sauna",
+          text: "Nordic sauna + hot tub to recover after the ride or paddle.",
+          icon: MountainSnow,
+        },
+      ],
+    },
+    highlights: [
+      { icon: ShieldCheck, title: "Quick briefing", text: "Routes matched to your level, daily weather tips." },
+      { icon: Sun, title: "Sunny deck", text: "Loungers, USB plugs and curated playlists." },
+      { icon: Waves, title: "50 m from the lake", text: "Direct access to the beach, showers and lockers." },
+    ],
+    menu: {
+      title: "Minimal, seasonal menu",
+      list: [
+        { name: "Signature tartine", desc: "Sourdough, local charcuterie, house pickles" },
+        { name: "Energy bowl", desc: "Homemade granola, farm yoghurt, seasonal fruits" },
+        { name: "Blue smoothie", desc: "Blueberry, banana, mint, agave" },
+        { name: "Cold brew spritz", desc: "Citrus, verveine, sparkling water" },
+        { name: "Post-ride bites", desc: "Homemade energy bar & ginger shot" },
+        { name: "Artisan ice cream", desc: "Three flavours from local maker" },
+      ],
+    },
+    experience: {
+      title: "Suggested 3h itinerary",
+      steps: [
+        {
+          title: "09:30 — Setup & briefing",
+          text: "Pick the bike, fine tune the fit, load the Garmin route.",
+          icon: Sparkles,
+        },
+        {
+          title: "10:00 — Scenic loop",
+          text: "20 km ride with curated stops for swimming and photo spots.",
+          icon: Leaf,
+        },
+        {
+          title: "12:00 — Deck snack",
+          text: "Smoothie + tartine on the sunny deck with panoramic views.",
+          icon: Droplets,
+        },
+        {
+          title: "12:45 — Sauna reset",
+          text: "Nordic sauna, cold rinse and hot tub to recover like a pro.",
+          icon: Thermometer,
+        },
+      ],
+    },
+    pricing: {
+      title: "Pricing & add-ons",
+      cards: [
+        {
+          title: "Premium gravel",
+          price: "€39",
+          badge: "2h",
+          points: ["Helmet + lock", "Curated routes", "Personal briefing"],
+        },
+        {
+          title: "Full day escape",
+          price: "€69",
+          badge: "Best seller",
+          points: ["Bike + drink + snack", "Sauna & hot tub", "Towel & dry bag"],
+        },
+        {
+          title: "After ride care",
+          price: "€25",
+          badge: "Wellness",
+          points: ["Nordic sauna", "Hot tub", "Herbal tea"],
+        },
+      ],
+    },
+    info: {
+      title: "Good to know",
+      address: "400 route du Taillefer, Doussard",
+      hours: "Open 09:00 – 18:30 (weather dependent)",
+      phone: "+33 6 99 19 37 85",
+      mapCta: "Open Google Maps",
+    },
+    footerCta: "Book now",
+  },
+};
+
+const fade = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i = 1) => ({ opacity: 1, y: 0, transition: { delay: 0.12 * i, duration: 0.6, ease: "easeOut" } }),
+};
+
+function SectionTitle({ kicker, title, align = "left" }) {
+  return (
+    <div className={`mb-10 ${align === "center" ? "text-center" : "text-left"}`}>
+      <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-400">{kicker}</span>
+      <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white md:text-3xl">{title}</h2>
+    </div>
+  );
+}
 
 export default function CoupDePompe() {
-  // --- i18n ---------------------------------------------------------------
-  const I18N = useMemo(
-    () => ({
-      fr: {
-        tag: "Location vélos · Snack · Détente",
-        nav: { services: "Services", menu: "Menu", hours: "Horaires", contact: "Contact", reserve: "Réserver un vélo" },
-        hero: {
-          eyebrow: "Au bord de la piste cyclable",
-          h1: "Location de vélos, snack & détente à Doussard (Lac d’Annecy)",
-          p:
-            "VTC, VAE, VTT, gravel & tandem. Smoothies, tartines & glaces. Sauna & bain nordique pour récupérer — le tout à deux pas du lac.",
-          ctaPrimary: "Réserver un vélo",
-          ctaGhost: "Voir le menu",
-        },
-        services: {
-          h2: "Nos services",
-          sub: "Tout pour une journée parfaite au bord du lac",
-          bikes: {
-            pill: "Location vélos",
-            h3: "VTC, VAE, VTT, route, gravel & tandem",
-            p: "Réservation en ligne, casques & antivols inclus. Conseil sur les plus belles boucles selon votre niveau.",
-          },
-          snack: {
-            pill: "Snack · Glacier",
-            h3: "Tartines, salades, smoothies & glaces",
-            p: "Produits simples et de saison. Terrasse ensoleillée, musique douce, ambiance conviviale.",
-          },
-          relax: {
-            pill: "Détente",
-            h3: "Sauna & bain nordique",
-            p: "Récupérez après la sortie : sauna sec et bain chaud (sur réservation). Terrain de pétanque à proximité.",
-          },
-          f1t: "Accès direct piste cyclable",
-          f1p: "Départ idéal pour les familles et les sportifs",
-          f2t: "Conseils & boucles",
-          f2p: "Itinéraires proches, points baignade, parkings",
-          f3t: "Réservation simple",
-          f3p: "Paiement sécurisé · confirmation immédiate",
-        },
-        menu: {
-          h2: "Menu — Exemples",
-          sub: "Carte simplifiée — susceptibles d’évoluer selon la saison",
-          i1t: "Tartine avocat & saumon",
-          i1p: "Pain de campagne, avocat, saumon, citron, petite salade",
-          i2t: "Salade César",
-          i2p: "Poulet, parmesan, croûtons, sauce maison",
-          i3t: "Panini mozzarella",
-          i3p: "Tomates, basilic, huile d’olive",
-          i4t: "Smoothies",
-          i4p: "Fruits frais pressés — mangue, fruits rouges, banane…",
-          i5t: "Glaces artisanales",
-          i5p: "Vanille, chocolat, pistache, sorbets du moment",
-          i6t: "Boissons",
-          i6p: "Eaux, softs, cafés · carte des boissons sur place",
-        },
-        hours: {
-          h2: "Horaires & accès",
-          sub: "Horaires indicatifs saison été — à confirmer selon météo/affluence",
-          h3: "Horaires",
-          mon: "Lun–Ven",
-          sat: "Samedi",
-          sun: "Dimanche",
-          note: "Hiver : horaires réduits. Appelez pour vérifier.",
-          addr: "Adresse",
-          phone: "Téléphone",
-        },
-        reserve: {
-          h2: "Réserver un vélo",
-          sub: "Réservation en ligne sécurisée — confirmation immédiate",
-          p1: "Choisissez votre vélo (VAE, VTT, VTC, gravel, tandem), vos dates et le point de retrait.",
-          p2: "Casques & antivols inclus. Paiement sécurisé.",
-          cta: "Aller à la réservation",
-        },
-        reviews: {
-          h2: "Ils ont aimé",
-          sub: "Extraits d’avis clients (Google/TripAdvisor)",
-          r1: "Tartine avocat-saumon excellente et terrasse très agréable après la balade à vélo.",
-          r2: "Équipe super sympa, bons conseils de parcours. Vélos en très bon état.",
-          r3: "Le sauna après la sortie, top pour récupérer. On reviendra !",
-        },
-        contact: { h2: "Contact & FAQ", sub: "Besoin d’un conseil ? Écrivez‑nous ou passez nous voir" },
-        faq: {
-          q1: "Faut‑il réserver à l’avance ?",
-          a1: "C’est conseillé en été et les week‑ends. En semaine, nous avons souvent des disponibilités.",
-          q2: "Livrez‑vous les vélos ?",
-          a2: "Sur demande et selon disponibilité. Contactez‑nous pour un devis.",
-          q3: "Y a‑t‑il des sièges enfants ?",
-          a3: "Oui, sièges & remorques enfants disponibles en option (quantités limitées).",
-        },
-        footer: { rights: "Tous droits réservés.", findUs: "Nous trouver", links: "Liens utiles" },
-        links: { reserve: "Réserver un vélo", menu: "Voir le menu", hours: "Horaires & accès" },
-      },
-      en: {
-        tag: "Bike rental · Snack · Relax",
-        nav: { services: "Services", menu: "Menu", hours: "Hours", contact: "Contact", reserve: "Book a bike" },
-        hero: {
-          eyebrow: "Right on the cycle path",
-          h1: "Bike rental, snack & spa in Doussard (Lake Annecy)",
-          p:
-            "City, e‑bikes, MTBs, gravel & tandems. Smoothies, tartines & ice cream. Sauna & hot tub to recover — steps from the lake.",
-          ctaPrimary: "Book a bike",
-          ctaGhost: "See the menu",
-        },
-        services: {
-          h2: "Our services",
-          sub: "Everything for a perfect lakeside day",
-          bikes: {
-            pill: "Bike rental",
-            h3: "City, e‑bikes, MTBs, road, gravel & tandem",
-            p: "Online booking, helmets & locks included. Route tips to match your level.",
-          },
-          snack: {
-            pill: "Snack · Ice cream",
-            h3: "Tartines, salads, smoothies & ice cream",
-            p: "Simple, seasonal products. Sunny terrace, laid‑back music, friendly vibe.",
-          },
-          relax: {
-            pill: "Relax",
-            h3: "Sauna & hot tub",
-            p: "Recover after your ride: dry sauna & hot tub (booking required). Petanque court nearby.",
-          },
-          f1t: "Direct access to cycle path",
-          f1p: "Perfect start for families & athletes",
-          f2t: "Tips & routes",
-          f2p: "Nearby loops, swim spots, parking",
-          f3t: "Easy booking",
-          f3p: "Secure payment · instant confirmation",
-        },
-        menu: {
-          h2: "Menu — Highlights",
-          sub: "Simplified selection — may vary by season",
-          i1t: "Avocado & salmon tartine",
-          i1p: "Country bread, avocado, salmon, lemon, side salad",
-          i2t: "Caesar salad",
-          i2p: "Chicken, parmesan, croutons, house dressing",
-          i3t: "Mozzarella panini",
-          i3p: "Tomatoes, basil, olive oil",
-          i4t: "Smoothies",
-          i4p: "Fresh fruits — mango, berries, banana…",
-          i5t: "Artisanal ice cream",
-          i5p: "Vanilla, chocolate, pistachio, seasonal sorbets",
-          i6t: "Drinks",
-          i6p: "Water, softs, coffee · full list on site",
-        },
-        hours: {
-          h2: "Hours & access",
-          sub: "Summer hours — may vary with weather/attendance",
-          h3: "Opening hours",
-          mon: "Mon–Fri",
-          sat: "Saturday",
-          sun: "Sunday",
-          note: "Winter: reduced hours. Please call to check.",
-          addr: "Address",
-          phone: "Phone",
-        },
-        reserve: {
-          h2: "Book a bike",
-          sub: "Secure online booking — instant confirmation",
-          p1: "Pick your bike (e‑bike, MTB, city, gravel, tandem), dates and pickup point.",
-          p2: "Helmets & locks included. Secure payment.",
-          cta: "Go to booking",
-        },
-        reviews: {
-          h2: "What guests say",
-          sub: "Highlights from Google/TripAdvisor",
-          r1: "Great avocado‑salmon tartine and a lovely terrace after our ride.",
-          r2: "Super friendly staff, great route tips. Bikes in excellent condition.",
-          r3: "Sauna after the ride was perfect. We’ll be back!",
-        },
-        contact: { h2: "Contact & FAQ", sub: "Need a tip? Drop by or send us a message" },
-        faq: {
-          q1: "Should I book in advance?",
-          a1: "Recommended in summer and on weekends. Weekdays often have availability.",
-          q2: "Do you deliver bikes?",
-          a2: "On request and subject to availability. Contact us for a quote.",
-          q3: "Do you have child seats?",
-          a3: "Yes, child seats & trailers available as options (limited quantities).",
-        },
-        footer: { rights: "All rights reserved.", findUs: "Find us", links: "Useful links" },
-        links: { reserve: "Book a bike", menu: "See the menu", hours: "Hours & access" },
-      },
-    }),
-    []
-  );
+  const [{ lang, content }, setLang] = useState(() => ({ lang: "fr", content: copy.fr }));
+  const [heroIndex, setHeroIndex] = useState(0);
 
-  const initialLang = (typeof navigator !== "undefined" && (navigator.language || "fr").toLowerCase().startsWith("en")) ? "en" : "fr";
-  const [lang, setLang] = useState(initialLang);
+  useMemo(() => {
+    const timer = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
-  // --- small effects ------------------------------------------------------
-  useEffect(() => {
-    // close mobile menu on route/lang change if you wire routing later
-  }, [lang]);
-
-  const t = I18N[lang];
-
-  // --- helpers ------------------------------------------------------------
-  const scrollToId = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+  const handleLangToggle = () => {
+    setLang((prev) => {
+      const nextLang = prev.lang === "fr" ? "en" : "fr";
+      return { lang: nextLang, content: copy[nextLang] };
+    });
   };
 
   return (
-    <div>
-      {/* Styles scoped to this component */}
-      <style>{`
-        :root{--blue:#0f3557;--blue2:#155a8a;--green:#1b7a6e;--sand:#f6efe7;--text:#1d1f24;--muted:#5d6875}
-        *{box-sizing:border-box}
-        body{margin:0}
-        .container{width:min(1120px,92%);margin-inline:auto}
-        header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(160%) blur(8px);background:rgba(255,255,255,.75);border-bottom:1px solid rgba(15,53,87,.08)}
-        .nav{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0}
-        .brand{display:flex;align-items:center;gap:.7rem}
-        .brandLogo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--green));display:grid;place-items:center;color:#fff;font-weight:800}
-        .brandName{font-family:Inter,system-ui,sans-serif;font-weight:800;color:var(--blue)}
-        .small{font-size:.92rem;color:#4a5563}
-        .muted{color:var(--muted)}
-        .navLinks{display:flex;gap:1rem;align-items:center}
-        .navLinks a{padding:.4rem .6rem;border-radius:10px;font-weight:600;color:var(--text);text-decoration:none}
-        .navLinks a:hover{background:rgba(15,53,87,.07)}
-        .pill{display:inline-block;padding:.18rem .5rem;border-radius:999px;background:#eef5fb;color:#0e3b61;font-weight:700;font-size:.8rem}
-        .langBtn{border:1px solid rgba(15,53,87,.15);background:#fff;padding:.35rem .6rem;border-radius:10px;font-weight:600;cursor:pointer}
-        .langBtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-        .burger{display:none;border:none;background:transparent;font-size:1.6rem}
-        @media (max-width:900px){.navLinks{display:none}.burger{display:block}}
-
-        .hero{position:relative;min-height:72vh;display:grid;place-items:center;color:#fff;background:#000}
-        .heroBg{position:absolute;inset:0;background:url('/img/hero.jpg') center/cover no-repeat}
-        .heroOv{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.55))}
-        .heroC{position:relative;padding:6rem 0;text-align:center}
-        .eyebrow{display:inline-block;margin-bottom:.8rem;padding:.2rem .6rem;border-radius:999px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);font-weight:700}
-        h1{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(1.6rem,6vw,3rem);margin:.3rem 0}
-        section{padding:3.8rem 0}
-        h2{font-family:Inter,system-ui,sans-serif;font-weight:800;color:var(--blue);margin:0 0 1.2rem}
-        .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-        @media (max-width:900px){.grid3{grid-template-columns:1fr}}
-        .card{background:#fff;border:1px solid rgba(15,53,87,.08);border-radius:16px;overflow:hidden;box-shadow:0 6px 28px rgba(15,53,87,.06)}
-        .img{aspect-ratio:16/10;background:#eee center/cover no-repeat}
-        .body{padding:1rem}
-        .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-        @media (max-width:900px){.features{grid-template-columns:1fr}}
-        .feature{padding:1rem;border-radius:16px;border:1px solid rgba(15,53,87,.08)}
-        .cta{display:inline-block;padding:.8rem 1.1rem;border-radius:12px;font-weight:800;text-decoration:none}
-        .primary{background:var(--sand);color:#0c2b46}
-        .ghost{border:1.5px solid rgba(255,255,255,.85);color:#fff;margin-left:.6rem}
-        .menu{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
-        @media (max-width:900px){.menu{grid-template-columns:1fr}}
-        .menuItem{display:flex;gap:.8rem;align-items:flex-start;padding:1rem;border:1px solid rgba(15,53,87,.08);border-radius:14px}
-        .dot{min-width:10px;min-height:10px;border-radius:50%;background:var(--green);margin-top:.4rem}
-        .hours{display:grid;grid-template-columns:1fr 1.2fr;gap:1rem}
-        @media (max-width:900px){.hours{grid-template-columns:1fr}}
-        table{width:100%;border-collapse:collapse}
-        td{padding:.55rem;border-bottom:1px dashed rgba(15,53,87,.1)}
-        .map{position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;border:1px solid rgba(15,53,87,.08)}
-        .map iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-        .review{padding:1rem;border:1px solid rgba(15,53,87,.08);border-radius:14px}
-        footer{background:var(--sand);padding:2rem 0;margin-top:2rem;border-top:1px solid rgba(15,53,87,.1)}
-        .footerGrid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:1rem}
-        @media (max-width:900px){.footerGrid{grid-template-columns:1fr}}
-      `}</style>
-
-      {/* Header */}
-      <header>
-        <nav className="container nav" aria-label="Primary">
-          <div className="brand">
-            <div className="brandLogo" aria-hidden>AC</div>
+    <div className="bg-slate-950 text-slate-100">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4">
+          <div className="flex items-center gap-3">
+            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-emerald-400 to-sky-500 text-lg font-black text-slate-950 shadow-lg">
+              CP
+            </div>
             <div>
-              <div className="brandName">Au Coup de Pompe</div>
-              <div className="small muted">{t.tag}</div>
+              <p className="text-base font-semibold tracking-tight">{content.brand}</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{content.badge}</p>
             </div>
           </div>
-          <div className="navLinks" role="menubar">
-            <a onClick={() => scrollToId("services")} role="menuitem">{t.nav.services}</a>
-            <a onClick={() => scrollToId("menu")} role="menuitem">{t.nav.menu}</a>
-            <a onClick={() => scrollToId("hours")} role="menuitem">{t.nav.hours}</a>
-            <a onClick={() => scrollToId("contact")} role="menuitem">{t.nav.contact}</a>
-            <a onClick={() => scrollToId("reserve")} className="pill" role="menuitem">{t.nav.reserve}</a>
-            <div style={{ display: "flex", gap: ".25rem", alignItems: "center" }} aria-label="Language switcher">
-              <button className={`langBtn ${lang === "fr" ? "active" : ""}`} onClick={() => setLang("fr")}>
-                FR
+          <nav className="hidden items-center gap-6 text-sm font-medium text-slate-200 lg:flex">
+            {content.nav.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  const target = document.getElementById(item.id);
+                  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="transition hover:text-emerald-300"
+              >
+                {item.label}
               </button>
-              <button className={`langBtn ${lang === "en" ? "active" : ""}`} onClick={() => setLang("en")}>
-                EN
-              </button>
-            </div>
+            ))}
+          </nav>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleLangToggle}
+              className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:border-emerald-400 hover:text-emerald-300"
+            >
+              {lang === "fr" ? "EN" : "FR"}
+            </button>
+            <a
+              href="https://cal.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden rounded-full bg-emerald-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300 lg:inline-flex"
+            >
+              {lang === "fr" ? "Réserver" : "Book"}
+            </a>
           </div>
-          <button className="burger" aria-label="Menu" aria-expanded="false">☰</button>
-        </nav>
+        </div>
       </header>
 
-      {/* Hero */}
-      <section className="hero" id="home" aria-label="Hero">
-        <div className="heroBg" aria-hidden />
-        <div className="heroOv" aria-hidden />
-        <div className="heroC container">
-          <span className="eyebrow">{t.hero.eyebrow}</span>
-          <h1>{t.hero.h1}</h1>
-          <p style={{ maxWidth: 720, margin: ".5rem auto 1.2rem", color: "#e6eef7" }}>{t.hero.p}</p>
-          <div>
-            <a href="#reserve" className="cta primary">{t.hero.ctaPrimary}</a>
-            <a href="#menu" className="cta ghost">{t.hero.ctaGhost}</a>
-          </div>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section id="services" className="container">
-        <h2>{t.services.h2}</h2>
-        <p className="muted" style={{ marginTop: -12 }}>{t.services.sub}</p>
-        <div className="grid3">
-          <article className="card">
-            <div className="img" style={{ backgroundImage: "url('/img/velo.jpg')" }} />
-            <div className="body">
-              <span className="pill">{t.services.bikes.pill}</span>
-              <h3>{t.services.bikes.h3}</h3>
-              <p>{t.services.bikes.p}</p>
-            </div>
-          </article>
-          <article className="card">
-            <div className="img" style={{ backgroundImage: "url('/img/snack.jpg')" }} />
-            <div className="body">
-              <span className="pill">{t.services.snack.pill}</span>
-              <h3>{t.services.snack.h3}</h3>
-              <p>{t.services.snack.p}</p>
-            </div>
-          </article>
-          <article className="card">
-            <div className="img" style={{ backgroundImage: "url('/img/sauna.jpg')" }} />
-            <div className="body">
-              <span className="pill">{t.services.relax.pill}</span>
-              <h3>{t.services.relax.h3}</h3>
-              <p>{t.services.relax.p}</p>
-            </div>
-          </article>
-        </div>
-        <div className="features" style={{ marginTop: 16 }}>
-          <div className="feature">
-            <strong>{t.services.f1t}</strong>
-            <div className="muted">{t.services.f1p}</div>
-          </div>
-          <div className="feature">
-            <strong>{t.services.f2t}</strong>
-            <div className="muted">{t.services.f2p}</div>
-          </div>
-          <div className="feature">
-            <strong>{t.services.f3t}</strong>
-            <div className="muted">{t.services.f3p}</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Menu */}
-      <section id="menu" className="container" aria-label="Menu">
-        <h2>{t.menu.h2}</h2>
-        <p className="muted" style={{ marginTop: -12 }}>{t.menu.sub}</p>
-        <div className="menu">
-          {[{ t: t.menu.i1t, p: t.menu.i1p }, { t: t.menu.i2t, p: t.menu.i2p }, { t: t.menu.i3t, p: t.menu.i3p }, { t: t.menu.i4t, p: t.menu.i4p }, { t: t.menu.i5t, p: t.menu.i5p }, { t: t.menu.i6t, p: t.menu.i6p }].map((m, i) => (
-            <div className="menuItem" key={i}>
-              <span className="dot" />
-              <div>
-                <strong>{m.t}</strong>
-                <div className="muted">{m.p}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Hours & access */}
-      <section id="hours" className="container">
-        <h2>{t.hours.h2}</h2>
-        <p className="muted" style={{ marginTop: -12 }}>{t.hours.sub}</p>
-        <div className="hours">
-          <div className="card" style={{ padding: 16 }}>
-            <h3 style={{ marginTop: 0 }}>{t.hours.h3}</h3>
-            <table aria-label="Opening hours">
-              <tbody>
-                <tr><td>{t.hours.mon}</td><td>09:00 – 18:30</td></tr>
-                <tr><td>{t.hours.sat}</td><td>09:00 – 18:30</td></tr>
-                <tr><td>{t.hours.sun}</td><td>09:00 – 18:30</td></tr>
-              </tbody>
-            </table>
-            <p className="small muted">{t.hours.note}</p>
-            <hr style={{ border: "none", borderTop: "1px solid rgba(15,53,87,.08)", margin: ".8rem 0" }} />
-            <p><strong>{t.hours.addr}</strong> — 400 route du Taillefer, 74210 Doussard</p>
-            <p><strong>{t.hours.phone}</strong> — <a href="tel:+33699193785">06 99 19 37 85</a></p>
-          </div>
-          <div className="map">
-            <iframe
-              title="Google Map"
-              loading="lazy"
-              allowFullScreen
-              src="https://www.google.com/maps?q=400%20route%20du%20Taillefer%2074210%20Doussard&output=embed"
+      <main className="relative">
+        <section className="relative isolate overflow-hidden">
+          <div className="absolute inset-0">
+            <motion.div
+              key={heroIndex}
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2 }}
+              className="absolute inset-0"
+              style={{ backgroundImage: `url(${HERO_IMAGES[heroIndex]})`, backgroundSize: "cover", backgroundPosition: "center" }}
             />
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/70 to-slate-950" />
           </div>
-        </div>
-      </section>
-
-      {/* Reserve */}
-      <section id="reserve" className="container" aria-label="Reserve">
-        <h2>{t.reserve.h2}</h2>
-        <p className="muted" style={{ marginTop: -12 }}>{t.reserve.sub}</p>
-        <div className="card" style={{ padding: 10, display: "flex", flexWrap: "wrap", gap: 16, alignItems: "center", justifyContent: "space-between" }}>
-          <div>
-            <p style={{ margin: ".2rem 0" }}>{t.reserve.p1}</p>
-            <p className="muted" style={{ margin: ".2rem 0" }}>{t.reserve.p2}</p>
-          </div>
-          <a className="cta primary" href="https://lokki.app/your-shop-or-real-url" target="_blank" rel="noopener noreferrer">{t.reserve.cta}</a>
-        </div>
-      </section>
-
-      {/* Reviews */}
-      <section id="reviews" className="container" aria-label="Avis">
-        <h2>{t.reviews.h2}</h2>
-        <p className="muted" style={{ marginTop: -12 }}>{t.reviews.sub}</p>
-        <div className="grid3">
-          <div className="review"><strong>★ ★ ★ ★ ☆</strong><br />{t.reviews.r1}</div>
-          <div className="review"><strong>★ ★ ★ ★ ★</strong><br />{t.reviews.r2}</div>
-          <div className="review"><strong>★ ★ ★ ★ ☆</strong><br />{t.reviews.r3}</div>
-        </div>
-      </section>
-
-      {/* Contact & FAQ */}
-      <section id="contact" className="container" aria-label="Contact & FAQ">
-        <h2>{t.contact.h2}</h2>
-        <p className="muted" style={{ marginTop: -12 }}>{t.contact.sub}</p>
-        <div className="features">
-          <div className="feature">
-            <strong>{t.faq.q1}</strong>
-            <div className="muted">{t.faq.a1}</div>
-          </div>
-          <div className="feature">
-            <strong>{t.faq.q2}</strong>
-            <div className="muted">{t.faq.a2}</div>
-          </div>
-          <div className="feature">
-            <strong>{t.faq.q3}</strong>
-            <div className="muted">{t.faq.a3}</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer>
-        <div className="container footerGrid">
-          <div>
-            <div className="brand" style={{ gap: ".6rem" }}>
-              <div className="brandLogo" aria-hidden>AC</div>
-              <div>
-                <div className="brandName">Au Coup de Pompe</div>
-                <div className="small muted">{t.tag}</div>
+          <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-20 lg:grid-cols-[1.2fr_0.8fr] lg:py-28">
+            <motion.div initial="hidden" animate="visible" variants={fade}>
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-emerald-200">
+                {content.hero.kicker}
+              </span>
+              <h1 className="mt-4 text-3xl font-semibold leading-tight text-white md:text-5xl">
+                {content.hero.title}
+              </h1>
+              <p className="mt-4 max-w-xl text-base text-slate-200 md:text-lg">
+                {content.hero.sub}
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="https://cal.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-emerald-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-400/40 transition hover:bg-emerald-300"
+                >
+                  <Bike className="h-4 w-4" />
+                  {content.hero.primary}
+                </a>
+                <a
+                  href="https://drive.google.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-emerald-300 hover:text-emerald-200"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                  {content.hero.secondary}
+                </a>
               </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.7 }}
+              className="grid gap-4"
+            >
+              {content.stats.map((stat, idx) => (
+                <div key={stat.label} className="rounded-2xl border border-white/15 bg-white/5 px-6 py-5 backdrop-blur transition hover:border-emerald-300/60">
+                  <div className="text-3xl font-semibold text-white">{stat.value}</div>
+                  <p className="text-xs uppercase tracking-[0.28em] text-slate-300">{stat.label}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        <section id="services" className="mx-auto max-w-6xl px-4 py-20">
+          <SectionTitle kicker={lang === "fr" ? "Services" : "Services"} title={content.services.title} />
+          <div className="grid gap-6 md:grid-cols-3">
+            {content.services.items.map((item, idx) => (
+              <motion.div
+                key={item.title}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fade}
+                custom={idx + 1}
+                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5"
+              >
+                <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-400 text-slate-950">
+                  <item.icon className="h-5 w-5" />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{item.title}</h3>
+                <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">{item.text}</p>
+              </motion.div>
+            ))}
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {content.highlights.map((highlight, idx) => (
+              <motion.div
+                key={highlight.title}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fade}
+                custom={idx + 1}
+                className="flex items-start gap-3 rounded-2xl border border-slate-200/60 bg-white/60 px-5 py-4 shadow-sm dark:border-white/10 dark:bg-white/10"
+              >
+                <highlight.icon className="mt-1 h-5 w-5 text-emerald-400" />
+                <div>
+                  <p className="font-semibold text-slate-900 dark:text-white">{highlight.title}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-300">{highlight.text}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        <section id="menu" className="bg-slate-900/90 py-20">
+          <div className="mx-auto max-w-6xl px-4">
+            <SectionTitle kicker={lang === "fr" ? "Snack" : "Cafe"} title={content.menu.title} align="center" />
+            <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-2">
+              {content.menu.list.map((item, idx) => (
+                <motion.div
+                  key={item.name}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fade}
+                  custom={idx + 1}
+                  className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-left shadow-sm"
+                >
+                  <p className="text-base font-semibold text-white">{item.name}</p>
+                  <p className="mt-1 text-sm text-slate-300">{item.desc}</p>
+                </motion.div>
+              ))}
             </div>
-            <p className="small" style={{ margin: ".6rem 0 0" }}>© {new Date().getFullYear()} · {t.footer.rights}</p>
           </div>
-          <div>
-            <strong>{t.footer.findUs}</strong>
-            <p className="small">400 route du Taillefer<br />74210 Doussard</p>
-            <p className="small"><a href="tel:+33699193785">06 99 19 37 85</a></p>
+        </section>
+
+        <section id="experience" className="mx-auto max-w-6xl px-4 py-20">
+          <SectionTitle kicker={lang === "fr" ? "Expérience" : "Experience"} title={content.experience.title} />
+          <div className="relative">
+            <div className="absolute left-8 top-0 hidden h-full border-l border-dashed border-emerald-300/60 md:block" />
+            <div className="space-y-8">
+              {content.experience.steps.map((step, idx) => (
+                <motion.div
+                  key={step.title}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fade}
+                  custom={idx + 1}
+                  className="relative ml-0 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 pr-8 shadow-sm md:ml-16 md:flex-row md:items-center dark:border-white/10 dark:bg-white/5"
+                >
+                  <div className="absolute -left-3 top-6 hidden h-6 w-6 rounded-full border-4 border-slate-50 bg-emerald-400 md:block" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-400 text-slate-900">
+                    <step.icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-900 dark:text-white">{step.title}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-300">{step.text}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
-          <div>
-            <strong>{t.footer.links}</strong>
-            <p className="small">
-              <a href="#reserve">{t.links.reserve}</a><br />
-              <a href="#menu">{t.links.menu}</a><br />
-              <a href="#hours">{t.links.hours}</a>
-            </p>
+        </section>
+
+        <section id="tarifs" className="bg-slate-900/85 py-20">
+          <div className="mx-auto max-w-6xl px-4">
+            <SectionTitle kicker={lang === "fr" ? "Tarifs" : "Pricing"} title={content.pricing.title} align="center" />
+            <div className="grid gap-6 md:grid-cols-3">
+              {content.pricing.cards.map((card, idx) => (
+                <motion.div
+                  key={card.title}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fade}
+                  custom={idx + 1}
+                  className="flex flex-col rounded-3xl border border-white/10 bg-white/5 p-6 text-white shadow-lg shadow-emerald-500/10"
+                >
+                  <span className="self-start rounded-full border border-white/20 px-3 py-1 text-xs uppercase tracking-[0.3em] text-emerald-200">
+                    {card.badge}
+                  </span>
+                  <h3 className="mt-3 text-lg font-semibold">{card.title}</h3>
+                  <p className="mt-1 text-3xl font-bold">{card.price}</p>
+                  <ul className="mt-6 space-y-2 text-sm text-slate-200">
+                    {card.points.map((point) => (
+                      <li key={point} className="flex items-start gap-2">
+                        <Flame className="mt-0.5 h-4 w-4 text-emerald-300" />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="https://cal.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-auto inline-flex items-center justify-center rounded-xl bg-emerald-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300"
+                  >
+                    {content.footerCta}
+                  </a>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="infos" className="mx-auto max-w-6xl px-4 py-20">
+          <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <SectionTitle kicker={lang === "fr" ? "Planifier sa venue" : "Before you come"} title={content.info.title} />
+              <ul className="space-y-4 text-sm text-slate-600 dark:text-slate-300">
+                <li className="flex items-center gap-3">
+                  <MapPin className="h-4 w-4 text-emerald-400" />
+                  {content.info.address}
+                </li>
+                <li className="flex items-center gap-3">
+                  <Clock className="h-4 w-4 text-emerald-400" />
+                  {content.info.hours}
+                </li>
+                <li className="flex items-center gap-3">
+                  <Phone className="h-4 w-4 text-emerald-400" />
+                  <a href="tel:+33699193785" className="hover:text-emerald-500">
+                    {content.info.phone}
+                  </a>
+                </li>
+              </ul>
+              <a
+                href="https://goo.gl/maps/3qJxYoKZyGX2"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-emerald-300 hover:text-emerald-400 dark:border-white/20 dark:text-white"
+              >
+                <ArrowRight className="h-4 w-4" />
+                {content.info.mapCta}
+              </a>
+            </div>
+            <div className="overflow-hidden rounded-3xl border border-slate-200 shadow-lg dark:border-white/10">
+              <iframe
+                title="Carte Au Coup de Pompe"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2796.094541138316!2d6.208240076330758!3d45.77795761230507!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478ba9e31e4ed62f%3A0x2b095b7b84b78723!2s400%20Rte%20du%20Taillefer%2C%2074210%20Doussard!5e0!3m2!1sfr!2sfr!4v1700000000000"
+                className="h-[320px] w-full"
+                loading="lazy"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-white/10 bg-slate-950/90 py-10">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-sm text-slate-400 md:flex-row md:justify-between">
+          <p>© {new Date().getFullYear()} Au Coup de Pompe</p>
+          <div className="flex items-center gap-3">
+            <a href="#services" className="transition hover:text-emerald-300">
+              {lang === "fr" ? "Services" : "Services"}
+            </a>
+            <a href="#menu" className="transition hover:text-emerald-300">
+              Menu
+            </a>
+            <a href="#tarifs" className="transition hover:text-emerald-300">
+              {lang === "fr" ? "Tarifs" : "Pricing"}
+            </a>
+            <a href="#infos" className="transition hover:text-emerald-300">
+              {lang === "fr" ? "Contact" : "Contact"}
+            </a>
           </div>
         </div>
       </footer>

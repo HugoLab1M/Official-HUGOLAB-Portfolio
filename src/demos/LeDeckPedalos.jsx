@@ -1,564 +1,591 @@
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import {
-  Waves, Anchor, CalendarClock, MapPin, Clock, Phone, Languages,
-  Users, Shield, Camera, Info, BadgeEuro, Sun, Wind
+  Waves,
+  Anchor,
+  CalendarClock,
+  MapPin,
+  Clock,
+  Phone,
+  Users,
+  Shield,
+  Camera,
+  Sun,
+  Wind,
+  Sailboat,
+  LifeBuoy,
+  ArrowRight,
+  Sparkles,
 } from "lucide-react";
 
-/* ========= UI Prims ========= */
-function Pill({ children }) {
+const HERO_GALLERY = [
+  "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1516744114303-9f8b5e80e9b4?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1526481280695-3c469f2f689d?auto=format&fit=crop&w=1600&q=80",
+];
+
+const copy = {
+  fr: {
+    badge: "Talloires · Lac d'Annecy",
+    brand: "Le Deck Pédalos",
+    hero: {
+      kicker: "Louer un pédalo n'a jamais été aussi fluide",
+      title: "Réservez depuis votre transat, embarquez en 2 minutes",
+      sub: "Disponibilités en temps réel, rappel SMS, matériel inclus. Vue panoramique sur la baie de Talloires.",
+      cta: "Réserver un créneau",
+      ghost: "Découvrir la flotte",
+    },
+    nav: [
+      { id: "concept", label: "Concept" },
+      { id: "flotte", label: "Flotte" },
+      { id: "disponibilites", label: "Disponibilités" },
+      { id: "tarifs", label: "Tarifs" },
+      { id: "infos", label: "Infos" },
+    ],
+    concept: {
+      title: "Une expérience signature",
+      features: [
+        {
+          icon: Waves,
+          title: "Départ en douceur",
+          text: "Zone embarquement dédiée, quai en bois et assistance à la mise à l'eau.",
+        },
+        {
+          icon: Sparkles,
+          title: "Service conciergerie",
+          text: "Glacière, enceinte Bluetooth, parasol : on prépare le pédalo selon vos envies.",
+        },
+        {
+          icon: Shield,
+          title: "Brief minute",
+          text: "Règles sécurité, météo, coins baignade du jour. Le tout en moins de 60 secondes.",
+        },
+      ],
+    },
+    fleet: {
+      title: "La flotte Le Deck",
+      cards: [
+        {
+          name: "Duo Chic",
+          desc: "Pédalo 2 places avec dossier premium, idéal pour un coucher de soleil.",
+          badge: "Nouveau",
+          image: "https://images.unsplash.com/photo-1523661149972-0becaca2016c?auto=format&fit=crop&w=800&q=80",
+        },
+        {
+          name: "Famille Lagoon",
+          desc: "4 places avec toboggan, idéal pour les tribus et les éclats de rire.",
+          badge: "Best-seller",
+          image: "https://images.unsplash.com/photo-1529059997568-3d847b1154de?auto=format&fit=crop&w=800&q=80",
+        },
+        {
+          name: "Sunset Premium",
+          desc: "6 places, banquettes lounge, glacière et enceinte intégrées.",
+          badge: "After-work",
+          image: "https://images.unsplash.com/photo-1506955666890-03edf97d85cc?auto=format&fit=crop&w=800&q=80",
+        },
+      ],
+    },
+    availability: {
+      title: "Disponibilités en live",
+      note: "Choisissez votre créneau, ajoutez vos options, payez sur place.",
+      sizes: ["Duo", "Famille", "Sunset"],
+      durations: ["30 min", "1 h", "1 h 30"],
+      footer: "Confirmation immédiate + rappel SMS 1h avant",
+    },
+    pricing: {
+      title: "Tarifs & options",
+      cards: [
+        {
+          title: "Pédalo Duo",
+          price: "29 €",
+          includes: ["30 minutes", "Gilets & sac étanche", "Brief personnalisé"],
+        },
+        {
+          title: "Famille Lagoon",
+          price: "45 €",
+          includes: ["1 heure", "Parasol + glacière", "Photo Polaroid offerte"],
+        },
+        {
+          title: "Sunset Premium",
+          price: "69 €",
+          includes: ["1 heure", "Boisson artisanale", "Enceinte Bluetooth"],
+        },
+      ],
+    },
+    info: {
+      title: "Infos pratiques",
+      items: [
+        { icon: MapPin, label: "Point de départ", value: "Plage de Talloires, ponton privé" },
+        { icon: Clock, label: "Horaires", value: "10:00 – 19:30 (selon météo)" },
+        { icon: Phone, label: "Contact", value: "+33 4 58 00 00 01" },
+        { icon: Wind, label: "Vent", value: "Sorties ajustées, annulation offerte" },
+      ],
+    },
+    gallery: {
+      title: "Un aperçu depuis le ponton",
+    },
+    cta: "Réserver maintenant",
+  },
+  en: {
+    badge: "Talloires · Lake Annecy",
+    brand: "Le Deck Pedalos",
+    hero: {
+      kicker: "Boat feel, zero hassle",
+      title: "Book from your deckchair, embark in 2 minutes",
+      sub: "Live availability, SMS reminders, gear included. Panoramic views on Talloires bay.",
+      cta: "Book a slot",
+      ghost: "Meet the fleet",
+    },
+    nav: [
+      { id: "concept", label: "Concept" },
+      { id: "flotte", label: "Fleet" },
+      { id: "disponibilites", label: "Availability" },
+      { id: "tarifs", label: "Pricing" },
+      { id: "infos", label: "Info" },
+    ],
+    concept: {
+      title: "What makes the experience",
+      features: [
+        {
+          icon: Waves,
+          title: "Smooth boarding",
+          text: "Private dock, staff assistance and storage for your belongings.",
+        },
+        {
+          icon: Sparkles,
+          title: "Concierge touch",
+          text: "Cooler, Bluetooth speaker, parasol – prepped to match your vibes.",
+        },
+        {
+          icon: Shield,
+          title: "One-minute brief",
+          text: "Safety tips, weather insight, best swim spots of the day.",
+        },
+      ],
+    },
+    fleet: {
+      title: "Signature fleet",
+      cards: [
+        {
+          name: "Duo Chic",
+          desc: "Two-seater with plush backrests, perfect for golden hour rides.",
+          badge: "New",
+          image: "https://images.unsplash.com/photo-1523661149972-0becaca2016c?auto=format&fit=crop&w=800&q=80",
+        },
+        {
+          name: "Family Lagoon",
+          desc: "Four seats with slide, fun guaranteed for little tribes.",
+          badge: "Best seller",
+          image: "https://images.unsplash.com/photo-1529059997568-3d847b1154de?auto=format&fit=crop&w=800&q=80",
+        },
+        {
+          name: "Sunset Premium",
+          desc: "Six seats, lounge cushions, cooler and speaker included.",
+          badge: "After-work",
+          image: "https://images.unsplash.com/photo-1506955666890-03edf97d85cc?auto=format&fit=crop&w=800&q=80",
+        },
+      ],
+    },
+    availability: {
+      title: "Live availability",
+      note: "Pick a time slot, add extras, pay on site.",
+      sizes: ["Duo", "Family", "Sunset"],
+      durations: ["30 min", "1 h", "1 h 30"],
+      footer: "Instant confirmation + SMS reminder 1h before",
+    },
+    pricing: {
+      title: "Pricing & extras",
+      cards: [
+        {
+          title: "Duo Pedalo",
+          price: "€29",
+          includes: ["30 minutes", "Life jackets & dry bag", "Personal briefing"],
+        },
+        {
+          title: "Family Lagoon",
+          price: "€45",
+          includes: ["1 hour", "Parasol + cooler", "Instant Polaroid"],
+        },
+        {
+          title: "Sunset Premium",
+          price: "€69",
+          includes: ["1 hour", "Signature drink", "Bluetooth speaker"],
+        },
+      ],
+    },
+    info: {
+      title: "Good to know",
+      items: [
+        { icon: MapPin, label: "Departure", value: "Talloires beach, private pontoon" },
+        { icon: Clock, label: "Hours", value: "10:00 – 19:30 (weather permitting)" },
+        { icon: Phone, label: "Phone", value: "+33 4 58 00 00 01" },
+        { icon: Wind, label: "Weather", value: "Trips adjusted, free reschedule" },
+      ],
+    },
+    gallery: {
+      title: "From the deck",
+    },
+    cta: "Book now",
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i = 1) => ({ opacity: 1, y: 0, transition: { delay: i * 0.12, duration: 0.6, ease: "easeOut" } }),
+};
+
+function SectionTitle({ kicker, title, align = "left" }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-3 py-1 text-sm shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/10">
-      {children}
-    </span>
-  );
-}
-function Section({ children, className = "" }) {
-  return <section className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</section>;
-}
-function CTA({ label, href, onClick, variant = "primary" }) {
-  const base =
-    "inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold shadow-sm transition-transform hover:scale-[1.01] active:scale-[0.99] focus:outline-none focus:ring";
-  const styles = {
-    primary: { background: "linear-gradient(90deg,#0F172A,#334155)", color: "#fff" },
-    ghost: {},
-  };
-  if (href) return <a href={href} className={base} style={styles[variant]}>{label}</a>;
-  return <button onClick={onClick} className={base} style={styles[variant]}>{label}</button>;
-}
-function Card({ children, className = "" }) {
-  return (
-    <div className={`rounded-2xl border border-black/10 bg-white/80 p-5 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5 ${className}`}>
-      {children}
+    <div className={`mb-10 ${align === "center" ? "text-center" : "text-left"}`}>
+      <span className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-400/70">{kicker}</span>
+      <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white md:text-3xl">{title}</h2>
     </div>
   );
 }
 
-/* ========= Dark mode ========= */
-function useDarkMode(defaultOn = false) {
-  const [dark, setDark] = useState(defaultOn);
-  useEffect(() => {
-    const root = document.documentElement;
-    dark ? root.classList.add("dark") : root.classList.remove("dark");
-  }, [dark]);
-  return [dark, setDark];
-}
-function ThemeToggle() {
-  const [dark, setDark] = useDarkMode(false);
-  return (
-    <button
-      onClick={() => setDark(!dark)}
-      className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/5 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/10"
-      aria-label="Toggle theme"
-    >
-      {dark ? "Dark" : "Light"}
-    </button>
-  );
-}
-
-/* ========= Copy ========= */
-const copy = {
-  fr: {
-    brand: "Le Deck Pédalos",
-    sub: "Talloires • Plage",
-    nav: { booking: "Réserver", prices: "Tarifs", fleet: "Flotte", gallery: "Galerie", info: "Infos", faq: "FAQ", contact: "Contact" },
-    hero: {
-      kicker: "Vos pédalos au cœur du lac d’Annecy",
-      title: "Réservez en 3 clics. Profitez, on s’occupe du reste.",
-      subtitle: "Disponibilités en temps réel, rappel SMS et matériel fourni. Départs depuis la plage de Talloires.",
-      cta1: "Réserver un créneau",
-      cta2: "Voir les tarifs",
-    },
-    booking: {
-      title: "Réserver un pédalo",
-      date: "Date",
-      time: "Heure",
-      size: "Taille",
-      duration: "Durée",
-      name: "Nom",
-      phone: "Téléphone",
-      submit: "Valider la réservation",
-      summary: "Récapitulatif",
-      people: "places",
-      mins: "min",
-      hour: "h",
-      disclaimer: "Paiement sur place. Annulation gratuite jusqu’à 2h avant le départ.",
-    },
-    rates: {
-      title: "Tarifs & Options",
-      note: "Tarifs indicatifs – sujets à variation selon affluence.",
-      options: ["Gilets de sauvetage inclus", "Parasol (selon stock)", "Sac étanche"],
-    },
-    fleet: {
-      title: "Notre flotte",
-      items: [
-        { title: "Pédalo 2 places", desc: "Compact et facile à manœuvrer.", img: "/pedalos/2_v2.jpg" },
-        { title: "Pédalo 4 places", desc: "Le choix idéal en famille.", img: "/pedalos/3_v2.jpg" },
-        { title: "Pédalo 6 places", desc: "Grand plateau, convivial.", img: "/pedalos/4_v2.jpg" },
-      ],
-    },
-    why: {
-      bullets: [
-        { Icon: Shield, t: "Sécurité", d: "Brief rapide + gilets fournis." },
-        { Icon: BadgeEuro, t: "Simple & clair", d: "Réservation en ligne, paiement sur place." },
-        { Icon: Users, t: "Pour tous", d: "De 2 à 6 places, enfants bienvenus." },
-        { Icon: Camera, t: "Souvenirs", d: "Prêt de sac étanche pour le téléphone." },
-      ],
-    },
-    gallery: { title: "Galerie" },
-    info: {
-      title: "Infos pratiques",
-      items: [
-        { Icon: MapPin, text: "Plage de Talloires — parking à proximité" },
-        { Icon: Clock, text: "Ouvert 10:00 – 19:00 (météo)" },
-        { Icon: Sun, text: "Crème solaire et eau recommandées" },
-        { Icon: Wind, text: "Sorties ajustées selon le vent" },
-      ],
-    },
-    faq: {
-      title: "FAQ",
-      items: [
-        { q: "Faut-il savoir nager ?", a: "Oui, au moins le(s) pilote(s). Gilets disponibles pour tous." },
-        { q: "Âge minimum ?", a: "Aucun, les enfants sont sous la responsabilité des adultes." },
-        { q: "Annulation ?", a: "Gratuite jusqu’à 2h avant. En cas de météo défavorable, on reporte sans frais." },
-      ],
-    },
-    contact: {
-      title: "Contact",
-      phone: "+33 4 58 00 00 01",
-      address: "Plage de Talloires, 74290",
-      call: "Appeler",
-    },
-  },
-  en: {
-    brand: "Le Deck Pedalos",
-    sub: "Talloires • Beach",
-    nav: { booking: "Book", prices: "Pricing", fleet: "Fleet", gallery: "Gallery", info: "Info", faq: "FAQ", contact: "Contact" },
-    hero: {
-      kicker: "Your pedalos in the heart of Lake Annecy",
-      title: "Book in 3 clicks. We handle the rest.",
-      subtitle: "Real-time availability, SMS reminder and included gear. Departures from Talloires beach.",
-      cta1: "Book a slot",
-      cta2: "See pricing",
-    },
-    booking: {
-      title: "Book a pedalo",
-      date: "Date",
-      time: "Time",
-      size: "Size",
-      duration: "Duration",
-      name: "Name",
-      phone: "Phone",
-      submit: "Confirm booking",
-      summary: "Summary",
-      people: "seats",
-      mins: "min",
-      hour: "h",
-      disclaimer: "Pay on site. Free cancellation up to 2h before departure.",
-    },
-    rates: {
-      title: "Pricing & Options",
-      note: "Indicative prices — may vary with demand.",
-      options: ["Life jackets included", "Parasol (when available)", "Dry bag"],
-    },
-    fleet: {
-      title: "Our fleet",
-      items: [
-        { title: "2-seat pedalo", desc: "Compact, easy to handle.", img: "/pedalos/2_v2.jpg" },
-        { title: "4-seat pedalo", desc: "Perfect for families.", img: "/pedalos/3_v2.jpg" },
-        { title: "6-seat pedalo", desc: "Spacious deck for groups.", img: "/pedalos/4_v2.jpg" },
-      ],
-    },
-    why: {
-      bullets: [
-        { Icon: Shield, t: "Safety", d: "Quick brief + life jackets." },
-        { Icon: BadgeEuro, t: "Simple", d: "Online booking, pay on site." },
-        { Icon: Users, t: "For everyone", d: "2 to 6 seats, kids welcome." },
-        { Icon: Camera, t: "Memories", d: "Dry bag available for phones." },
-      ],
-    },
-    gallery: { title: "Gallery" },
-    info: {
-      title: "Good to know",
-      items: [
-        { Icon: MapPin, text: "Talloires beach — parking nearby" },
-        { Icon: Clock, text: "Open 10:00 – 19:00 (weather)" },
-        { Icon: Sun, text: "Sunscreen & water recommended" },
-        { Icon: Wind, text: "Trips adjusted with wind" },
-      ],
-    },
-    faq: {
-      title: "FAQ",
-      items: [
-        { q: "Do I need to know how to swim?", a: "Yes for at least the pilot(s). Life jackets available for all." },
-        { q: "Minimum age?", a: "No, kids must be supervised by adults." },
-        { q: "Cancellation?", a: "Free up to 2h before. If weather is bad, we reschedule for free." },
-      ],
-    },
-    contact: {
-      title: "Contact",
-      phone: "+33 4 58 00 00 01",
-      address: "Talloires beach, 74290",
-      call: "Call",
-    },
-  },
-};
-
-/* ========= Pricing engine ========= */
-const DURATIONS = ["30", "60", "120"]; // minutes
-const SIZES = ["2", "4", "6"]; // seats
-const RATES = {
-  "2": { "30": 12, "60": 22, "120": 40 },
-  "4": { "30": 18, "60": 25, "120": 48 },
-  "6": { "30": 22, "60": 32, "120": 60 },
-};
-const TIMES = ["10:00","10:30","11:00","11:30","12:00","14:00","14:30","15:00","16:00","16:30","17:00","18:00"];
-
-/* ========= Page ========= */
 export default function LeDeckPedalos() {
   const [lang, setLang] = useState("fr");
-  const t = copy[lang];
+  const content = copy[lang];
+  const [heroIndex, setHeroIndex] = useState(0);
+  const [selectedSize, setSelectedSize] = useState(0);
+  const [selectedDuration, setSelectedDuration] = useState(1);
 
-  // booking state
-  const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
-  const [time, setTime] = useState(TIMES[0]);
-  const [size, setSize] = useState("4");
-  const [dur, setDur] = useState("60");
-  const price = useMemo(() => RATES[size][dur], [size, dur]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % HERO_GALLERY.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#E9F6F8] to-white text-slate-900 dark:from-slate-950 dark:to-slate-900 dark:text-white">
-      {/* Decorative glow */}
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-60">
-        <div
-          className="absolute left-1/2 top-[-120px] h-[320px] w-[70vw] -translate-x-1/2 rounded-full blur-3xl"
-          style={{ background: "radial-gradient(ellipse at center,#22d3ee33,#ffffff00)" }}
-        />
-      </div>
-
-      {/* Header (single) */}
-      <header className="sticky top-0 z-40 border-b border-black/10 bg-white/80 backdrop-blur dark:border-white/10 dark:bg-slate-900/70">
-        <Section className="flex items-center justify-between py-3">
-          <a href="#top" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-sky-600 text-white">
-              <Waves size={18} />
+    <div className="bg-gradient-to-b from-cyan-950 via-slate-950 to-slate-950 text-white">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+          <div className="flex items-center gap-3">
+            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400 to-indigo-500 text-lg font-black text-slate-950 shadow-lg">
+              LD
             </div>
             <div>
-              <p className="text-lg font-semibold">{t.brand}</p>
-              <p className="text-xs opacity-70">{t.sub}</p>
+              <p className="text-base font-semibold tracking-tight">{content.brand}</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">{content.badge}</p>
             </div>
-          </a>
-
-          <nav className="hidden md:flex items-center gap-4 text-sm">
-            <a href="#booking" className="hover:opacity-80">{t.nav.booking}</a>
-            <a href="#prices" className="hover:opacity-80">{t.nav.prices}</a>
-            <a href="#fleet" className="hover:opacity-80">{t.nav.fleet}</a>
-            <a href="#gallery" className="hover:opacity-80">{t.nav.gallery}</a>
-            <a href="#info" className="hover:opacity-80">{t.nav.info}</a>
-            <a href="#faq" className="hover:opacity-80">{t.nav.faq}</a>
-            <a href="#contact" className="hover:opacity-80">{t.nav.contact}</a>
-
+          </div>
+          <nav className="hidden items-center gap-6 text-sm font-medium lg:flex">
+            {content.nav.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  const target = document.getElementById(item.id);
+                  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="text-slate-200 transition hover:text-cyan-200"
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/5 px-3 py-1 dark:border-white/10 dark:bg-white/10"
-              aria-label="Toggle language"
+              className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:border-cyan-300 hover:text-cyan-200"
             >
-              <Languages size={14} /> {lang.toUpperCase()}
+              {lang === "fr" ? "EN" : "FR"}
             </button>
-            <ThemeToggle />
-          </nav>
-        </Section>
+            <a
+              href="https://cal.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden rounded-full bg-cyan-300 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200 lg:inline-flex"
+            >
+              {lang === "fr" ? "Réserver" : "Book"}
+            </a>
+          </div>
+        </div>
       </header>
 
-      {/* Hero */}
-      <Section id="top" className="pt-10 pb-10">
-        <div className="grid items-center gap-8 md:grid-cols-2">
-          <div>
-            <Pill>
-              <Anchor size={16} /> {t.hero.kicker}
-            </Pill>
-            <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t.hero.title}</h1>
-            <p className="mt-3 max-w-prose text-sm opacity-80">{t.hero.subtitle}</p>
-            <div className="mt-6 flex gap-3">
-              <CTA label={t.hero.cta1} href="#booking" />
-              <a
-                href="#prices"
-                className="inline-flex items-center gap-2 rounded-xl border border-black/10 px-5 py-3 text-sm dark:border-white/10"
-              >
-                {t.hero.cta2}
-              </a>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3 opacity-90">
-              <Pill>
-                <MapPin size={14} /> Talloires — Plage
-              </Pill>
-              <Pill>
-                <Clock size={14} /> 10:00 – 19:00
-              </Pill>
-              <Pill>
-                <Phone size={14} /> {copy[lang].contact.phone}
-              </Pill>
-            </div>
-          </div>
-
-          {/* Hero visual with glow + ring */}
-          <div className="relative h-64 w-full overflow-hidden rounded-3xl md:h-80">
-            <div className="absolute inset-0 bg-[url('/pedalos/1_v2.jpg')] bg-cover bg-center" />
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-black/10 to-white/0 dark:from-black/40" />
-            <div className="absolute inset-0 rounded-3xl ring-1 ring-black/10 dark:ring-white/10" />
-          </div>
-        </div>
-      </Section>
-
-      {/* Wavy separator */}
-      <div className="relative -mt-6 mb-8" aria-hidden>
-        <svg viewBox="0 0 1440 90" className="h-[70px] w-full fill-white dark:fill-slate-900">
-          <path d="M0 0h1440v43c-120 24-240 36-360 36s-240-12-360-36S480 7 360 7 120 31 0 55V0Z" />
-        </svg>
-      </div>
-
-      {/* Booking */}
-      <Section id="booking" className="pb-10">
-        <Card>
-          <h3 className="mb-4 text-lg font-semibold">{t.booking.title}</h3>
-          <form
-            className="grid gap-4 md:grid-cols-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert("Request sent ✅");
-            }}
-          >
-            <div>
-              <label className="mb-1 block text-sm opacity-70">{t.booking.date}</label>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="w-full rounded-xl border border-black/10 px-3 py-2 dark:border-white/10 dark:bg-white/5"
-              />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm opacity-70">{t.booking.time}</label>
-              <select
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-                className="w-full rounded-xl border border-black/10 px-3 py-2 dark:border-white/10 dark:bg-white/5"
-              >
-                {TIMES.map((ti) => (
-                  <option key={ti}>{ti}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="mb-1 block text-sm opacity-70">{t.booking.size}</label>
-              <select
-                value={size}
-                onChange={(e) => setSize(e.target.value)}
-                className="w-full rounded-xl border border-black/10 px-3 py-2 dark:border-white/10 dark:bg-white/5"
-              >
-                {SIZES.map((s) => (
-                  <option key={s} value={s}>
-                    {s} {t.booking.people}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="mb-1 block text-sm opacity-70">{t.booking.duration}</label>
-              <select
-                value={dur}
-                onChange={(e) => setDur(e.target.value)}
-                className="w-full rounded-xl border border-black/10 px-3 py-2 dark:border-white/10 dark:bg-white/5"
-              >
-                {DURATIONS.map((m) => (
-                  <option key={m} value={m}>
-                    {m === "60" ? `1${t.booking.hour}` : `${m} ${t.booking.mins}`}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Summary */}
-            <div className="md:col-span-3">
-              <div className="rounded-xl border border-black/10 bg-white/70 p-4 text-sm dark:border-white/10 dark:bg-white/5">
-                <div className="flex flex-wrap items-center gap-3">
-                  <Pill>
-                    <CalendarClock size={14} /> {date} — {time}
-                  </Pill>
-                  <Pill>
-                    <Users size={14} /> {size} {t.booking.people}
-                  </Pill>
-                  <Pill>
-                    <Clock size={14} /> {dur === "60" ? `1${t.booking.hour}` : `${dur} ${t.booking.mins}`}
-                  </Pill>
-                  <Pill>
-                    <BadgeEuro size={14} /> {price}€
-                  </Pill>
-                </div>
-                <p className="mt-3 opacity-70">{t.booking.disclaimer}</p>
-              </div>
-            </div>
-
-            <div className="md:col-span-1 flex items-end">
-              <CTA label={t.booking.submit} />
-            </div>
-          </form>
-        </Card>
-      </Section>
-
-      {/* Fleet */}
-      <Section id="fleet" className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{copy[lang].fleet.title}</h2>
-        <div className="grid gap-5 md:grid-cols-3">
-          {copy[lang].fleet.items.map((f, i) => (
-            <Card key={i} className="overflow-hidden p-0">
-              <div className="h-40 w-full bg-cover bg-center" style={{ backgroundImage: `url('${f.img}')` }} />
-              <div className="p-5">
-                <p className="font-medium">{f.title}</p>
-                <p className="text-sm opacity-70">{f.desc}</p>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
-      {/* Why us */}
-      <Section className="pb-10">
-        <div className="grid gap-4 md:grid-cols-4">
-          {copy[lang].why.bullets.map((b, i) => (
-            <Card key={i}>
-              <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-sky-600 text-white">
-                  <b.Icon size={18} />
-                </div>
-                <div>
-                  <p className="font-medium">{b.t}</p>
-                  <p className="text-sm opacity-70">{b.d}</p>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
-      {/* Pricing */}
-      <Section id="prices" className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{copy[lang].rates.title}</h2>
-        <div className="grid gap-4 md:grid-cols-3">
-          {SIZES.map((s) => (
-            <Card key={s}>
-              <div className="flex items-center justify-between">
-                <p className="font-medium">
-                  {s} {t.booking.people}
-                </p>
-                <Pill>
-                  <Clock size={14} /> {t.booking.duration}
-                </Pill>
-              </div>
-              <ul className="mt-3 space-y-2 text-sm">
-                {DURATIONS.map((m) => (
-                  <li key={m} className="flex items-center justify-between">
-                    <span>{m === "60" ? `1${t.booking.hour}` : `${m} ${t.booking.mins}`}</span>
-                    <span className="font-semibold">{RATES[s][m]}€</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          ))}
-        </div>
-        <p className="mt-3 flex items-center gap-2 text-sm opacity-70">
-          <Info size={16} /> {copy[lang].rates.note}
-        </p>
-        <p className="mt-1 text-sm opacity-70">Options : {copy[lang].rates.options.join(" • ")}</p>
-      </Section>
-
-      {/* Gallery */}
-      <Section id="gallery" className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{copy[lang].gallery.title}</h2>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {[
-            "/pedalos/2_v2.jpg",
-            "/pedalos/3_v2.jpg",
-            "/pedalos/4_v2.jpg",
-            "/pedalos/5_v2.jpg",
-            "/pedalos/1_v2.jpg",
-            "/pedalos/3_v2.jpg",
-            "/pedalos/4_v2.jpg",
-            "/pedalos/2_v2.jpg",
-          ].map((src, i) => (
-            <div key={i} className="group relative aspect-[4/3] overflow-hidden rounded-xl">
-              <img
-                src={src}
-                alt={`pedalos ${i}`}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* Practical info + map */}
-      <Section id="info" className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{copy[lang].info.title}</h2>
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <ul className="space-y-2 text-sm">
-              {copy[lang].info.items.map((it, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <it.Icon className="mt-0.5" size={16} /> <span>{it.text}</span>
-                </li>
-              ))}
-            </ul>
-          </Card>
-          <div className="overflow-hidden rounded-2xl border border-black/10 shadow-sm dark:border-white/10">
-            <iframe
-              title="Talloires Beach"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=6.191%2C45.827%2C6.231%2C45.855&layer=mapnik&marker=45.842%2C6.209"
-              className="h-64 w-full"
+      <main>
+        <section className="relative isolate overflow-hidden">
+          <div className="absolute inset-0">
+            <motion.div
+              key={heroIndex}
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2 }}
+              className="absolute inset-0"
+              style={{ backgroundImage: `url(${HERO_GALLERY[heroIndex]})`, backgroundSize: "cover", backgroundPosition: "center" }}
             />
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-slate-950/80 to-slate-950" />
           </div>
-        </div>
-      </Section>
-
-      {/* FAQ */}
-      <Section id="faq" className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{copy[lang].faq.title}</h2>
-        <div className="grid gap-3 md:grid-cols-3">
-          {copy[lang].faq.items.map((f, i) => (
-            <Card key={i}>
-              <details>
-                <summary className="cursor-pointer list-none font-medium">{f.q}</summary>
-                <p className="mt-2 text-sm opacity-80">{f.a}</p>
-              </details>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
-      {/* Contact */}
-      <Section id="contact" className="pb-16">
-        <Card>
-          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-lg font-semibold">{copy[lang].contact.title}</p>
-              <p className="text-sm opacity-70">{copy[lang].contact.address}</p>
+          <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-24 lg:flex-row lg:items-center lg:py-28">
+            <div className="lg:w-3/5">
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">
+                {content.hero.kicker}
+              </span>
+              <h1 className="mt-4 text-3xl font-semibold leading-tight md:text-5xl">
+                {content.hero.title}
+              </h1>
+              <p className="mt-4 text-lg text-slate-200">{content.hero.sub}</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="https://cal.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-cyan-300 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-300/40 transition hover:bg-cyan-200"
+                >
+                  <Sailboat className="h-4 w-4" />
+                  {content.hero.cta}
+                </a>
+                <button
+                  onClick={() => document.getElementById("flotte")?.scrollIntoView({ behavior: "smooth" })}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-200 hover:text-cyan-200"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                  {content.hero.ghost}
+                </button>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              <a
-                href={`tel:${copy[lang].contact.phone.replace(/\s/g, "")}`}
-                className="rounded-xl border border-black/10 px-4 py-2 text-sm dark:border-white/10"
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.7 }}
+              className="relative flex flex-1 items-center justify-center"
+            >
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                className="relative h-56 w-full max-w-sm overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-5 backdrop-blur"
               >
-                <Phone className="mr-2 inline-block" size={14} />
-                {copy[lang].contact.call}
-              </a>
-              <CTA label={t.hero.cta1} href="#booking" />
+                <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-cyan-400/30 to-indigo-500/30" />
+                <div className="space-y-3 text-sm text-white/90">
+                  <div className="flex items-center justify-between">
+                    <p className="font-semibold">Sunset Premium</p>
+                    <span className="rounded-full bg-white/15 px-2 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">New</span>
+                  </div>
+                  <div className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-2">
+                    <CalendarClock className="h-4 w-4 text-cyan-200" />
+                    <span>18:00 — 19:30</span>
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="flex items-center gap-2 text-xs text-white/80">
+                      <LifeBuoy className="h-4 w-4 text-cyan-200" />
+                      <span>Gilets kids & adultes fournis</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-white/80">
+                      <Camera className="h-4 w-4 text-cyan-200" />
+                      <span>Photo souvenir offerte</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-white/80">
+                      <Users className="h-4 w-4 text-cyan-200" />
+                      <span>6 personnes</span>
+                    </div>
+                  </div>
+                  <button className="w-full rounded-2xl bg-cyan-300 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200">
+                    {content.cta}
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
+        <section id="concept" className="mx-auto max-w-6xl px-4 py-20">
+          <SectionTitle kicker={lang === "fr" ? "Concept" : "Concept"} title={content.concept.title} />
+          <div className="grid gap-6 md:grid-cols-3">
+            {content.concept.features.map((feature, idx) => (
+              <motion.div
+                key={feature.title}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={cardVariants}
+                custom={idx + 1}
+                className="rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur transition hover:-translate-y-1 hover:border-cyan-300/60"
+              >
+                <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-300/20 text-cyan-100">
+                  <feature.icon className="h-5 w-5" />
+                </div>
+                <p className="text-lg font-semibold text-white">{feature.title}</p>
+                <p className="mt-2 text-sm text-cyan-100/80">{feature.text}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        <section id="flotte" className="bg-white py-20 text-slate-900">
+          <div className="mx-auto max-w-6xl px-4">
+            <SectionTitle kicker={lang === "fr" ? "Flotte" : "Fleet"} title={content.fleet.title} align="center" />
+            <div className="grid gap-6 md:grid-cols-3">
+              {content.fleet.cards.map((card, idx) => (
+                <motion.div
+                  key={card.name}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={cardVariants}
+                  custom={idx + 1}
+                  className="group overflow-hidden rounded-3xl border border-slate-200 shadow-lg transition hover:-translate-y-2"
+                >
+                  <div
+                    className="h-48 w-full bg-cover bg-center transition duration-700 group-hover:scale-105"
+                    style={{ backgroundImage: `url(${card.image})` }}
+                  />
+                  <div className="flex flex-col gap-3 p-5">
+                    <span className="self-start rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-white/80">
+                      {card.badge}
+                    </span>
+                    <p className="text-lg font-semibold text-slate-900">{card.name}</p>
+                    <p className="text-sm text-slate-600">{card.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
-        </Card>
-      </Section>
+        </section>
 
-      <footer className="border-t border-black/10 py-8 text-center text-sm opacity-70 dark:border-white/10">
-        © {new Date().getFullYear()} Le Deck Pédalos — Démo HugoLab
+        <section id="disponibilites" className="relative overflow-hidden py-20">
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(94,234,212,0.12),_transparent_55%)]" />
+          <div className="mx-auto max-w-4xl rounded-3xl border border-white/15 bg-white/10 p-8 text-white backdrop-blur">
+            <SectionTitle kicker={lang === "fr" ? "Réservation" : "Booking"} title={content.availability.title} align="center" />
+            <p className="mx-auto mb-8 max-w-xl text-center text-sm text-cyan-100/80">{content.availability.note}</p>
+            <div className="grid gap-4 md:grid-cols-2">
+              <fieldset className="space-y-3">
+                <legend className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">{lang === "fr" ? "Taille" : "Size"}</legend>
+                <div className="flex flex-wrap gap-2">
+                  {content.availability.sizes.map((size, idx) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(idx)}
+                      className={`rounded-full border px-4 py-2 text-sm transition ${
+                        selectedSize === idx
+                          ? "border-cyan-300 bg-cyan-300/20 text-cyan-100"
+                          : "border-white/20 text-white hover:border-cyan-200/70"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+              <fieldset className="space-y-3">
+                <legend className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">{lang === "fr" ? "Durée" : "Duration"}</legend>
+                <div className="flex flex-wrap gap-2">
+                  {content.availability.durations.map((duration, idx) => (
+                    <button
+                      key={duration}
+                      onClick={() => setSelectedDuration(idx)}
+                      className={`rounded-full border px-4 py-2 text-sm transition ${
+                        selectedDuration === idx
+                          ? "border-cyan-300 bg-cyan-300/20 text-cyan-100"
+                          : "border-white/20 text-white hover:border-cyan-200/70"
+                      }`}
+                    >
+                      {duration}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+            </div>
+            <p className="mt-6 text-center text-xs text-cyan-100/70">{content.availability.footer}</p>
+          </div>
+        </section>
+
+        <section id="tarifs" className="bg-white py-20 text-slate-900">
+          <div className="mx-auto max-w-6xl px-4">
+            <SectionTitle kicker={lang === "fr" ? "Tarifs" : "Pricing"} title={content.pricing.title} align="center" />
+            <div className="grid gap-6 md:grid-cols-3">
+              {content.pricing.cards.map((card, idx) => (
+                <motion.div
+                  key={card.title}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={cardVariants}
+                  custom={idx + 1}
+                  className="flex flex-col rounded-3xl border border-slate-200 bg-white p-6 text-slate-900 shadow-lg transition hover:-translate-y-2"
+                >
+                  <p className="text-xs uppercase tracking-[0.3em] text-slate-500">{card.title}</p>
+                  <p className="mt-2 text-3xl font-semibold">{card.price}</p>
+                  <ul className="mt-5 space-y-2 text-sm text-slate-600">
+                    {card.includes.map((item) => (
+                      <li key={item} className="flex items-start gap-2">
+                        <LifeBuoy className="mt-0.5 h-4 w-4 text-cyan-500" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="https://cal.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-auto inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                  >
+                    {content.cta}
+                  </a>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="infos" className="mx-auto max-w-6xl px-4 py-20">
+          <SectionTitle kicker={lang === "fr" ? "Infos" : "Info"} title={content.info.title} />
+          <div className="grid gap-6 md:grid-cols-2">
+            {content.info.items.map((item, idx) => (
+              <motion.div
+                key={item.label}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={cardVariants}
+                custom={idx + 1}
+                className="flex items-start gap-3 rounded-3xl border border-white/20 bg-white/5 px-5 py-4 text-white"
+              >
+                <item.icon className="mt-0.5 h-5 w-5 text-cyan-200" />
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">{item.label}</p>
+                  <p className="text-sm text-cyan-50/90">{item.value}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        <section id="galerie" className="bg-white py-16 text-slate-900">
+          <div className="mx-auto max-w-6xl px-4">
+            <SectionTitle kicker={lang === "fr" ? "Galerie" : "Gallery"} title={content.gallery.title} align="center" />
+            <div className="grid gap-4 md:grid-cols-3">
+              {HERO_GALLERY.map((image, idx) => (
+                <motion.div
+                  key={image}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={cardVariants}
+                  custom={idx + 1}
+                  className="h-56 rounded-3xl border border-slate-200 bg-cover bg-center shadow-sm"
+                  style={{ backgroundImage: `url(${image})` }}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-white/10 bg-slate-950/90 py-10 text-sm text-cyan-100/80">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-center md:flex-row md:justify-between md:text-left">
+          <p>© {new Date().getFullYear()} Le Deck Pédalos</p>
+          <div className="flex flex-wrap items-center gap-3">
+            {content.nav.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" })}
+                className="transition hover:text-cyan-200"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </footer>
     </div>
   );
