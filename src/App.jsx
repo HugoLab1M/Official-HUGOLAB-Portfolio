@@ -117,13 +117,13 @@ const STRINGS = {
       kicker: "Agence web créative à Annecy",
       title: "HügoLab — Création de sites internet à Annecy",
       subtitle:
-        "Nous créons des sites vitrines et e-commerce pour les entreprises locales de Haute-Savoie et marques en croissance. Notre ADN : rapidité, SEO, et une expérience utilisateur pensée pour la conversion.",
+        "Nous créons des sites vitrines et e-commerce pour les entreprises locales de Haute-Savoie et marques en croissance. Notre ADN : design moderne, SEO local, et une expérience utilisateur pensée pour la conversion.",
       ctaPrimary: "Voir nos projets",
       ctaSecondary: "Discuter de votre besoin",
     },
     whyUs: {
       kicker: "Pourquoi HügoLab",
-      title: "Une micro-agence locale qui livre vite",
+      title: "Une micro-agence locale engagée sur vos résultats",
       cta: "En savoir plus sur HügoLab",
       ctaHref: "/about",
       items: [
@@ -151,7 +151,7 @@ const STRINGS = {
     },
     servicesTeaser: {
       kicker: "Ce que nous faisons",
-      title: "Des sites clairs, modernes et mesurables",
+      title: "Des sites clairs, modernes et performants",
       primaryCta: "Voir nos services",
       primaryHref: "/services",
       secondaryCta: "Voir nos projets",
@@ -218,7 +218,7 @@ const STRINGS = {
     aboutTeaser: {
       kicker: "L’agence",
       title: "Basés à Doussard, au bord du lac d’Annecy",
-      desc: "Nous concevons des sites vitrines modernes, crédibles et mesurables pour les entreprises locales. L’objectif : transformer une visite en prise de contact ou réservation.",
+      desc: "Nous concevons des sites vitrines modernes, crédibles et performants pour les entreprises locales. L’objectif : transformer une visite en prise de contact ou réservation.",
       primaryCta: "En savoir plus sur l’agence",
       primaryHref: "/about",
       secondaryCta: "Voir nos projets",
@@ -291,7 +291,7 @@ const STRINGS = {
             "Rapport de visites & opportunités SEO",
             "Petites évolutions incluses selon formule",
           ],
-          img: "/services/branding3.jpg",
+          img: "/services/maintenance.jpg",
           imgAlt: "Tableau de suivi et maintenance de site web",
           href: "#pricing",
         },
@@ -318,7 +318,7 @@ const STRINGS = {
       title: "Notre histoire",
       kicker: "À propos",
       p1: "HügoLab est une jeune entreprise dynamique qui conçoit des sites modernes, orientés résultats pour les artisans, entreprises, associations, institutions et particuliers de Haute-Savoie. Fondée par Mateo Hugues, passionné de design et de stratégie digitale, notre mission est simple : transformer une visite en prise de contact, réservation ou vente.",
-      p2: "Nous allions design soigné, et leviers d’IA pour produire des interfaces claires, SEO-friendly et mesurables. Notre approche ? Comprendre vos besoins, concevoir et tester — jusqu’à obtenir un site à votre image qui attire, séduit et convertit vos visiteurs.",
+      p2: "Nous allions design soigné et leviers d’IA pour produire des interfaces claires, SEO-friendly et performantes. Notre approche ? Comprendre vos besoins, concevoir et tester — jusqu’à obtenir un site à votre image qui attire, séduit et convertit vos visiteurs.",
       quote: "À l’ère du digital, votre site web est bien plus qu’une vitrine : c’est la première impression que vos clients se font de votre marque. Clair, attractif et crédible, il reflète votre identité et inspire confiance. Chez HügoLab, notre mission est de traduire fidèlement la réalité de votre activité en page internet, pour que vos visiteurs deviennent vos clients.",
       quoteAuthor: "Mateo Hugues — Fondateur de HügoLab",
     },
@@ -327,7 +327,7 @@ const STRINGS = {
         kicker: "Studio digital",
         title: "Nous concevons des expériences web qui donnent envie d’agir",
         subtitle:
-          "Basés à Annecy, nous accompagnons entrepreneurs, marques et institutions à mettre en lumière leur savoir-faire avec des sites modernes, élégants et mesurables.",
+          "Basés à Annecy, nous accompagnons entrepreneurs, marques et institutions à mettre en lumière leur savoir-faire avec des sites modernes, élégants et performants.",
         pill: "HügoLab — fondé en 2025",
         ctaPrimary: "Planifier un appel",
         ctaSecondary: "Télécharger la plaquette",
@@ -476,7 +476,7 @@ const STRINGS = {
     },
     servicesTeaser: {
       kicker: "What we do",
-      title: "Launch-ready, modern sites for local businesses",
+      title: "Launch-ready, modern sites built to perform",
       primaryCta: "See our services",
       primaryHref: "/services",
       secondaryCta: "View our work",
@@ -543,7 +543,7 @@ const STRINGS = {
     aboutTeaser: {
       kicker: "Studio",
       title: "Independent studio on Lake Annecy",
-      desc: "We craft fast, credible, measurable showcase sites for local businesses. The goal: turn visits into inquiries.",
+      desc: "We craft modern, credible, high-performing showcase sites for local businesses. The goal: turn visits into inquiries.",
       primaryCta: "Learn about the studio",
       primaryHref: "/about",
       secondaryCta: "View projects",
@@ -616,7 +616,7 @@ const STRINGS = {
             "Analytics and local SEO watch",
             "Micro enhancements included per plan",
           ],
-          img: "/services/branding3.jpg",
+          img: "/services/maintenance.jpg",
           imgAlt: "Website care and optimisation dashboard",
           href: "#pricing",
         },
@@ -643,7 +643,7 @@ const STRINGS = {
       title: "Our story",
       kicker: "About us",
       p1: "HügoLab designs modern, fast, results-driven websites for local businesses in Annecy and growing brands. Founded by Mateo Hugues, our mission is simple: turn visits into inquiries, bookings, or sales.",
-      p2: "We blend refined design, strong performance and 2025-ready AI tooling to ship clear, SEO-friendly, measurable interfaces. Our method: listen, prototype, test, iterate — until it converts.",
+      p2: "We blend refined design, strong performance and 2025-ready AI tooling to ship clear, SEO-friendly, high-performing interfaces. Our method: listen, prototype, test, iterate — until it converts.",
       quote: "In the age of digital, your website is the front door to your brand: clear, fast, credible. Before showing up, most customers will check your site. Our job is to turn that visit into action.",
       quoteAuthor: "Mateo Hugues — HügoLab Founder",
     },
@@ -652,7 +652,7 @@ const STRINGS = {
         kicker: "Digital studio",
         title: "We craft conversion-driven web experiences",
         subtitle:
-          "From our base in Annecy we help founders, hospitality brands and institutions tell their story with modern, elegant, measurable websites.",
+          "From our base in Annecy we help founders, hospitality brands and institutions tell their story with modern, elegant, high-performing websites.",
         pill: "HügoLab — founded 2025",
         ctaPrimary: "Book a discovery call",
         ctaSecondary: "Download the deck",
@@ -1615,6 +1615,7 @@ export default function App() {
             <main>
               <Hero t={t} />
               <WhyUs section={t.whyUs} />
+              <AboutTeaser section={t.aboutTeaser} />
               <ServicesTeaser section={t.servicesTeaser} />
               <ProcessSection section={t.process} />
               <Work t={t} />
@@ -1628,7 +1629,6 @@ export default function App() {
                 maintenance99:  "https://buy.stripe.com/4gMaEZ7MygFl2K39Y78so03", // Premium
               }}
               />
-              <AboutTeaser section={t.aboutTeaser} />
               <Contact t={t} />
             </main>
           }

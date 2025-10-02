@@ -379,9 +379,11 @@ export default function LeDeckPedalos() {
                       <span>6 personnes</span>
                     </div>
                   </div>
-                  <button className="w-full rounded-2xl bg-cyan-300 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200">
-                    {content.cta}
-                  </button>
+                  <div className="pt-0">
+                    <button className="w-full rounded-2xl bg-cyan-300 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200">
+                      {content.cta}
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             </motion.div>
@@ -513,14 +515,16 @@ export default function LeDeckPedalos() {
                       </li>
                     ))}
                   </ul>
-                  <a
-                    href="https://cal.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-auto inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-                  >
-                    {content.cta}
-                  </a>
+                  <div className="mt-auto pt-4">
+                    <a
+                      href="https://cal.com"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                    >
+                      {content.cta}
+                    </a>
+                  </div>
                 </motion.div>
               ))}
             </div>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Bike,
@@ -14,14 +14,14 @@ import {
   ArrowRight,
   ShieldCheck,
   Sun,
-  Waves,
   Flame,
+  Waves,
 } from "lucide-react";
 
 const HERO_IMAGES = [
-  "https://images.unsplash.com/photo-1525104698733-6cc5cab3c08f?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1503777119540-ce54b422baff?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1504309092620-4ddc028b0c8a?auto=format&fit=crop&w=1600&q=80",
+  "https://www.aucoupdepompe.fr/wp-content/uploads/2024/02/coup-de-pompe-snack-terrasse.jpg",
+  "https://www.aucoupdepompe.fr/wp-content/uploads/2023/07/location-velos-electriques-doussard.jpg",
+  "https://www.aucoupdepompe.fr/wp-content/uploads/2023/04/snack-coup-de-pompe-smoothie.jpg",
 ];
 
 const copy = {
@@ -36,16 +36,16 @@ const copy = {
       { id: "infos", label: "Infos pratiques" },
     ],
     hero: {
-      kicker: "Au départ de la voie verte d’Annecy",
-      title: "Vélos, smoothies, sauna : tout pour une journée parfaite à Doussard",
-      sub: "Réservation instantanée, matériel inclus, retour détente au sauna scandinave. On s’occupe du reste, vous profitez.",
+      kicker: "Location vélos & snack du lac d’Annecy",
+      title: "Vélos entretenus, recettes maison, pause sauna",
+      sub: "Au Coup de Pompe vous accueille à Doussard avec des vélos vérifiés, des smoothies minute et un espace détente scandinave.",
       primary: "Réserver un vélo",
-      secondary: "Télécharger la brochure",
+      secondary: "Télécharger la carte snack",
     },
     stats: [
       { value: "120+", label: "itinéraires testés" },
       { value: "12", label: "vélos premium" },
-      { value: "2", label: "espaces bien-être" },
+      { value: "2", label: "espaces détente" },
     ],
     services: {
       title: "Ce que nous proposons",
@@ -69,8 +69,8 @@ const copy = {
     },
     highlights: [
       { icon: ShieldCheck, title: "Brief minute", text: "Itinéraires adaptés, météo du jour, consignes sécurité." },
-      { icon: Sun, title: "Terrasse plein sud", text: "Chaises longues, prises USB, playlists chill." },
-      { icon: Waves, title: "À 50 m du lac", text: "Accès direct plage, douche extérieure et vestiaires." },
+      { icon: Sun, title: "Terrasse ensoleillée", text: "Espaces lounge, playlists chill, coups à boire." },
+      { icon: Flame, title: "Sauna scandinave", text: "Sauna + bain nordique privatisables après la sortie." },
     ],
     menu: {
       title: "Carte courte & de saison",
@@ -265,8 +265,12 @@ const fade = {
 function SectionTitle({ kicker, title, align = "left" }) {
   return (
     <div className={`mb-10 ${align === "center" ? "text-center" : "text-left"}`}>
-      <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-400">{kicker}</span>
-      <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white md:text-3xl">{title}</h2>
+      <span className="text-xs font-semibold uppercase tracking-[0.35em] text-[#F47529]">
+        {kicker}
+      </span>
+      <h2 className="mt-3 text-2xl font-semibold text-[#1F1F1F] md:text-3xl">
+        {title}
+      </h2>
     </div>
   );
 }
@@ -275,7 +279,7 @@ export default function CoupDePompe() {
   const [{ lang, content }, setLang] = useState(() => ({ lang: "fr", content: copy.fr }));
   const [heroIndex, setHeroIndex] = useState(0);
 
-  useMemo(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
       setHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length);
     }, 5000);
@@ -290,19 +294,19 @@ export default function CoupDePompe() {
   };
 
   return (
-    <div className="bg-slate-950 text-slate-100">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur">
+    <div className="bg-[#F4EDE3] text-[#1F1F1F]">
+      <header className="sticky top-0 z-40 border-b border-black/10 bg-[#F4EDE3]/90 backdrop-blur">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-emerald-400 to-sky-500 text-lg font-black text-slate-950 shadow-lg">
+            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-[#F47529] text-lg font-black text-white shadow-lg">
               CP
             </div>
             <div>
               <p className="text-base font-semibold tracking-tight">{content.brand}</p>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{content.badge}</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-[#8B7F73]">{content.badge}</p>
             </div>
           </div>
-          <nav className="hidden items-center gap-6 text-sm font-medium text-slate-200 lg:flex">
+          <nav className="hidden items-center gap-6 text-sm font-medium text-[#6B635A] lg:flex">
             {content.nav.map((item) => (
               <button
                 key={item.id}
@@ -310,7 +314,7 @@ export default function CoupDePompe() {
                   const target = document.getElementById(item.id);
                   if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
                 }}
-                className="transition hover:text-emerald-300"
+                className="transition hover:text-[#F47529]"
               >
                 {item.label}
               </button>
@@ -319,7 +323,7 @@ export default function CoupDePompe() {
           <div className="flex items-center gap-2">
             <button
               onClick={handleLangToggle}
-              className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:border-emerald-400 hover:text-emerald-300"
+              className="rounded-full border border-[#D8CCC0] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#6B635A] transition hover:border-[#F47529] hover:text-[#F47529]"
             >
               {lang === "fr" ? "EN" : "FR"}
             </button>
@@ -327,7 +331,7 @@ export default function CoupDePompe() {
               href="https://cal.com"
               target="_blank"
               rel="noreferrer"
-              className="hidden rounded-full bg-emerald-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300 lg:inline-flex"
+              className="hidden rounded-full bg-[#F47529] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#F58C4D] lg:inline-flex"
             >
               {lang === "fr" ? "Réserver" : "Book"}
             </a>
@@ -346,11 +350,11 @@ export default function CoupDePompe() {
               className="absolute inset-0"
               style={{ backgroundImage: `url(${HERO_IMAGES[heroIndex]})`, backgroundSize: "cover", backgroundPosition: "center" }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/70 to-slate-950" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#1F1F1F]/30 via-[#1F1F1F]/60 to-[#1F1F1F]/85" />
           </div>
           <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-20 lg:grid-cols-[1.2fr_0.8fr] lg:py-28">
             <motion.div initial="hidden" animate="visible" variants={fade}>
-              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-emerald-200">
+              <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[#F4C6A6]">
                 {content.hero.kicker}
               </span>
               <h1 className="mt-4 text-3xl font-semibold leading-tight text-white md:text-5xl">
@@ -364,7 +368,7 @@ export default function CoupDePompe() {
                   href="https://cal.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-emerald-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-400/40 transition hover:bg-emerald-300"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#F47529] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:bg-[#F58C4D]"
                 >
                   <Bike className="h-4 w-4" />
                   {content.hero.primary}
@@ -373,7 +377,7 @@ export default function CoupDePompe() {
                   href="https://drive.google.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-emerald-300 hover:text-emerald-200"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-3 text-sm font-semibold text-white transition hover:border-[#F47529] hover:text-[#F4C6A6]"
                 >
                   <ArrowRight className="h-4 w-4" />
                   {content.hero.secondary}
@@ -387,9 +391,9 @@ export default function CoupDePompe() {
               className="grid gap-4"
             >
               {content.stats.map((stat, idx) => (
-                <div key={stat.label} className="rounded-2xl border border-white/15 bg-white/5 px-6 py-5 backdrop-blur transition hover:border-emerald-300/60">
+                <div key={stat.label} className="rounded-2xl border border-white/20 bg-white/10 px-6 py-5 backdrop-blur transition hover:border-[#F4C6A6]/70">
+                  <p className="text-xs uppercase tracking-[0.28em] text-[#F4C6A6]">{stat.label}</p>
                   <div className="text-3xl font-semibold text-white">{stat.value}</div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-slate-300">{stat.label}</p>
                 </div>
               ))}
             </motion.div>
@@ -407,13 +411,13 @@ export default function CoupDePompe() {
                 viewport={{ once: true }}
                 variants={fade}
                 custom={idx + 1}
-                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5"
+                className="rounded-3xl border border-[#E3D7C9] bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
               >
-                <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-400 text-slate-950">
+                <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F47529]/15 text-[#F47529]">
                   <item.icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{item.title}</h3>
-                <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">{item.text}</p>
+                <h3 className="text-lg font-semibold text-[#1F1F1F]">{item.title}</h3>
+                <p className="mt-2 text-sm text-[#6B635A]">{item.text}</p>
               </motion.div>
             ))}
           </div>
@@ -426,19 +430,19 @@ export default function CoupDePompe() {
                 viewport={{ once: true }}
                 variants={fade}
                 custom={idx + 1}
-                className="flex items-start gap-3 rounded-2xl border border-slate-200/60 bg-white/60 px-5 py-4 shadow-sm dark:border-white/10 dark:bg-white/10"
+                className="flex items-start gap-3 rounded-2xl border border-[#E3D7C9] bg-white px-5 py-4 shadow-sm"
               >
-                <highlight.icon className="mt-1 h-5 w-5 text-emerald-400" />
+                <highlight.icon className="mt-1 h-5 w-5 text-[#F47529]" />
                 <div>
-                  <p className="font-semibold text-slate-900 dark:text-white">{highlight.title}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-300">{highlight.text}</p>
+                  <p className="font-semibold text-[#1F1F1F]">{highlight.title}</p>
+                  <p className="text-sm text-[#6B635A]">{highlight.text}</p>
                 </div>
               </motion.div>
             ))}
           </div>
         </section>
 
-        <section id="menu" className="bg-slate-900/90 py-20">
+        <section id="menu" className="bg-[#FFF7EF] py-20">
           <div className="mx-auto max-w-6xl px-4">
             <SectionTitle kicker={lang === "fr" ? "Snack" : "Cafe"} title={content.menu.title} align="center" />
             <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-2">
@@ -450,10 +454,10 @@ export default function CoupDePompe() {
                   viewport={{ once: true }}
                   variants={fade}
                   custom={idx + 1}
-                  className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-left shadow-sm"
+                  className="rounded-2xl border border-[#E3D7C9] bg-white px-5 py-4 text-left shadow-sm"
                 >
-                  <p className="text-base font-semibold text-white">{item.name}</p>
-                  <p className="mt-1 text-sm text-slate-300">{item.desc}</p>
+                  <p className="text-base font-semibold text-[#1F1F1F]">{item.name}</p>
+                  <p className="mt-1 text-sm text-[#6B635A]">{item.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -463,7 +467,7 @@ export default function CoupDePompe() {
         <section id="experience" className="mx-auto max-w-6xl px-4 py-20">
           <SectionTitle kicker={lang === "fr" ? "Expérience" : "Experience"} title={content.experience.title} />
           <div className="relative">
-            <div className="absolute left-8 top-0 hidden h-full border-l border-dashed border-emerald-300/60 md:block" />
+            <div className="absolute left-8 top-0 hidden h-full border-l border-dashed border-[#F4C6A6]/60 md:block" />
             <div className="space-y-8">
               {content.experience.steps.map((step, idx) => (
                 <motion.div
@@ -473,15 +477,15 @@ export default function CoupDePompe() {
                   viewport={{ once: true }}
                   variants={fade}
                   custom={idx + 1}
-                  className="relative ml-0 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 pr-8 shadow-sm md:ml-16 md:flex-row md:items-center dark:border-white/10 dark:bg-white/5"
+                  className="relative ml-0 flex flex-col gap-4 rounded-3xl border border-[#E3D7C9] bg-white p-6 pr-8 shadow-sm md:ml-16 md:flex-row md:items-center"
                 >
-                  <div className="absolute -left-3 top-6 hidden h-6 w-6 rounded-full border-4 border-slate-50 bg-emerald-400 md:block" />
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-400 text-slate-900">
+                  <div className="absolute -left-3 top-6 hidden h-6 w-6 rounded-full border-4 border-white bg-[#F47529] md:block" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F47529]/15 text-[#F47529]">
                     <step.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="font-semibold text-slate-900 dark:text-white">{step.title}</p>
-                    <p className="text-sm text-slate-500 dark:text-slate-300">{step.text}</p>
+                    <p className="font-semibold text-[#1F1F1F]">{step.title}</p>
+                    <p className="text-sm text-[#6B635A]">{step.text}</p>
                   </div>
                 </motion.div>
               ))}
@@ -489,7 +493,7 @@ export default function CoupDePompe() {
           </div>
         </section>
 
-        <section id="tarifs" className="bg-slate-900/85 py-20">
+        <section id="tarifs" className="bg-[#1F1F1F] py-20 text-white">
           <div className="mx-auto max-w-6xl px-4">
             <SectionTitle kicker={lang === "fr" ? "Tarifs" : "Pricing"} title={content.pricing.title} align="center" />
             <div className="grid gap-6 md:grid-cols-3">
@@ -501,9 +505,9 @@ export default function CoupDePompe() {
                   viewport={{ once: true }}
                   variants={fade}
                   custom={idx + 1}
-                  className="flex flex-col rounded-3xl border border-white/10 bg-white/5 p-6 text-white shadow-lg shadow-emerald-500/10"
+                  className="flex flex-col rounded-3xl border border-white/15 bg-white/10 p-6 text-white shadow-lg shadow-black/20 backdrop-blur"
                 >
-                  <span className="self-start rounded-full border border-white/20 px-3 py-1 text-xs uppercase tracking-[0.3em] text-emerald-200">
+                  <span className="self-start rounded-full border border-white/30 px-3 py-1 text-xs uppercase tracking-[0.3em] text-[#F4C6A6]">
                     {card.badge}
                   </span>
                   <h3 className="mt-3 text-lg font-semibold">{card.title}</h3>
@@ -511,19 +515,21 @@ export default function CoupDePompe() {
                   <ul className="mt-6 space-y-2 text-sm text-slate-200">
                     {card.points.map((point) => (
                       <li key={point} className="flex items-start gap-2">
-                        <Flame className="mt-0.5 h-4 w-4 text-emerald-300" />
+                        <Flame className="mt-0.5 h-4 w-4 text-[#F47529]" />
                         <span>{point}</span>
                       </li>
                     ))}
                   </ul>
-                  <a
-                    href="https://cal.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-auto inline-flex items-center justify-center rounded-xl bg-emerald-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300"
-                  >
-                    {content.footerCta}
-                  </a>
+                  <div className="mt-auto pt-4">
+                    <a
+                      href="https://cal.com"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1F1F1F] transition hover:bg-[#F4C6A6]"
+                    >
+                      {content.footerCta}
+                    </a>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -534,18 +540,18 @@ export default function CoupDePompe() {
           <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
             <div>
               <SectionTitle kicker={lang === "fr" ? "Planifier sa venue" : "Before you come"} title={content.info.title} />
-              <ul className="space-y-4 text-sm text-slate-600 dark:text-slate-300">
+              <ul className="space-y-4 text-sm text-[#6B635A]">
                 <li className="flex items-center gap-3">
-                  <MapPin className="h-4 w-4 text-emerald-400" />
+                  <MapPin className="h-4 w-4 text-[#F47529]" />
                   {content.info.address}
                 </li>
                 <li className="flex items-center gap-3">
-                  <Clock className="h-4 w-4 text-emerald-400" />
+                  <Clock className="h-4 w-4 text-[#F47529]" />
                   {content.info.hours}
                 </li>
                 <li className="flex items-center gap-3">
-                  <Phone className="h-4 w-4 text-emerald-400" />
-                  <a href="tel:+33699193785" className="hover:text-emerald-500">
+                  <Phone className="h-4 w-4 text-[#F47529]" />
+                  <a href="tel:+33699193785" className="hover:text-[#F47529]">
                     {content.info.phone}
                   </a>
                 </li>
@@ -554,13 +560,13 @@ export default function CoupDePompe() {
                 href="https://goo.gl/maps/3qJxYoKZyGX2"
                 target="_blank"
                 rel="noreferrer"
-                className="mt-6 inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-emerald-300 hover:text-emerald-400 dark:border-white/20 dark:text-white"
+                className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#E3D7C9] px-5 py-3 text-sm font-semibold text-[#1F1F1F] transition hover:border-[#F47529] hover:text-[#F47529]"
               >
                 <ArrowRight className="h-4 w-4" />
                 {content.info.mapCta}
               </a>
             </div>
-            <div className="overflow-hidden rounded-3xl border border-slate-200 shadow-lg dark:border-white/10">
+            <div className="overflow-hidden rounded-3xl border border-[#E3D7C9] shadow-lg">
               <iframe
                 title="Carte Au Coup de Pompe"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2796.094541138316!2d6.208240076330758!3d45.77795761230507!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478ba9e31e4ed62f%3A0x2b095b7b84b78723!2s400%20Rte%20du%20Taillefer%2C%2074210%20Doussard!5e0!3m2!1sfr!2sfr!4v1700000000000"
@@ -573,20 +579,20 @@ export default function CoupDePompe() {
         </section>
       </main>
 
-      <footer className="border-t border-white/10 bg-slate-950/90 py-10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-sm text-slate-400 md:flex-row md:justify-between">
+      <footer className="border-t border-[#E3D7C9] bg-[#F4EDE3] py-10">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-sm text-[#6B635A] md:flex-row md:justify-between">
           <p>© {new Date().getFullYear()} Au Coup de Pompe</p>
           <div className="flex items-center gap-3">
-            <a href="#services" className="transition hover:text-emerald-300">
+            <a href="#services" className="transition hover:text-[#F47529]">
               {lang === "fr" ? "Services" : "Services"}
             </a>
-            <a href="#menu" className="transition hover:text-emerald-300">
+            <a href="#menu" className="transition hover:text-[#F47529]">
               Menu
             </a>
-            <a href="#tarifs" className="transition hover:text-emerald-300">
+            <a href="#tarifs" className="transition hover:text-[#F47529]">
               {lang === "fr" ? "Tarifs" : "Pricing"}
             </a>
-            <a href="#infos" className="transition hover:text-emerald-300">
+            <a href="#infos" className="transition hover:text-[#F47529]">
               {lang === "fr" ? "Contact" : "Contact"}
             </a>
           </div>
