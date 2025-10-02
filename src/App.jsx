@@ -853,8 +853,9 @@ function ThemeToggle() {
 function Nav({ t, onLangToggle, lang, onContactClick }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const items = [
-    { label: t.nav.work, to: "/#work", aria: lang === "fr" ? "Explorer les projets signés HügoLab" : "Explore HügoLab case studies" },
-    { label: t.nav.services, to: "/#services", aria: lang === "fr" ? "Découvrir les services HügoLab" : "Discover HügoLab services" },
+    { label: t.nav.home ?? "Home", to: "/", aria: lang === "fr" ? "Retour à l’accueil HügoLab" : "Back to HügoLab home" },
+    { label: t.nav.work, to: "/work", aria: lang === "fr" ? "Explorer les projets signés HügoLab" : "Explore HügoLab case studies" },
+    { label: t.nav.services, to: "/services", aria: lang === "fr" ? "Découvrir les services HügoLab" : "Discover HügoLab services" },
     { label: t.nav.pricing, to: "/#pricing", aria: lang === "fr" ? "Consulter les tarifs HügoLab" : "See HügoLab pricing" },
     { label: t.nav.about, to: "/about", aria: lang === "fr" ? "En savoir plus sur HügoLab" : "Learn more about HügoLab" },
     { label: t.nav.contact, to: "/#contact", aria: lang === "fr" ? "Contacter HügoLab" : "Contact HügoLab" },
