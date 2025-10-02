@@ -853,12 +853,11 @@ function ThemeToggle() {
 function Nav({ t, onLangToggle, lang, onContactClick }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const items = [
-    { label: t.nav.home ?? "Home", to: "/" },
-    { label: t.nav.work, to: "/work" },
-    { label: t.nav.services, to: "/services" },
-    { label: t.nav.about, to: "/about" },
-    { label: t.nav.pricing, to: "/pricing" },
-    { label: t.nav.contact, to: "/contact" },
+    { label: t.nav.work, to: "/#work", aria: lang === "fr" ? "Explorer les projets signés HügoLab" : "Explore HügoLab case studies" },
+    { label: t.nav.services, to: "/#services", aria: lang === "fr" ? "Découvrir les services HügoLab" : "Discover HügoLab services" },
+    { label: t.nav.pricing, to: "/#pricing", aria: lang === "fr" ? "Consulter les tarifs HügoLab" : "See HügoLab pricing" },
+    { label: t.nav.about, to: "/about", aria: lang === "fr" ? "En savoir plus sur HügoLab" : "Learn more about HügoLab" },
+    { label: t.nav.contact, to: "/#contact", aria: lang === "fr" ? "Contacter HügoLab" : "Contact HügoLab" },
   ];
 
   const closeMobile = () => setMobileOpen(false);
@@ -883,6 +882,7 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
             <Link
               key={item.label}
               to={item.to}
+              aria-label={item.aria}
               className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
             >
               {item.label}
@@ -913,6 +913,7 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
                 key={`mobile-${item.label}`}
                 to={item.to}
                 onClick={closeMobile}
+                aria-label={item.aria}
                 className="rounded-xl px-3 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-800"
               >
                 {item.label}
@@ -991,13 +992,19 @@ function Hero({ t }) {
 // util pour ProjectCard
 const isExternalUrl = (u) => /^https?:\/\//i.test(u);
 
-function ProjectCard({ p }) {
+function ProjectCard({ p, lang }) {
+  const isFrench = lang === "FR";
+  const liveLabel = isFrench ? "Voir le site en ligne" : "View live project";
+  const caseLabel = isFrench ? "Lire le cas client" : "Read the case study";
   const CardInner = (
     <>
       <div className="relative aspect-[16/10] overflow-hidden">
         <img
           src={p.image}
-          alt={p.title}
+          alt={`${p.title} — ${p.industry}`}
+          loading="lazy"
+          width="1280"
+          height="800"
           className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]"
         />
         <div className="absolute left-3 top-3 flex gap-2">
@@ -1018,16 +1025,26 @@ function ProjectCard({ p }) {
         <p className="text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2">{p.tagline}</p>
         <div className="mt-3 flex items-center gap-3">
           {isExternalUrl(p.url) ? (
-            <a href={p.url} target="_blank" rel="noreferrer" className="text-sm underline underline-offset-4">
-              Live →
+            <a
+              href={p.url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm underline underline-offset-4"
+              aria-label={`${liveLabel} (${p.title})`}
+            >
+              {liveLabel}
             </a>
           ) : (
-            <Link to={p.url} className="text-sm underline underline-offset-4">
-              Live →
+            <Link to={p.url} className="text-sm underline underline-offset-4" aria-label={`${liveLabel} (${p.title})`}>
+              {liveLabel}
             </Link>
           )}
-          <a href={p.caseStudyUrl} className="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-white">
-            Case study
+          <a
+            href={p.caseStudyUrl}
+            className="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
+            aria-label={`${caseLabel} (${p.title})`}
+          >
+            {caseLabel}
           </a>
         </div>
       </div>
@@ -1074,6 +1091,9 @@ function Services({ t }) {
             <img
               src={section.img}
               alt={section.imgAlt}
+              loading="lazy"
+              width="1200"
+              height="900"
               className="h-full w-full object-cover"
               style={{ objectPosition: "center 65%" }}
             />
@@ -1153,7 +1173,7 @@ function Work({ t }) {
       <SectionTitle kicker={t.work.kicker}>{t.work.title}</SectionTitle>
       <div className="max-w-6xl mx-auto px-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {PROJECTS.map((p) => (
-          <ProjectCard p={p} key={p.slug} />
+          <ProjectCard p={p} key={p.slug} lang={t.langLabel} />
         ))}
       </div>
     </section>
@@ -1173,6 +1193,9 @@ function About({ t }) {
             <img
               src="/about/hugolab-team.webp"   // ← your image (public/about/hugolab-team.webp)
               alt="HügoLab — l’équipe au travail"
+              loading="lazy"
+              width="1280"
+              height="720"
               className="h-full w-full object-cover object-[50%_30%]"  // adjust crop (Y%) if needed
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />

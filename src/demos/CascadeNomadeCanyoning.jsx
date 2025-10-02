@@ -267,7 +267,14 @@ export default function CascadeNomadeCanyoning() {
                 imgRight ? "md:order-2 md:rounded-r-2xl" : "md:order-1 md:rounded-l-2xl",
               ].join(" ")}
             >
-              <img src={tour.img} alt={tour.name} className="h-full w-full object-cover" />
+              <img
+                src={tour.img}
+                alt={`${tour.name} — sortie canyoning Cascade Nomade`}
+                loading="lazy"
+                width="1200"
+                height="800"
+                className="h-full w-full object-cover"
+              />
             </div>
 
             {/* TEXT */}
@@ -279,7 +286,13 @@ export default function CascadeNomadeCanyoning() {
               <p className="font-medium">{tour.name}</p>
               <p className="text-sm opacity-70">{tour.desc}</p>
               <div className="mt-4">
-                <a href="#contact" className="text-sm underline underline-offset-4">Je veux réserver →</a>
+                <a
+                  href="#contact"
+                  className="text-sm underline underline-offset-4"
+                  aria-label={`Réserver une sortie canyoning ${tour.name}`}
+                >
+                  Réserver ma sortie canyoning
+                </a>
               </div>
             </div>
           </div>
@@ -372,7 +385,14 @@ export default function CascadeNomadeCanyoning() {
             "/canyoning/2_v2.jpg",
           ].map((src, i) => (
             <div key={i} className="group relative aspect-[4/3] overflow-hidden rounded-xl">
-              <img src={src} alt={`canyoning ${i}`} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]" />
+              <img
+                src={src}
+                alt={`Cascade Nomade Canyoning — galerie ${i + 1}`}
+                loading="lazy"
+                width="1200"
+                height="900"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+              />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             </div>
           ))}

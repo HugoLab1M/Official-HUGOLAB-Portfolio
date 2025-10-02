@@ -254,7 +254,14 @@ export default function LaCuillereAOmble() {
           <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3">
             {content.gallery.images.map((src, idx) => (
               <div key={idx} className="aspect-[4/3] overflow-hidden rounded-2xl">
-                <img src={src} alt={`Galerie ${idx + 1}`} className="h-full w-full object-cover" />
+                <img
+                  src={src}
+                  alt={`Projet La Cuillère à Omble — visuel ${idx + 1}`}
+                  loading="lazy"
+                  width="1200"
+                  height="900"
+                  className="h-full w-full object-cover"
+                />
               </div>
             ))}
           </div>

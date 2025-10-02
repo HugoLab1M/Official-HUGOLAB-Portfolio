@@ -1,12 +1,3 @@
-# robots.txt for https://hugolab.fr
-# Allow all crawlers to index the site.
-
 User-agent: *
 Allow: /
-
-# Safety: disallow internal/dev paths if they ever existed publicly
-Disallow: /node_modules/
-Disallow: /src/
-
-# Sitemap location
 Sitemap: https://hugolab.fr/sitemap.xml

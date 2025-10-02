@@ -146,9 +146,10 @@ export default function FooterPro({ t, onManageCookies, contact, socials }) {
                     let href = `/${key}`;
                     if (key === "pricing") href = "/#pricing";
                     if (key === "contact") href = "/#contact";
-                    if (key === "work") href = "/work";
-                    if (key === "services") href = "/services";
+                    if (key === "work") href = "/#work";
+                    if (key === "services") href = "/#services";
                     if (key === "about") href = "/about";
+                    if (key === "home") href = "/";
                     return (
                       <a key={`bottom-${key}`} href={href} className="transition hover:text-white">
                         {t.nav[key]}

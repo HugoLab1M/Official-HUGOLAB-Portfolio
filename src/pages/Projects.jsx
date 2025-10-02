@@ -48,7 +48,10 @@ export default function Projects() {
             <div className="h-56 overflow-hidden">
               <img
                 src={p.image}
-                alt={p.title}
+                alt={`${p.title} — projet HügoLab`}
+                loading="lazy"
+                width="800"
+                height="560"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
               />
             </div>

@@ -18,6 +18,7 @@
     <!-- Favicons / Manifest -->
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48">
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <meta name="apple-mobile-web-app-title" content="HügoLab" />
@@ -41,48 +42,123 @@
     <meta name="twitter:image" content="https://hugolab.fr/og-cover.jpg" />
 
     <!-- Browser theme color -->
-    <meta name="theme-color" content="#0F1730" />
+    <meta name="theme-color" content="#033D5A" />
 
-    <!-- Organization + LocalBusiness + WebSite (JSON-LD) -->
+    <!-- Organization + Breadcrumbs + FAQ (JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": ["Organization","LocalBusiness","ProfessionalService"],
-          "@id": "https://hugolab.fr/#org",
+          "@type": ["Organization", "LocalBusiness", "ProfessionalService"],
+          "@id": "https://hugolab.fr/#organization",
           "name": "HügoLab",
-          "url": "https://hugolab.fr/",
+          "url": "https://hugolab.fr",
           "logo": "https://hugolab.fr/logo.svg",
           "image": "https://hugolab.fr/og-cover.jpg",
-          "description": "Agence web à Annecy & Doussard : sites vitrines, e-commerce et identité visuelle. Rapides, SEO-friendly et orientés conversion.",
-          "email": "contact@hugolab.fr",
-          "telephone": "+33 6 26 23 14 09",
-          "sameAs": [
-            "https://www.linkedin.com/in/mateo-hugues/",
-            "https://g.page/r/CSjpwPvLGK4YEAE/review"
-          ],
-          "areaServed": [
-            { "@type": "City", "name": "Annecy" },
-            { "@type": "City", "name": "Talloires" },
-            { "@type": "City", "name": "Saint-Jorioz" },
-            { "@type": "City", "name": "Grenoble" }
-          ],
+          "description": "Agence web à Annecy et Doussard spécialisée dans les sites vitrines, landing pages, branding et maintenance.",
+          "foundingDate": "2025-08",
+          "founder": {
+            "@type": "Person",
+            "name": "Mateo Hugues"
+          },
           "address": {
             "@type": "PostalAddress",
-            "addressCountry": "FR"
-          }
+            "addressCountry": "FR",
+            "addressRegion": "Auvergne-Rhône-Alpes",
+            "addressLocality": "Doussard"
+          },
+          "areaServed": [
+            { "@type": "City", "name": "Annecy" },
+            { "@type": "City", "name": "Doussard" },
+            { "@type": "City", "name": "Talloires" },
+            { "@type": "City", "name": "Haute-Savoie" }
+          ],
+          "email": "contact@hugolab.fr",
+          "telephone": "+33626231409",
+          "sameAs": [
+            "https://www.linkedin.com/in/mateo-hugues/"
+          ]
         },
         {
-          "@type": "WebSite",
-          "@id": "https://hugolab.fr/#website",
-          "url": "https://hugolab.fr/",
-          "name": "HügoLab",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://hugolab.fr/?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-          }
+          "@type": "BreadcrumbList",
+          "@id": "https://hugolab.fr/#breadcrumbs",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil HügoLab",
+              "item": "https://hugolab.fr/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Services HügoLab",
+              "item": "https://hugolab.fr/#services"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Portfolio projets",
+              "item": "https://hugolab.fr/#work"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Tarifs sites web",
+              "item": "https://hugolab.fr/#pricing"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "À propos de HügoLab",
+              "item": "https://hugolab.fr/about"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Contact HügoLab",
+              "item": "https://hugolab.fr/#contact"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://hugolab.fr/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Quelles prestations propose HügoLab ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "HügoLab conçoit des landing pages, des sites vitrines sur mesure, des identités visuelles et des logos. L'agence accompagne aussi la maintenance et les évolutions des sites existants."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Travaillez-vous avec les entreprises locales d'Annecy et de Haute-Savoie ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Oui, HügoLab est basée entre Annecy et Doussard et accompagne les TPE/PME locales avec une approche terrain pour développer leur présence digitale et générer des leads qualifiés."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Quels sont les délais pour créer un site HügoLab ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "La majorité des sites vitrines sont livrés en 3 à 5 semaines selon le nombre de pages, les contenus fournis et les options choisies (SEO local, shootings, intégrations spécifiques)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Proposez-vous des offres de maintenance ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Deux formules de maintenance sont proposées : 49 € et 99 € par mois. Elles couvrent les mises à jour logicielles, la sauvegarde, le monitoring de performance et des demandes de contenu prioritaires."
+              }
+            }
+          ]
         }
       ]
     }

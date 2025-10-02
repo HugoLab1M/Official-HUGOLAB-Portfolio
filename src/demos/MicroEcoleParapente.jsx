@@ -495,7 +495,14 @@ export default function MicroEcoleParapente() {
                   custom={idx + 1}
                   className="aspect-[4/3] overflow-hidden rounded-3xl border border-slate-200 shadow-sm"
                 >
-                  <img src={src} alt={`Galerie parapente ${idx + 1}`} className="h-full w-full object-cover" />
+                  <img
+                    src={src}
+                    alt={`Micro École Parapente — photo ${idx + 1}`}
+                    loading="lazy"
+                    width="1200"
+                    height="900"
+                    className="h-full w-full object-cover"
+                  />
                 </motion.div>
               ))}
             </div>
