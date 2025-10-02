@@ -1536,6 +1536,26 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const handlePreferencesChange = (event) => {
+      const status = event?.detail?.status;
+      if (status === "accept") {
+        setCookieConsent("accept");
+        storeConsent("accept");
+        initAnalytics();
+        setShowCookieBanner(false);
+      } else if (status === "reject") {
+        setCookieConsent("reject");
+        storeConsent("reject");
+        disableAnalytics();
+        setShowCookieBanner(false);
+      }
+    };
+    window.addEventListener("hlab-cookie-preferences-changed", handlePreferencesChange);
+    return () => window.removeEventListener("hlab-cookie-preferences-changed", handlePreferencesChange);
+  }, []);
+
+  useEffect(() => {
     if (cookieConsent === "accept") {
       initAnalytics();
     }
