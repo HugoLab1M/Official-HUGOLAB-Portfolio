@@ -362,9 +362,9 @@ const STRINGS = {
       timeline: {
         title: "Étapes clés",
         items: [
-          { year: "01/04/2025", title: "Création de HügoLab", desc: "Immatriculation de la micro-entreprise et premières landing pages pour artisans du lac." },
-          { year: "15/05/2025", title: "Offres vitrines prêtes", desc: "Structuration des offres Landing & Vitrine avec maquettes sectorielles et paiements Stripe." },
-          { year: "10/06/2025", title: "Démos tourisme & restauration", desc: "Mise en ligne des démonstrations personnalisables pour acteurs locaux (tourisme, restauration, outdoor)." },
+          { year: "03/09/2025", title: "Création de HügoLab", desc: "Immatriculation de la micro-entreprise et premières landing pages pour artisans du lac." },
+          { year: "15/09/2025", title: "Offres vitrines prêtes", desc: "Structuration des offres Landing & Vitrine avec maquettes sectorielles et paiements Stripe." },
+          { year: "24/09/2025", title: "Démos tourisme & restauration", desc: "Mise en ligne des démonstrations personnalisables pour acteurs locaux (tourisme, restauration, outdoor)." },
           { year: "01/10/2025", title: "Maintenance & SEO continu", desc: "Lancement des offres de suivi : analytics, SEO local et améliorations trimestrielles." },
         ],
       },

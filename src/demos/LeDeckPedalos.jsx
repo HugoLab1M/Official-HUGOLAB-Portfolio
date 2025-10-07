@@ -19,9 +19,7 @@ import {
 } from "lucide-react";
 
 const HERO_GALLERY = [
-  "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1516744114303-9f8b5e80e9b4?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1526481280695-3c469f2f689d?auto=format&fit=crop&w=1600&q=80",
+  "/pedalos/pedalos1.jpg",
 ];
 
 const copy = {
@@ -69,19 +67,19 @@ const copy = {
           name: "Duo Chic",
           desc: "Pédalo 2 places avec dossier premium, idéal pour un coucher de soleil.",
           badge: "Nouveau",
-          image: "https://images.unsplash.com/photo-1523661149972-0becaca2016c?auto=format&fit=crop&w=800&q=80",
+          image: "/pedalos/pedalos2.jpg",
         },
         {
           name: "Famille Lagoon",
           desc: "4 places avec toboggan, idéal pour les tribus et les éclats de rire.",
           badge: "Best-seller",
-          image: "https://images.unsplash.com/photo-1529059997568-3d847b1154de?auto=format&fit=crop&w=800&q=80",
+          image: "/pedalos/pedalos3.jpg",
         },
         {
           name: "Sunset Premium",
           desc: "6 places, banquettes lounge, glacière et enceinte intégrées.",
           badge: "After-work",
-          image: "https://images.unsplash.com/photo-1506955666890-03edf97d85cc?auto=format&fit=crop&w=800&q=80",
+          image: "/pedalos/pedalos4.jpg",
         },
       ],
     },
@@ -170,19 +168,19 @@ const copy = {
           name: "Duo Chic",
           desc: "Two-seater with plush backrests, perfect for golden hour rides.",
           badge: "New",
-          image: "https://images.unsplash.com/photo-1523661149972-0becaca2016c?auto=format&fit=crop&w=800&q=80",
+          image: "/pedalos/pedalos2.jpg",
         },
         {
           name: "Family Lagoon",
           desc: "Four seats with slide, fun guaranteed for little tribes.",
           badge: "Best seller",
-          image: "https://images.unsplash.com/photo-1529059997568-3d847b1154de?auto=format&fit=crop&w=800&q=80",
+          image: "/pedalos/pedalos3.jpg",
         },
         {
           name: "Sunset Premium",
           desc: "Six seats, lounge cushions, cooler and speaker included.",
           badge: "After-work",
-          image: "https://images.unsplash.com/photo-1506955666890-03edf97d85cc?auto=format&fit=crop&w=800&q=80",
+          image: "/pedalos/pedalos4.jpg",
         },
       ],
     },

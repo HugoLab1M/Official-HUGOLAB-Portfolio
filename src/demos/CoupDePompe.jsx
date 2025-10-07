@@ -19,9 +19,7 @@ import {
 } from "lucide-react";
 
 const HERO_IMAGES = [
-  "https://www.aucoupdepompe.fr/wp-content/uploads/2024/02/coup-de-pompe-snack-terrasse.jpg",
-  "https://www.aucoupdepompe.fr/wp-content/uploads/2023/07/location-velos-electriques-doussard.jpg",
-  "https://www.aucoupdepompe.fr/wp-content/uploads/2023/04/snack-coup-de-pompe-smoothie.jpg",
+  "/projects/1_v2.jpg",
 ];
 
 const copy = {

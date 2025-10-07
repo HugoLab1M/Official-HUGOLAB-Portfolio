@@ -33,9 +33,9 @@ const copy = {
     ],
     fleetTitle: "Notre flotte",
     fleet: [
-      { name: "Sans permis 6cv", desc: "Jusqu’à 5 pers • idéal découverte" },
-      { name: "Sans permis confort", desc: "Banquettes + bimini • 5 pers" },
-      { name: "Électrique", desc: "Silencieux • 4 pers • éco" },
+      { name: "Sans permis 6cv", desc: "Jusqu’à 5 pers • idéal découverte", image: "/sans permis/sanspermis2.jpg" },
+      { name: "Sans permis confort", desc: "Banquettes + bimini • 5 pers", image: "/sans permis/sanspermis3.jpg" },
+      { name: "Électrique", desc: "Silencieux • 4 pers • éco", image: "/sans permis/sanspermis4.jpg" },
     ],
     formTitle: "Réservation",
     labels: { date: "Date", time: "Heure", duration: "Durée", model: "Modèle", name: "Nom", phone: "Téléphone", submit: "Valider la réservation" },
@@ -58,9 +58,9 @@ const copy = {
     ],
     fleetTitle: "Our fleet",
     fleet: [
-      { name: "No-license 6hp", desc: "Up to 5 ppl • discovery" },
-      { name: "Comfort no-license", desc: "Benches + bimini • 5 ppl" },
-      { name: "Electric", desc: "Silent • 4 ppl • eco" },
+      { name: "No-license 6hp", desc: "Up to 5 ppl • discovery", image: "/sans permis/sanspermis2.jpg" },
+      { name: "Comfort no-license", desc: "Benches + bimini • 5 ppl", image: "/sans permis/sanspermis3.jpg" },
+      { name: "Electric", desc: "Silent • 4 ppl • eco", image: "/sans permis/sanspermis4.jpg" },
     ],
     formTitle: "Booking",
     labels: { date: "Date", time: "Time", duration: "Duration", model: "Model", name: "Name", phone: "Phone", submit: "Confirm booking" },
@@ -91,48 +91,83 @@ export default function SansPermisSaintJorioz() {
         </Section>
       </header>
 
-      <Section className="pt-10 pb-12">
-        <div className="grid items-center gap-8 md:grid-cols-2">
-          <div>
-            <Pill><Anchor size={16}/> {t.tagline}</Pill>
-            <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t.pitch}</h1>
-            <p className="mt-3 max-w-prose text-sm opacity-80">Acompte sécurisé, empreinte bancaire pour la caution, rappel SMS et carte des zones autorisées.</p>
-            <div className="mt-6"><CTA label={t.cta} /></div>
-            <div className="mt-6 flex flex-wrap gap-3 opacity-90">
-              {t.heroBadges.map(({ Icon, text }, i) => <Pill key={i}><Icon size={14}/> {text}</Pill>)}
+      <Section className="pt-16 pb-20">
+        <div className="grid items-center gap-12 md:grid-cols-2">
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <Pill><Anchor size={16}/> {t.tagline}</Pill>
+              <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">{t.pitch}</h1>
+              <p className="max-w-prose text-base opacity-80">Acompte sécurisé, empreinte bancaire pour la caution, rappel SMS et carte des zones autorisées. Montez à bord en toute sérénité et profitez du lac d’Annecy.</p>
             </div>
-          </div>
-          <div className="relative h-64 w-full overflow-hidden rounded-3xl bg-gradient-to-tr from-[#0F172A] to-[#0EA5E9] shadow-lg md:h-80">
-            <div className="absolute inset-0 grid place-items-center">
-              <div className="rounded-2xl bg-white/20 p-6 text-white backdrop-blur-md">
-                <p className="text-xl font-semibold">Saint-Jorioz • Marina</p>
-                <p className="text-sm opacity-90">Hero image placeholder</p>
+            <div className="flex flex-wrap items-center gap-4">
+              <CTA label={t.cta} />
+              <div className="flex flex-wrap gap-3 opacity-90">
+                {t.heroBadges.map(({ Icon, text }, i) => <Pill key={i}><Icon size={14}/> {text}</Pill>)}
               </div>
             </div>
           </div>
+          <div className="relative h-72 w-full overflow-hidden rounded-3xl shadow-xl md:h-96">
+            <img
+              src="/sans permis/sanspermis1.jpg"
+              alt="Balade en bateau sans permis à Saint-Jorioz"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0f172acc] via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 rounded-2xl bg-white/80 px-4 py-3 text-sm font-medium text-[#0F172A] shadow-lg">
+              Vue sur le port de Saint-Jorioz
+            </div>
+          </div>
         </div>
       </Section>
 
-      <Section className="pb-8">
-        <h2 className="mb-4 text-2xl font-semibold">{t.fleetTitle}</h2>
-        <div className="grid gap-4 md:grid-cols-3">
+      <Section className="pb-16">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-sm uppercase tracking-[0.3em] text-[#0EA5E9]">Flotte</p>
+            <h2 className="mt-2 text-2xl font-semibold sm:text-3xl">{t.fleetTitle}</h2>
+          </div>
+          <p className="max-w-xl text-sm opacity-70">Tous nos bateaux sont livrés avec gilets adultes/enfants, briefing personnalisé et carte des zones recommandées pour profiter du lac sans stress.</p>
+        </div>
+        <div className="mt-6 grid gap-6 md:grid-cols-3">
           {t.fleet.map((b, i) => (
-            <Card key={i}>
-              <p className="font-medium">{b.name}</p>
-              <p className="text-sm opacity-70">{b.desc}</p>
-            </Card>
+            <div key={i} className="flex h-full flex-col overflow-hidden rounded-2xl border border-black/10 bg-white/70 shadow-sm backdrop-blur">
+              <div className="relative h-48 w-full overflow-hidden">
+                <img src={b.image} alt={b.name} className="h-full w-full object-cover" loading="lazy" />
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/50 to-transparent" />
+              </div>
+              <div className="space-y-2 p-5">
+                <p className="text-base font-semibold text-[#0F172A]">{b.name}</p>
+                <p className="text-sm opacity-70">{b.desc}</p>
+              </div>
+            </div>
           ))}
         </div>
       </Section>
 
-      <Section className="pb-10">
-        <div className="grid gap-4 md:grid-cols-2">
-          {t.features.map((f, i) => (
-            <Card key={i}><div className="flex items-center gap-3"><f.Icon size={18}/><p>{f.text}</p></div></Card>
-          ))}
-          <div className="rounded-2xl bg-[url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center p-6 text-white shadow-inner">
-            <p className="text-lg font-semibold drop-shadow">Balade au calme</p>
-            <p className="max-w-sm text-sm opacity-90 drop-shadow">Galerie placeholder</p>
+      <Section className="pb-20">
+        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {t.features.map((f, i) => (
+              <Card key={i} className="h-full">
+                <div className="flex items-start gap-3">
+                  <f.Icon size={20} className="mt-0.5 text-[#0EA5E9]" />
+                  <p className="text-sm leading-relaxed">{f.text}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
+          <div className="relative overflow-hidden rounded-3xl">
+            <img
+              src="/sans permis/sanspermis4.jpg"
+              alt="Navigation détente sur le lac"
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/70 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 max-w-xs text-white">
+              <p className="text-lg font-semibold drop-shadow">Balade au calme</p>
+              <p className="text-sm opacity-90 drop-shadow">Cap sur Duingt, Talloires ou Sevrier avec des points GPS déjà enregistrés.</p>
+            </div>
           </div>
         </div>
       </Section>
