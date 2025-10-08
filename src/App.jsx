@@ -1029,7 +1029,7 @@ function ProjectCard({ p, lang }) {
             <a
               href={p.url}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="text-sm underline underline-offset-4"
               aria-label={`${liveLabel} (${p.title})`}
             >
@@ -1062,7 +1062,7 @@ function ProjectCard({ p, lang }) {
       className="group rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:shadow-xl hover-lift"
     >
       {isExternalUrl(p.url) ? (
-        <a href={p.url} target="_blank" rel="noreferrer" className="block">
+        <a href={p.url} target="_blank" rel="noopener noreferrer" className="block">
           {CardInner}
         </a>
       ) : (
@@ -1280,7 +1280,7 @@ function Contact({ t }) {
                   key={s.name}
                   href={s.href}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-neutral-900 transition hover:text-neutral-600 dark:text-neutral-100 dark:hover:text-neutral-300"
                 >
                   {s.name === "LinkedIn" ? (
@@ -1328,7 +1328,7 @@ function Contact({ t }) {
           <a
             href="https://g.page/r/CSjpwPvLGK4YEAE/review"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="btn-ghost inline-flex items-center gap-2"
             aria-label="Laisser un avis Google pour HügoLab (ouvre un nouvel onglet)"
           >
@@ -1388,7 +1388,7 @@ function AboutPage({ t }) {
               <a
                 href={page.hero.ctaSecondaryUrl}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="rounded-2xl border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-800"
               >
                 {page.hero.ctaSecondary}
@@ -1469,7 +1469,7 @@ function ServicesPage({ t }) {
             <a
               href={t.servicesPage.ctaSecondaryHref}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-2xl border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-800"
             >
               {t.servicesPage.ctaSecondary}

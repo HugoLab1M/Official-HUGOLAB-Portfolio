@@ -179,7 +179,7 @@ export default function LaCuillereAOmble() {
                 <a
                   href="https://drive.google.com"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-[#F6D9A7] hover:text-[#F6D9A7]"
                 >
                   <ArrowRight className="h-4 w-4" />
@@ -280,7 +280,7 @@ export default function LaCuillereAOmble() {
               <a
                 href="https://maps.app.goo.gl/"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-[#F6D9A7] hover:text-[#F6D9A7]"
               >
                 <ArrowRight className="h-4 w-4" /> Itinéraire

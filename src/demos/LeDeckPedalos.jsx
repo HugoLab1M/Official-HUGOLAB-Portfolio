@@ -292,7 +292,7 @@ export default function LeDeckPedalos() {
             <a
               href="https://cal.com"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="hidden rounded-full bg-cyan-300 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200 lg:inline-flex"
             >
               {lang === "fr" ? "Réserver" : "Book"}
@@ -327,7 +327,7 @@ export default function LeDeckPedalos() {
                 <a
                   href="https://cal.com"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-cyan-300 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-300/40 transition hover:bg-cyan-200"
                 >
                   <Sailboat className="h-4 w-4" />
@@ -517,7 +517,7 @@ export default function LeDeckPedalos() {
                     <a
                       href="https://cal.com"
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
                     >
                       {content.cta}

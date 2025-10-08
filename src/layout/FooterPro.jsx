@@ -39,7 +39,7 @@ export default function FooterPro({ t, onManageCookies, contact, socials }) {
                 <a
                   href={t.footer.ctaSecondaryUrl}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="rounded-2xl border border-neutral-700 px-4 py-2 text-sm font-medium text-neutral-100 transition hover:bg-neutral-900"
                 >
                   {t.footer.ctaSecondary}
@@ -107,7 +107,7 @@ export default function FooterPro({ t, onManageCookies, contact, socials }) {
                           key={social.name}
                           href={social.href}
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 transition hover:text-white"
                         >
                           {Icon ? <Icon className="h-3.5 w-3.5" /> : null}

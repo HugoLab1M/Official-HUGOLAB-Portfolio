@@ -328,7 +328,7 @@ export default function CoupDePompe() {
             <a
               href="https://cal.com"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="hidden rounded-full bg-[#F47529] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#F58C4D] lg:inline-flex"
             >
               {lang === "fr" ? "Réserver" : "Book"}
@@ -365,7 +365,7 @@ export default function CoupDePompe() {
                 <a
                   href="https://cal.com"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-[#F47529] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:bg-[#F58C4D]"
                 >
                   <Bike className="h-4 w-4" />
@@ -374,7 +374,7 @@ export default function CoupDePompe() {
                 <a
                   href="https://drive.google.com"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-3 text-sm font-semibold text-white transition hover:border-[#F47529] hover:text-[#F4C6A6]"
                 >
                   <ArrowRight className="h-4 w-4" />
@@ -522,7 +522,7 @@ export default function CoupDePompe() {
                     <a
                       href="https://cal.com"
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1F1F1F] transition hover:bg-[#F4C6A6]"
                     >
                       {content.footerCta}
@@ -557,7 +557,7 @@ export default function CoupDePompe() {
               <a
                 href="https://goo.gl/maps/3qJxYoKZyGX2"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#E3D7C9] px-5 py-3 text-sm font-semibold text-[#1F1F1F] transition hover:border-[#F47529] hover:text-[#F47529]"
               >
                 <ArrowRight className="h-4 w-4" />
@@ -571,6 +571,8 @@ export default function CoupDePompe() {
                 className="h-[320px] w-full"
                 loading="lazy"
                 allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
+                sandbox="allow-forms allow-same-origin allow-scripts allow-popups"
               />
             </div>
           </div>

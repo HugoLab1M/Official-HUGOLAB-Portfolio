@@ -77,10 +77,18 @@ export default function CookieBanner({
 
 export function getStoredConsent() {
   if (typeof window === "undefined") return null;
-  return window.localStorage.getItem(BANNER_KEY);
+  try {
+    return window.localStorage.getItem(BANNER_KEY);
+  } catch (error) {
+    return null;
+  }
 }
 
 export function storeConsent(value) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(BANNER_KEY, value);
+  try {
+    window.localStorage.setItem(BANNER_KEY, value);
+  } catch (error) {
+    // Gracefully degrade when storage is unavailable (privacy mode, etc.)
+  }
 }

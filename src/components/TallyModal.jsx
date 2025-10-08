@@ -20,7 +20,10 @@ export default function TallyModal({ url, onClose, title }) {
             title={title}
             src={url}
             className="h-[calc(100%-48px)] w-full"
-            allow="fullscreen; clipboard-read; clipboard-write; camera; microphone"
+            allow="fullscreen"
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            sandbox="allow-forms allow-scripts allow-same-origin allow-popups"
           />
         </div>
       </div>

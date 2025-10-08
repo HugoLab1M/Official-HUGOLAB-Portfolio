@@ -5,6 +5,11 @@ const GA_ID = 'G-2YGFBZL9PD';
 export function initAnalytics() {
   if (typeof window === 'undefined' || gaLoaded) return;
 
+  if (document.querySelector(`script[data-ga-id="${GA_ID}"]`)) {
+    gaLoaded = true;
+    return;
+  }
+
   gaLoaded = true;
 
   delete window[`ga-disable-${GA_ID}`];
@@ -19,6 +24,9 @@ export function initAnalytics() {
   const script = document.createElement('script');
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
   script.async = true;
+  script.setAttribute('data-ga-id', GA_ID);
+  script.referrerPolicy = 'strict-origin-when-cross-origin';
+  script.crossOrigin = 'anonymous';
   document.head.appendChild(script);
 }
 

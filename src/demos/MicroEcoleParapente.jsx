@@ -330,7 +330,7 @@ export default function MicroEcoleParapente() {
                 <a
                   href="https://cal.com"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-emerald-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-400/30 transition hover:bg-emerald-300"
                 >
                   <Thermometer className="h-4 w-4" />
@@ -339,7 +339,7 @@ export default function MicroEcoleParapente() {
                 <a
                   href="https://drive.google.com"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-emerald-300 hover:text-emerald-200"
                 >
                   <ArrowRight className="h-4 w-4" />
@@ -459,7 +459,7 @@ export default function MicroEcoleParapente() {
                   <a
                     href="https://cal.com"
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
                   >
                     {content.hero.cta}
