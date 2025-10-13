@@ -9,6 +9,8 @@ import SansPermisSaintJorioz from "./demos/SansPermisSaintJorioz.jsx";
 import MicroEcoleParapente from "./demos/MicroEcoleParapente.jsx";
 import CascadeNomadeCanyoning from "./demos/CascadeNomadeCanyoning.jsx";
 import LaCuillereAOmble from "./demos/LaCuillereAOmble.jsx";
+import PalaceLacLumiere from "./demos/PalaceLacLumiere.jsx";
+import LaSeiche from "./demos/LaSeiche.jsx";
 import PricingSection from "./components/PricingSection.jsx"; // +++
 import CookieBanner, { getStoredConsent, storeConsent } from "./components/CookieBanner.jsx";
 import { initAnalytics, disableAnalytics } from "./utils/analytics.js";
@@ -94,6 +96,26 @@ const PROJECTS = [
     image: "/projects/6_v2.jpg",        // mets une vignette ici (ou réutilise /omble/hero.jpg)
     url: "/demos/la-cuillere-a-omble",  // ⇦ route interne
     caseStudyUrl: "#case-omble",
+  },
+  {
+    slug: "palace-lac-lumiere",
+    title: "Lac & Lumière Palace — Hôtel 5*",
+    tagline: "Suites panoramiques, spa suspendu, gastronomie étoilée sur les rives du lac.",
+    industry: "Hôtellerie de luxe",
+    stack: ["React", "Tailwind", "Framer Motion"],
+    image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+    url: "/demos/palace-lac-lumiere",
+    caseStudyUrl: "#case-palace-lac-lumiere",
+  },
+  {
+    slug: "la-seiche-marche",
+    title: "La Seiche — Marché bar & loisirs",
+    tagline: "Agenda partagé, stands food, privatisations et newsletter pour Sévrier.",
+    industry: "Lieu hybride",
+    stack: ["React", "Tailwind", "Framer Motion"],
+    image: "/images/la-seiche/1.jpg",
+    url: "/demos/la-seiche",
+    caseStudyUrl: "#case-la-seiche",
   }
 ];
 
@@ -306,7 +328,7 @@ const STRINGS = {
       ctaSecondary: "Télécharger la plaquette",
       ctaSecondaryHref: "https://tally.so/r/mOQNRL",
     },
-    work: { title: "Projets en avant", kicker: "Nos réalisations" },
+    work: { title: "Projets en avant", kicker: "Nos réalisations", viewMore: "Voir davantage de maquettes" },
     workPage: {
       kicker: "Portfolio",
       title: "Projets et démonstrations HügoLab",
@@ -631,7 +653,7 @@ const STRINGS = {
       ctaSecondary: "Download the deck",
       ctaSecondaryHref: "https://tally.so/r/mOQNRL",
     },
-    work: { title: "Featured Work", kicker: "Case studies" },
+    work: { title: "Featured Work", kicker: "Case studies", viewMore: "See more mockups" },
     workPage: {
       kicker: "Portfolio",
       title: "Selected projects and demos",
@@ -1168,15 +1190,30 @@ function Services({ t }) {
   );
 }
 
-function Work({ t }) {
+function Work({ t, limit = 6, showMore = true }) {
+  const shouldLimit = typeof limit === "number";
+  const items = shouldLimit ? PROJECTS.slice(0, limit) : PROJECTS;
+  const shouldShowMore = showMore && shouldLimit && PROJECTS.length > limit;
+
   return (
     <section id="work" className="py-14 md:py-20">
       <SectionTitle kicker={t.work.kicker}>{t.work.title}</SectionTitle>
       <div className="max-w-6xl mx-auto px-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {PROJECTS.map((p) => (
+        {items.map((p) => (
           <ProjectCard p={p} key={p.slug} lang={t.langLabel} />
         ))}
       </div>
+      {shouldShowMore && (
+        <div className="mt-10 text-center">
+          <Link
+            to="/work"
+            className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-neutral-700 transition hover:border-neutral-500 hover:text-neutral-900"
+          >
+            {t.work.viewMore ?? (t.langLabel === "FR" ? "Voir davantage" : "See more")}
+            <span aria-hidden>&rarr;</span>
+          </Link>
+        </div>
+      )}
     </section>
   );
 }
@@ -1513,7 +1550,7 @@ function WorkPage({ t }) {
         </div>
       </section>
 
-      <Work t={t} />
+      <Work t={t} limit={null} showMore={false} />
     </main>
   );
 }
@@ -1693,6 +1730,8 @@ export default function App() {
         <Route path="/demos/micro-ecole-parapente" element={<MicroEcoleParapente />} />
         <Route path="/demos/cascade-nomade-canyoning" element={<CascadeNomadeCanyoning />} />
         <Route path="/demos/la-cuillere-a-omble" element={<LaCuillereAOmble />} />
+        <Route path="/demos/palace-lac-lumiere" element={<PalaceLacLumiere />} />
+        <Route path="/demos/la-seiche" element={<LaSeiche />} />
       </Routes>
 
       {/* Footer reste affiché partout */}
