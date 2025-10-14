@@ -7,7 +7,7 @@ export const events = [
     end: "23:30",
     type: "DJ",
     freeEntry: true,
-    image: "/images/la-seiche/1.jpg",
+    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=900&q=80",
     description: "Vibes house & funk au bar central. Cocktails & planches."
   },
   {
@@ -18,7 +18,7 @@ export const events = [
     end: "21:00",
     type: "Afterwork",
     freeEntry: true,
-    image: "/images/la-seiche/2.jpg",
+    image: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=900&q=80",
     description: "Bières artisanales, tapas du marché et happy hour DJ soft."
   },
   {
@@ -29,7 +29,7 @@ export const events = [
     end: "22:30",
     type: "Match",
     freeEntry: false,
-    image: "/images/la-seiche/3.jpg",
+    image: "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?auto=format&fit=crop&w=900&q=80",
     description: "Écran géant, burgers éphémères et bière pression spéciale."
   },
   {
@@ -40,7 +40,7 @@ export const events = [
     end: "15:00",
     type: "Brunch",
     freeEntry: false,
-    image: "/images/la-seiche/4.jpg",
+    image: "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=900&q=80",
     description: "Buffet locavore, jus pressés minute et coin kids."
   },
   {
@@ -51,7 +51,7 @@ export const events = [
     end: "01:00",
     type: "DJ",
     freeEntry: true,
-    image: "/images/la-seiche/5.jpg",
+    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=900&q=80",
     description: "Classiques disco et cocktails fumés sur la terrasse chauffée."
   },
   {
@@ -62,7 +62,7 @@ export const events = [
     end: "20:30",
     type: "Atelier",
     freeEntry: false,
-    image: "/images/la-seiche/6.jpg",
+    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80",
     description: "Apprenez à shaker trois cocktails iconiques avec notre chef barmaid."
   },
   {
@@ -73,7 +73,7 @@ export const events = [
     end: "18:00",
     type: "Famille",
     freeEntry: true,
-    image: "/images/la-seiche/3.jpg",
+    image: "https://images.unsplash.com/photo-1533138482166-48728b775c39?auto=format&fit=crop&w=900&q=80",
     description: "Ateliers créatifs, goûter géant et mini DJ set pour enfants."
   },
   {
@@ -84,7 +84,7 @@ export const events = [
     end: "23:00",
     type: "Concert",
     freeEntry: true,
-    image: "/images/la-seiche/2.jpg",
+    image: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
     description: "Trio soul, cuivres et ambiance cozy pour clôturer le mois."
   },
   {
@@ -95,7 +95,7 @@ export const events = [
     end: "09:30",
     type: "Bien-être",
     freeEntry: false,
-    image: "/images/la-seiche/5.jpg",
+    image: "https://images.unsplash.com/photo-1526402464717-0c2b4c76be6b?auto=format&fit=crop&w=900&q=80",
     description: "Session guidée, smoothie bowl offert après le cours."
   },
   {
@@ -106,7 +106,7 @@ export const events = [
     end: "17:30",
     type: "Famille",
     freeEntry: false,
-    image: "/images/la-seiche/4.jpg",
+    image: "https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=900&q=80",
     description: "Les enfants réalisent leur pizza avec le chef de la pizzeria."
   }
 ];

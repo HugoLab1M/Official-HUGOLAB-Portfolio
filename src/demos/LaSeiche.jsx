@@ -4,6 +4,7 @@ import Hero from "./la-seiche/components/Hero.jsx";
 import Agenda from "./la-seiche/components/Agenda.jsx";
 import Stands from "./la-seiche/components/Stands.jsx";
 import PrivatisationCTA from "./la-seiche/components/Ctas.jsx";
+import MaquettePitch from "./la-seiche/components/MaquettePitch.jsx";
 import Instagram from "./la-seiche/components/Instagram.jsx";
 import Newsletter from "./la-seiche/components/Newsletter.jsx";
 import Footer from "./la-seiche/components/Footer.jsx";
@@ -44,6 +45,7 @@ export default function LaSeiche() {
         <Agenda />
         <Stands />
         <PrivatisationCTA />
+        <MaquettePitch />
         <Instagram />
         <Newsletter />
       </main>

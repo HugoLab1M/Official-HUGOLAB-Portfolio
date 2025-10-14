@@ -123,7 +123,7 @@ export default function Agenda() {
   };
 
   return (
-    <section id="agenda" className="bg-[#FAFAFA] px-4 py-20 sm:px-6 lg:px-0">
+    <section id="agenda" className="bg-[#fff5f5] px-4 py-20 sm:px-6 lg:px-0">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -132,11 +132,11 @@ export default function Agenda() {
           transition={{ duration: 0.5 }}
           className="flex flex-col gap-10 lg:flex-row"
         >
-          <div className="w-full rounded-2xl border border-black/5 bg-white p-6 shadow-sm lg:max-w-sm">
-            <div className="flex items-center justify-between text-sm font-semibold text-[#0F1730]">
+          <div className="w-full rounded-2xl border border-[#f4c5ca] bg-white p-6 shadow-md lg:max-w-sm">
+            <div className="flex items-center justify-between text-sm font-semibold text-[#2a0e0e]">
               <span>{monthLabel}</span>
             </div>
-            <div className="mt-4 grid grid-cols-7 gap-2 text-center text-xs font-medium text-[#0F1730]/70">
+            <div className="mt-4 grid grid-cols-7 gap-2 text-center text-xs font-medium text-[#451315]/70">
               {DAY_NAMES.map((name) => (
                 <div key={name}>{name}</div>
               ))}
@@ -154,15 +154,15 @@ export default function Agenda() {
                         onClick={() => setSelectedDate(day.dateKey)}
                         className={`relative flex h-10 w-full items-center justify-center rounded-xl border transition ${
                           isSelected
-                            ? "border-[#0E7490] bg-[#0E7490]/10 text-[#0F1730]"
+                            ? "border-[#c1121f] bg-[#c1121f]/10 text-[#2a0e0e]"
                             : day.inMonth
-                            ? "border-transparent text-[#0F1730] hover:border-[#0E7490]/40"
-                            : "border-transparent text-[#0F1730]/30"
+                            ? "border-transparent text-[#2a0e0e] hover:border-[#f4c5ca]"
+                            : "border-transparent text-[#2a0e0e]/30"
                         }`}
                       >
                         {day.date.getDate()}
                         {hasEvents ? (
-                          <span className="absolute bottom-1 h-[6px] w-[6px] rounded-full bg-[#0E7490]" />
+                          <span className="absolute bottom-1 h-[6px] w-[6px] rounded-full bg-[#c1121f]" />
                         ) : null}
                       </button>
                     );
@@ -181,16 +181,16 @@ export default function Agenda() {
           </div>
 
           <div className="flex-1 space-y-6">
-            <div className="rounded-2xl border border-black/5 bg-white px-6 py-5 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.35em] text-[#0E7490]">
+            <div className="rounded-2xl border border-[#f4c5ca] bg-white px-6 py-5 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.35em] text-[#c1121f]">
                 {formatDateLabel(new Date(selectedDate))}
               </p>
-              <h3 className="mt-2 text-2xl font-semibold text-[#0F1730]">Programmation</h3>
+              <h3 className="mt-2 text-2xl font-semibold text-[#2a0e0e]">Programmation</h3>
             </div>
 
             <div className="space-y-4">
               {selectedEvents.length === 0 ? (
-                <div className="rounded-2xl border border-dashed border-[#0E7490]/30 bg-white px-6 py-10 text-center text-sm text-[#0F1730]/60">
+                <div className="rounded-2xl border border-dashed border-[#c1121f]/30 bg-white px-6 py-10 text-center text-sm text-[#2a0e0e]/60">
                   Pas d’évènement ce jour
                 </div>
               ) : (
@@ -201,7 +201,7 @@ export default function Agenda() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.4 }}
-                    className="card overflow-hidden hover-lift"
+                    className="card overflow-hidden border-[#f4c5ca] bg-white hover-lift"
                   >
                     <div className="grid gap-6 md:grid-cols-[180px_1fr]">
                       <img
@@ -211,21 +211,21 @@ export default function Agenda() {
                       />
                       <div className="space-y-4 px-6 py-5">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="rounded-full bg-[#0E7490]/10 px-3 py-1 text-xs font-medium text-[#0E7490]">
+                          <span className="rounded-full bg-[#fff0f0] px-3 py-1 text-xs font-medium text-[#c1121f]">
                             {event.type}
                           </span>
                           {event.freeEntry ? (
-                            <span className="rounded-full bg-[#0F1730] px-3 py-1 text-xs font-medium text-white">
+                            <span className="rounded-full bg-[#c1121f] px-3 py-1 text-xs font-medium text-white">
                               Entrée libre
                             </span>
                           ) : null}
                         </div>
                         <div>
-                          <h4 className="text-xl font-semibold text-[#0F1730]">{event.title}</h4>
-                          <p className="mt-1 text-sm text-[#0F1730]/70">
+                          <h4 className="text-xl font-semibold text-[#2a0e0e]">{event.title}</h4>
+                          <p className="mt-1 text-sm text-[#451315]/70">
                             {event.start} – {event.end}
                           </p>
-                          <p className="mt-3 text-sm text-[#0F1730]/70">{event.description}</p>
+                          <p className="mt-3 text-sm text-[#451315]/75">{event.description}</p>
                         </div>
                         <div className="flex flex-wrap gap-3 text-sm">
                           <PrimaryButton onClick={() => downloadICS(event)}>
