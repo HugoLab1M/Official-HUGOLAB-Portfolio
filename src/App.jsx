@@ -14,7 +14,6 @@ import LaSeiche from "./demos/LaSeiche.jsx";
 import PricingSection from "./components/PricingSection.jsx"; // +++
 import CookieBanner, { getStoredConsent, storeConsent } from "./components/CookieBanner.jsx";
 import { initAnalytics, disableAnalytics } from "./utils/analytics.js";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import TallyModal from "./components/TallyModal.jsx";
 import WhyUs from "./sections/WhyUs.jsx";
 import ServicesTeaser from "./sections/ServicesTeaser.jsx";
