@@ -372,7 +372,7 @@ function SuitesSection({ copy }) {
             {data.eyebrow}
           </p>
           <h2 className="mt-4 text-3xl font-light text-[var(--ink)]" style={{ "--ink": PALETTE.ink }}>{data.title}</h2>
-          <p className="mt-6 text-sm leading-relaxed text-[var(--ink)]/80">{data.copy}</p>
+          <p className="mt-6 text-sm leading-relaxed text-[var(--muted)]">{data.copy}</p>
           <a
             className="mt-8 inline-flex items-center gap-3 text-xs uppercase tracking-[0.4em] text-[var(--sand)]"
             style={{ "--sand": PALETTE.sand }}
@@ -389,7 +389,7 @@ function SuitesSection({ copy }) {
               <img src={card.image} alt={card.title} className="h-64 w-full object-cover" loading="lazy" />
               <div className="space-y-2 px-6 py-5 text-[var(--ink)]" style={{ "--ink": PALETTE.ink }}>
                 <h3 className="text-lg font-semibold tracking-[0.2em] text-[var(--sand)]" style={{ "--sand": PALETTE.sand }}>{card.title}</h3>
-                <p className="text-sm text-[var(--ink)]/70">{card.desc}</p>
+                <p className="text-sm text-[var(--muted)]">{card.desc}</p>
               </div>
             </div>
           ))}
@@ -443,7 +443,7 @@ function ExperiencesSection({ lang, copy }) {
           <div className="max-w-xl">
             <p className="text-xs uppercase tracking-[0.6em] text-[var(--slate)]" style={{ "--slate": PALETTE.slate }}>{data.eyebrow}</p>
             <h2 className="mt-3 text-3xl font-light text-[var(--ink)]" style={{ "--ink": PALETTE.ink }}>{copy.experiencesTitle}</h2>
-            <p className="mt-5 text-sm text-[var(--ink)]/75">
+            <p className="mt-5 text-sm text-[var(--muted)]">
               Escapades sur le lac, ateliers sensoriels, découvertes culinaires et culturelles — chaque moment est pensé sur-mesure par nos équipes.
             </p>
           </div>
@@ -452,7 +452,7 @@ function ExperiencesSection({ lang, copy }) {
             {data.items.map((item) => (
               <div key={item.title} className="border border-[var(--ivory-dark)] bg-white px-6 py-5" style={{ "--ivory-dark": "#e3dcd1" }}>
                 <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--sand)]" style={{ "--sand": PALETTE.sand }}>{item.title}</h3>
-                <p className="mt-3 text-sm text-[var(--ink)]/70">{item.copy}</p>
+                <p className="mt-3 text-sm text-[var(--muted)]">{item.copy}</p>
               </div>
             ))}
           </div>
@@ -470,7 +470,7 @@ function PracticalSection({ copy }) {
         <div className="space-y-6">
           <p className="text-xs uppercase tracking-[0.6em] text-[var(--slate)]" style={{ "--slate": PALETTE.slate }}>{data.eyebrow}</p>
           <h2 className="text-3xl font-light text-[var(--ink)]" style={{ "--ink": PALETTE.ink }}>Conciergerie & séjour</h2>
-          <p className="text-sm text-[var(--ink)]/75">{data.copy}</p>
+          <p className="text-sm text-[var(--muted)]">{data.copy}</p>
           <div className="space-y-3 text-sm text-[var(--ink)]" style={{ "--ink": PALETTE.ink }}>
             <p className="flex items-center gap-3"><MapPin className="h-4 w-4 text-[var(--sand)]" style={{ "--sand": PALETTE.sand }} /> {data.address}</p>
             <p className="flex items-center gap-3"><Phone className="h-4 w-4 text-[var(--sand)]" style={{ "--sand": PALETTE.sand }} /> <a href={`tel:${data.phone.replace(/\s+/g, "")}`} className="hover:underline">{data.phone}</a></p>
@@ -494,9 +494,9 @@ function PracticalSection({ copy }) {
 function Ornament({ className = "" }) {
   return (
     <div className={`flex flex-col items-center gap-3 text-[var(--sand)] ${className}`} style={{ "--sand": PALETTE.sand }}>
-      <span className="h-[38px] w-px bg-[var(--sand)]/40" />
+      <span className="h-[38px] w-px bg-[rgba(247,242,234,0.4)]" />
       <span className="h-4 w-4 rotate-45 border border-[var(--sand)]" />
-      <span className="h-[38px] w-px bg-[var(--sand)]/40" />
+      <span className="h-[38px] w-px bg-[rgba(247,242,234,0.4)]" />
     </div>
   );
 }

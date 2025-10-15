@@ -23,6 +23,7 @@ import MentionsLegales from "./legal/MentionsLegales.jsx";
 import Confidentialite from "./legal/Confidentialite.jsx";
 import CookiesPage from "./legal/Cookies.jsx";
 import CGV from "./legal/CGV.jsx";
+import AvisPage from "./pages/Avis.jsx";
 import FooterPro from "./layout/FooterPro.jsx";
 
 // =============================================
@@ -1723,6 +1724,7 @@ export default function App() {
         <Route path="/confidentialite" element={<Confidentialite />} />
         <Route path="/cookies" element={<CookiesPage />} />
         <Route path="/cgv" element={<CGV />} />
+        <Route path="/avis" element={<AvisPage />} />
         {/* Pages démos */}
         <Route path="/demos/coup-de-pompe" element={<CoupDePompe />} />
         <Route path="/demos/le-deck-pedalos" element={<LeDeckPedalos />} />
@@ -1731,7 +1733,7 @@ export default function App() {
         <Route path="/demos/cascade-nomade-canyoning" element={<CascadeNomadeCanyoning />} />
         <Route path="/demos/la-cuillere-a-omble" element={<LaCuillereAOmble />} />
         <Route path="/demos/palace-lac-lumiere" element={<PalaceLacLumiere />} />
-        <Route path="/demos/la-seiche" element={<LaSeiche />} />
+        <Route path="/demos/la-seiche/*" element={<LaSeiche />} />
       </Routes>
 
       {/* Footer reste affiché partout */}

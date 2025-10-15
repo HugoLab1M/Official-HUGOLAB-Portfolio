@@ -16,12 +16,12 @@ const MONTH_NAMES = [
   "Septembre",
   "Octobre",
   "Novembre",
-  "Décembre"
+  "Décembre",
 ];
 
 function createCalendarMatrix(year, month) {
   const firstDay = new Date(year, month, 1);
-  const startDay = (firstDay.getDay() + 6) % 7; // convert Sunday=6
+  const startDay = (firstDay.getDay() + 6) % 7;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const matrix = [];
   let current = 1 - startDay;
@@ -50,7 +50,6 @@ function formatDateLabel(date) {
 }
 
 function downloadICS(event) {
-  // Génère un fichier ICS simple pour l'évènement
   const dtStamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
   const dtStart = `${event.date.replace(/-/g, "")}T${event.start.replace(":", "")}`;
   const dtEnd = `${event.date.replace(/-/g, "")}T${event.end.replace(":", "")}`;
@@ -59,7 +58,7 @@ function downloadICS(event) {
     "VERSION:2.0",
     "PRODID:-//La Seiche//Agenda//FR",
     "BEGIN:VEVENT",
-    `UID:${event.id}@la-seiche` ,
+    `UID:${event.id}@la-seiche`,
     `DTSTAMP:${dtStamp}`,
     `DTSTART:${dtStart}`,
     `DTEND:${dtEnd}`,
@@ -91,6 +90,12 @@ export default function Agenda() {
     }, {});
   }, []);
 
+  const upcomingEvents = useMemo(() => {
+    const todayKey = new Date().toISOString().slice(0, 10);
+    const future = events.filter((event) => event.date >= todayKey).sort((a, b) => a.date.localeCompare(b.date));
+    return future.length > 0 ? future : [...events].sort((a, b) => a.date.localeCompare(b.date));
+  }, []);
+
   const [selectedDate, setSelectedDate] = useState(() => {
     const todayKey = new Date().toISOString().slice(0, 10);
     if (eventsByDate[todayKey]) return todayKey;
@@ -105,13 +110,19 @@ export default function Agenda() {
 
   const selectedEvents = eventsByDate[selectedDate] ?? [];
   const monthLabel = `${MONTH_NAMES[monthRef.month]} ${monthRef.year}`;
+  const isShowingSelection = selectedEvents.length > 0;
+  const displayEvents = isShowingSelection ? selectedEvents : upcomingEvents.slice(0, 3);
+  const agendaLabel = isShowingSelection
+    ? formatDateLabel(new Date(selectedDate))
+    : "Prochaines soirées mises en avant";
+
   const handleCopyLink = async () => {
     const hash = `#agenda-${selectedDate}`;
     window.location.hash = hash;
     const full = `${window.location.origin}${window.location.pathname}${hash}`;
     try {
       await navigator.clipboard.writeText(full);
-      alert("Lien copié dans le presse-papier");
+      alert("Lien copié dans le presse-papiers");
     } catch (error) {
       console.error("Clipboard error", error);
     }
@@ -119,29 +130,41 @@ export default function Agenda() {
 
   const handleMailTonight = () => {
     const dateLabel = new Date(selectedDate).toLocaleDateString("fr-FR");
-    window.location.href = `mailto:contact@lemarchedelaseiche.com?subject=Venir ce soir&body=Bonjour,%20je%20souhaite%20venir%20ce%20soir%20(${dateLabel}).%20Nous%20serons%20...`;
+    window.location.href = `mailto:contact@lemarchedelaseiche.com?subject=Venir ce soir&body=Bonjour,%20nous%20souhaitons%20venir%20ce%20${dateLabel}.`;
   };
 
   return (
-    <section id="agenda" className="bg-[#fff5f5] px-4 py-20 sm:px-6 lg:px-0">
-      <div className="mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col gap-10 lg:flex-row"
-        >
-          <div className="w-full rounded-2xl border border-[#f4c5ca] bg-white p-6 shadow-md lg:max-w-sm">
-            <div className="flex items-center justify-between text-sm font-semibold text-[#2a0e0e]">
+    <section id="agenda" className="relative bg-[var(--bg)] py-16 sm:py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-sm font-medium tracking-[0.08em] text-[var(--muted)]">Agenda live</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] leading-[1.1] text-[var(--ink)] after:mt-3 after:block after:h-[2px] after:w-10 after:bg-[var(--brown)] sm:text-4xl">
+              Concerts, soirées dansantes, karaokés et spectacles à venir
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--muted)] sm:text-base">
+              La Seiche privilégie les artistes et collectifs de Haute-Savoie : rock’n’roll avec DJ Shrek,
+              soirées Salsa/Bachata, bal country, stand-up Carton Comedy Club ou encore jam sessions du
+              vendredi. Filtrez par date, téléchargez la fiche .ics et partagez le lien du soir en un clic.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <PrimaryButton onClick={handleMailTonight}>Réserver ma soirée</PrimaryButton>
+            <GhostButton onClick={handleCopyLink}>Partager la date</GhostButton>
+          </div>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-[320px_1fr]">
+          <div className="rounded-3xl bg-white/85 p-6 text-[var(--muted)] shadow-sm backdrop-blur sm:p-7">
+            <div className="flex items-center justify-between text-sm font-semibold tracking-[-0.01em] text-[var(--ink)]">
               <span>{monthLabel}</span>
             </div>
-            <div className="mt-4 grid grid-cols-7 gap-2 text-center text-xs font-medium text-[#451315]/70">
+            <div className="mt-6 grid grid-cols-7 gap-2 text-center text-xs font-medium uppercase tracking-[0.06em] text-[var(--muted)]">
               {DAY_NAMES.map((name) => (
                 <div key={name}>{name}</div>
               ))}
             </div>
-            <div className="mt-2 grid grid-cols-7 gap-2 text-center text-sm">
+            <div className="mt-3 grid grid-cols-7 gap-2 text-center text-sm">
               {matrix.map((week, idx) => (
                 <Fragment key={idx}>
                   {week.map((day) => {
@@ -152,17 +175,17 @@ export default function Agenda() {
                         key={day.dateKey}
                         type="button"
                         onClick={() => setSelectedDate(day.dateKey)}
-                        className={`relative flex h-10 w-full items-center justify-center rounded-xl border transition ${
+                        className={`flex h-11 w-full items-center justify-center rounded-lg border text-sm transition ${
                           isSelected
-                            ? "border-[#c1121f] bg-[#c1121f]/10 text-[#2a0e0e]"
+                            ? "border-[var(--brown)] bg-[var(--brown)] text-[#0B0B0B]"
                             : day.inMonth
-                            ? "border-transparent text-[#2a0e0e] hover:border-[#f4c5ca]"
-                            : "border-transparent text-[#2a0e0e]/30"
+                            ? "border-[var(--border)] bg-[var(--sand)] text-[var(--ink)] hover:border-[var(--brown)]"
+                            : "border-[var(--border)] bg-white text-[var(--muted)]/70"
                         }`}
                       >
                         {day.date.getDate()}
                         {hasEvents ? (
-                          <span className="absolute bottom-1 h-[6px] w-[6px] rounded-full bg-[#c1121f]" />
+                          <span className="ml-1 text-[10px] text-[var(--brown)]">•</span>
                         ) : null}
                       </button>
                     );
@@ -170,88 +193,75 @@ export default function Agenda() {
                 </Fragment>
               ))}
             </div>
-            <div className="mt-6 space-y-3 text-sm">
-              <PrimaryButton onClick={handleMailTonight} className="w-full">
-                Venir ce soir
-              </PrimaryButton>
-              <GhostButton onClick={handleCopyLink} className="w-full">
-                Copier le lien du jour
-              </GhostButton>
-            </div>
           </div>
 
-          <div className="flex-1 space-y-6">
-            <div className="rounded-2xl border border-[#f4c5ca] bg-white px-6 py-5 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.35em] text-[#c1121f]">
-                {formatDateLabel(new Date(selectedDate))}
+          <div className="space-y-6">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.06em] text-[var(--muted)]">
+                {agendaLabel}
               </p>
-              <h3 className="mt-2 text-2xl font-semibold text-[#2a0e0e]">Programmation</h3>
+              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.02em] leading-[1.1] text-[var(--ink)] after:mt-2 after:block after:h-[2px] after:w-10 after:bg-[var(--brown)]">
+                {isShowingSelection ? "Programmation" : "À venir"}
+              </h3>
+              {!isShowingSelection ? (
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
+                  Choisissez une date dans le calendrier pour afficher le détail complet ou parcourez les
+                  trois prochaines soirées ci-dessous.
+                </p>
+              ) : null}
             </div>
 
             <div className="space-y-4">
-              {selectedEvents.length === 0 ? (
-                <div className="rounded-2xl border border-dashed border-[#c1121f]/30 bg-white px-6 py-10 text-center text-sm text-[#2a0e0e]/60">
-                  Pas d’évènement ce jour
-                </div>
-              ) : (
-                selectedEvents.map((event) => (
-                  <motion.article
-                    key={event.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.4 }}
-                    className="card overflow-hidden border-[#f4c5ca] bg-white hover-lift"
-                  >
-                    <div className="grid gap-6 md:grid-cols-[180px_1fr]">
-                      <img
-                        src={event.image}
-                        alt={event.title}
-                        className="h-full w-full object-cover"
-                      />
-                      <div className="space-y-4 px-6 py-5">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="rounded-full bg-[#fff0f0] px-3 py-1 text-xs font-medium text-[#c1121f]">
-                            {event.type}
-                          </span>
-                          {event.freeEntry ? (
-                            <span className="rounded-full bg-[#c1121f] px-3 py-1 text-xs font-medium text-white">
-                              Entrée libre
-                            </span>
-                          ) : null}
-                        </div>
-                        <div>
-                          <h4 className="text-xl font-semibold text-[#2a0e0e]">{event.title}</h4>
-                          <p className="mt-1 text-sm text-[#451315]/70">
-                            {event.start} – {event.end}
-                          </p>
-                          <p className="mt-3 text-sm text-[#451315]/75">{event.description}</p>
-                        </div>
-                        <div className="flex flex-wrap gap-3 text-sm">
-                          <PrimaryButton onClick={() => downloadICS(event)}>
-                            Ajouter à mon calendrier
-                          </PrimaryButton>
-                          <GhostButton onClick={() => handleMailEvent(event)}>
-                            Je participe
-                          </GhostButton>
-                        </div>
-                      </div>
+              {displayEvents.map((event) => (
+                <motion.article
+                  key={event.id}
+                  id={`agenda-${event.date}`}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex flex-col gap-0 overflow-hidden rounded-3xl bg-white/90 shadow-sm backdrop-blur md:flex-row"
+                >
+                  <div className="h-48 w-full bg-black/40 md:h-auto md:w-64">
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col justify-between p-6 sm:p-7">
+                    <div>
+                      <p className="text-xs font-medium uppercase tracking-[0.06em] text-[var(--muted)]">
+                        {event.type}
+                      </p>
+                      <h4 className="mt-2 text-xl font-semibold tracking-[-0.01em] text-[var(--ink)]">
+                        {event.title}
+                      </h4>
+                      <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
+                        {event.description}
+                      </p>
                     </div>
-                  </motion.article>
-                ))
-              )}
+                    <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-[var(--muted)]">
+                      <span className="font-medium text-[var(--ink)]">
+                        {event.start} → {event.end}
+                      </span>
+                      <span>{event.freeEntry ? "Entrée libre" : "Réservation conseillée"}</span>
+                      <button
+                        type="button"
+                        onClick={() => downloadICS(event)}
+                        className="inline-flex items-center justify-center rounded-xl border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--brown)] transition hover:border-[var(--brown)] hover:text-[var(--brown)] focus:outline-none focus:ring-2 focus:ring-[var(--brown)] focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white"
+                      >
+                        Ajouter au calendrier
+                      </button>
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
-}
-
-function handleMailEvent(event) {
-  // Mailto prérempli pour confirmer la participation
-  const body = encodeURIComponent(
-    `Bonjour,\n\nJe souhaite participer à l'évènement "${event.title}" le ${new Date(event.date).toLocaleDateString("fr-FR")} de ${event.start} à ${event.end}.\nNous serons ... personnes.\n\nMerci !`
-  );
-  window.location.href = `mailto:contact@lemarchedelaseiche.com?subject=Participation ${event.title}&body=${body}`;
 }

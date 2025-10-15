@@ -1,32 +1,51 @@
 export const stands = [
   {
-    id: "bar-central",
-    name: "Bar central",
-    image: "https://images.unsplash.com/photo-1558640472-9d2a7deb7f62?auto=format&fit=crop&w=900&q=80",
-    wait: "5–10 min"
+    id: "napoli-pizza",
+    name: "Napoli Pizza",
+    image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1600&q=80",
+    focus: "Pizza au four à bois",
+    service: "Service continu — mercredi à dimanche",
+    signature: "Napoli Pizza : pizzas faites maison, cuites au four à bois.",
   },
   {
-    id: "street-food",
-    name: "Street-food",
-    image: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=900&q=80",
-    wait: "10–20 min"
+    id: "atelier-burger",
+    name: "Atelier Burger",
+    image: "https://images.unsplash.com/photo-1612874473440-dac573942177?auto=format&fit=crop&w=1600&q=80",
+    focus: "Burger, snacking",
+    service: "Commandez, récupérez et dégustez où vous voulez.",
+    signature:
+      "Atelier Burger : burgers, tacos, wrap, croque-monsieur, steak, wings, nuggets, frites.",
   },
   {
-    id: "pizzeria",
-    name: "Pizzeria",
-    image: "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=900&q=80",
-    wait: "5–15 min"
+    id: "sain-bol",
+    name: "Le Sain Bol",
+    image: "https://images.unsplash.com/photo-1484980972926-edee96e0960d?auto=format&fit=crop&w=1600&q=80",
+    focus: "Bar à salades",
+    service: "Espace famille, mobilité réduite friendly.",
+    signature: "Le Sain Bol : bar à salades, soupes froides, jus de fruits et légumes frais.",
   },
   {
-    id: "jeux-loisirs",
-    name: "Jeux & loisirs",
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=900&q=80",
-    wait: "—"
+    id: "vieux-rhum",
+    name: "Bar du Vieux Rhum",
+    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80",
+    focus: "Cocktails d’auteur, rhums arrangés, mocktails",
+    service: "Carte saisonnière, accords spiritueux & tapas.",
+    signature: "Candy shots tagada & dragibus, sélection cavistes invités.",
   },
   {
-    id: "terrasse",
-    name: "Grande terrasse",
-    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80",
-    wait: "selon affluence"
-  }
+    id: "arcade",
+    name: "Arcade & Jeux",
+    image: "https://images.unsplash.com/photo-1520275126937-9506f7dd123c?auto=format&fit=crop&w=1600&q=80",
+    focus: "Billards, fléchettes, jeux d’arcade, baby-foot",
+    service: "Tournois hebdo, réservations groupes, animations quiz.",
+    signature: "Ambiance rétro gaming & scénographie néon.",
+  },
+  {
+    id: "rooftop",
+    name: "Rooftop & Terrasses",
+    image: "https://images.unsplash.com/photo-1527169402691-feff5539e52c?auto=format&fit=crop&w=1600&q=80",
+    focus: "Vue lac, braseros, DJ set plein air",
+    service: "Privatisation partielle, coucher de soleil sur le Semnoz.",
+    signature: "Spritz montagnard, planches feu de camp, lounge Route 66.",
+  },
 ];
