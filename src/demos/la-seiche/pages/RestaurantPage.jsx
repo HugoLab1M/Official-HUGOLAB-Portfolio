@@ -20,13 +20,13 @@ const STAND_FOCUS = [
     title: "Atelier Burger",
     description: "Burgers, tacos, wrap, croque-monsieur, wings, nuggets, frites croustillantes.",
     image:
-      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=80",
   },
   {
     title: "Le Sain Bol",
     description: "Bar à salades, soupes froides, jus frais pressés minute, desserts légers.",
     image:
-      "https://images.unsplash.com/photo-1484981137413-6a0be9b61151?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1473093226795-af9932fe5856?auto=format&fit=crop&w=1200&q=80",
   },
   {
     title: "Chichen-Itza",
@@ -40,7 +40,7 @@ const AMBIANCE_SHOTS = [
   {
     title: "Comptoirs & terrasses",
     description: "Vastes espaces communs pour partager tapas et planches après le service.",
-    image: "https://images.unsplash.com/photo-1521917441209-e886f0404a7e?auto=format&fit=crop&w=1600&q=80",
+    image: "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=1600&q=80",
   },
   {
     title: "Family friendly",

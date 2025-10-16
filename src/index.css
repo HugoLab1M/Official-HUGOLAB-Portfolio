@@ -89,16 +89,20 @@ input, button, textarea, select { font: inherit; }
   .btn-primary {
     @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium text-white
            shadow-sm transition active:scale-[0.99]
-           bg-[var(--brown)] hover:bg-[var(--brown-2)]
-           focus:outline-none focus:ring-2 focus:ring-[var(--brown)] focus:ring-opacity-30 focus:ring-offset-2 focus:ring-offset-[var(--bg)];
+           bg-black hover:bg-neutral-900
+           focus:outline-none focus:ring-2 focus:ring-black/30 focus:ring-offset-2 focus:ring-offset-white
+           dark:bg-white dark:text-black dark:hover:bg-neutral-100
+           dark:focus:ring-white/30 dark:focus:ring-offset-neutral-900;
   }
 
   /* Ghost / outline button */
   .btn-ghost {
     @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium
-           border border-[rgba(23,23,23,0.18)] text-[var(--ink)]
-           transition hover:border-[var(--brown)] hover:text-[var(--brown)]
-           focus:outline-none focus:ring-2 focus:ring-[var(--brown)] focus:ring-opacity-30 focus:ring-offset-2 focus:ring-offset-[var(--bg)];
+           border border-neutral-300 text-neutral-900 transition
+           hover:bg-neutral-900 hover:text-white
+           focus:outline-none focus:ring-2 focus:ring-neutral-300 focus:ring-offset-2 focus:ring-offset-white
+           dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-white dark:hover:text-black
+           dark:focus:ring-neutral-700 dark:focus:ring-offset-neutral-900;
   }
 
   /* Rounded pill (used across site) */

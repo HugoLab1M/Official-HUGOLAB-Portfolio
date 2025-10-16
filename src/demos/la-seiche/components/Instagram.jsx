@@ -22,7 +22,7 @@ const PHOTOS = [
     alt: "Scène et concerts live",
   },
   {
-    src: "https://images.unsplash.com/photo-1533138482166-48728b775c39?auto=format&fit=crop&w=1200&q=80",
+    src: "https://images.unsplash.com/photo-1516302366965-5b1ae04b8b36?auto=format&fit=crop&w=1200&q=80",
     alt: "Zone loisirs & arcade",
   },
 ];

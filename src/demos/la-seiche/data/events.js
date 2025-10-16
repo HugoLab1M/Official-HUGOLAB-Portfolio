@@ -73,7 +73,7 @@ export const events = [
     end: "18:00",
     type: "Famille",
     freeEntry: true,
-    image: "https://images.unsplash.com/photo-1533138482166-48728b775c39?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1503457583177-22caed236084?auto=format&fit=crop&w=900&q=80",
     description: "Ateliers créatifs, goûter géant et mini DJ set pour enfants."
   },
   {

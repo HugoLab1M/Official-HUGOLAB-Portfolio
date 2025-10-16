@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, UtensilsCrossed, Wine, Gamepad2, CalendarDays } from "lucide-react";
 import { PrimaryButton, GhostButton } from "./Ctas.jsx";
 
+const LOCAL_LOISIRS_IMAGE = new URL("../Images/Imagelaseiche3.jpg", import.meta.url).href;
+
 const SLIDES = [
   {
     key: "restaurant",
@@ -9,7 +11,7 @@ const SLIDES = [
     subtitle:
       "Cuisine du monde, bars signature et espaces lounge sur 1 200 m² intérieurs et 1 500 m² extérieurs à Sévrier, près d’Annecy.",
     href: "#restaurant",
-    image: "https://images.unsplash.com/photo-1521917441209-e886f0404a7e?auto=format&fit=crop&w=2100&q=80",
+    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=2100&q=80",
     tone: "light",
   },
   {
@@ -27,7 +29,7 @@ const SLIDES = [
     subtitle:
       "Billards, baby-foot, fléchettes, skatepark, pétanque, aire kids et jeux d’arcade : prolongez la soirée en famille ou entre amis.",
     href: "#loisirs",
-    image: "https://images.unsplash.com/photo-1603217192483-4f934b1dae3e?auto=format&fit=crop&w=2100&q=80",
+    image: LOCAL_LOISIRS_IMAGE,
     tone: "light",
   },
   {
