@@ -27,24 +27,8 @@ export default function LoisirsPage() {
         </div>
       </header>
 
-      <section className="py-16 sm:py-20 md:py-24">
-        <div className="mx-auto max-w-4xl space-y-6 px-4 sm:px-6 lg:px-8">
-          <p className="text-sm font-medium tracking-[0.08em] text-[var(--muted)]">
-            Sorties & loisirs
-          </p>
-          <h1 className="text-3xl font-semibold tracking-[-0.02em] leading-[1.1] sm:text-[2.3rem]">
-            Jeux grande taille, animations live et terrasses chill
-          </h1>
-          <p className="text-base leading-relaxed text-[var(--muted)]">
-            Billards, baby-foot, jeux d’arcade rétro, fléchettes, pétanque, skatepark, aire kids, ping-pong :
-            La Seiche propose une multitude d’activités pour prolonger la soirée. Ajoutez les ateliers créatifs,
-            les cours de danse, les karaokés et les brunchs en terrasse pour un programme complet.
-          </p>
-          <p className="text-base leading-relaxed text-[var(--muted)]">
-            Réserver un créneau, privatiser un espace loisirs ou organiser un tournoi est possible via le
-            formulaire de contact ou WhatsApp.
-          </p>
-        </div>
+      <section className="py-10 sm:py-12">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8" />
       </section>
       <LoisirsSection />
     </div>

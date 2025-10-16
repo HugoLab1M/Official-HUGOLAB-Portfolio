@@ -26,22 +26,8 @@ export default function BarPage() {
         </div>
       </header>
 
-      <section className="py-16 sm:py-20 md:py-24">
-        <div className="mx-auto max-w-4xl space-y-6 px-4 sm:px-6 lg:px-8">
-          <p className="text-sm font-medium tracking-[0.08em] text-[var(--muted)]">Bars & mixologie</p>
-          <h1 className="text-3xl font-semibold tracking-[-0.02em] leading-[1.1] sm:text-[2.3rem]">
-            Rhums arrangés, mocktails créatifs et rooftop brasero
-          </h1>
-          <p className="text-base leading-relaxed text-[var(--muted)]">
-            Le bar du Vieux Rhum concentre l’ambiance du site : route 66 lounge, rooftop brasero, candy shots,
-            accords cocktails & tapas. Collaborations cavistes et brasseurs invités, mocktails signature et carte
-            premium pour animer vos soirées après les concerts ou ateliers.
-          </p>
-          <p className="text-base leading-relaxed text-[var(--muted)]">
-            Horaires : mercredi et jeudi 18h–00h, vendredi et samedi 18h–00h30, dimanche 12h–23h. Réservez un
-            comptoir ou un espace lounge selon vos événements.
-          </p>
-        </div>
+      <section className="py-10 sm:py-12">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8" />
       </section>
       <BarSection />
     </div>

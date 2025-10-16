@@ -26,17 +26,8 @@ export default function PhotosPage() {
         </div>
       </header>
 
-      <section className="py-16 sm:py-20 md:py-24">
-        <div className="mx-auto max-w-4xl space-y-6 px-4 sm:px-6 lg:px-8">
-          <p className="text-sm font-medium tracking-[0.08em] text-[var(--muted)]">Ambiances</p>
-          <h1 className="text-3xl font-semibold tracking-[-0.02em] leading-[1.1] sm:text-[2.3rem]">
-            Photos, stories et contenus générés à La Seiche
-          </h1>
-          <p className="text-base leading-relaxed text-[var(--muted)]">
-            Terrasses brasero, scènes live, stands gourmands, espaces jeux… Cette sélection visuelle illustre
-            l’univers du food court et peut être reliée à vos stories épinglées or Instagram highlights.
-          </p>
-        </div>
+      <section className="py-10 sm:py-12">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8" />
       </section>
       <Instagram />
     </div>

@@ -10,7 +10,6 @@ const LINKS = [
   { label: "Photos", href: "/demos/la-seiche/photos" },
   { label: "Infos", href: "/demos/la-seiche/infos" },
   { label: "Blog", href: "/demos/la-seiche/blog" },
-  { label: "Privatisations", href: "/demos/la-seiche/privatisations" },
 ];
 
 const SOCIAL_LINKS = [
