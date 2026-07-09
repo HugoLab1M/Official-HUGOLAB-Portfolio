@@ -1,19 +1,33 @@
 import { useState } from "react";
 import { Ship, Waves, Anchor, MapPin, Clock, Phone, Languages, CreditCard, ShieldCheck, Wind, Camera } from "lucide-react";
 
-function Pill({ children }) { return <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-sm backdrop-blur">{children}</span>; }
+/* DA "capitainerie" : crème, navy profond, touches laiton — sérif classique pour les titres */
+const NAVY = "#12314E";
+const BRASS = "#B08D3F";
+const CREAM = "#FAF6ED";
+
+function Pill({ children }) {
+  return (
+    <span className="inline-flex items-center gap-2 border px-3 py-1 text-[13px] uppercase tracking-[0.08em]" style={{ borderColor: `${NAVY}33`, color: NAVY, background: "#fff" }}>
+      {children}
+    </span>
+  );
+}
 function Section({ children, className = "" }) { return <section className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</section>; }
 function CTA({ label, onClick }) {
   return (
-    <button onClick={onClick}
-      className="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold shadow-sm transition-transform hover:scale-[1.01] active:scale-[0.99] focus:outline-none focus:ring"
-      style={{ background: "linear-gradient(90deg, #111827, #1f2937)", color: "#fff" }}
+    <button
+      onClick={onClick}
+      className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
+      style={{ background: NAVY }}
+      onMouseEnter={(e) => (e.currentTarget.style.background = BRASS)}
+      onMouseLeave={(e) => (e.currentTarget.style.background = NAVY)}
     >
       {label}
     </button>
   );
 }
-function Card({ children, className = "" }) { return <div className={`rounded-2xl border border-black/10 bg-white/70 p-5 shadow-sm backdrop-blur ${className}`}>{children}</div>; }
+function Card({ children, className = "" }) { return <div className={`border p-5 ${className}`} style={{ borderColor: `${NAVY}1f`, background: "#fff" }}>{children}</div>; }
 
 const copy = {
   fr: {
@@ -73,18 +87,24 @@ export default function SansPermisSaintJorioz() {
   const t = copy[lang];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#E7F7FB] to-white text-[#0F172A]">
-      <header className="sticky top-0 z-30 border-b border-black/10 bg-white/80 backdrop-blur">
+    <div className="min-h-screen" style={{ background: CREAM, color: NAVY, fontFamily: '"Manrope", system-ui, sans-serif' }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+        .spsj-serif { font-family: 'Playfair Display', Georgia, serif; }
+      `}</style>
+      {/* liseré tricolore façon pavillon nautique */}
+      <div aria-hidden className="h-1.5 w-full" style={{ background: `linear-gradient(90deg, ${NAVY} 0 33%, #fff 33% 66%, ${BRASS} 66%)` }} />
+      <header className="sticky top-0 z-30 border-b backdrop-blur" style={{ borderColor: `${NAVY}1f`, background: "rgba(250,246,237,0.92)" }}>
         <Section className="flex items-center justify-between py-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0EA5E9] text-white"><Ship size={18}/></div>
+            <div className="flex h-10 w-10 items-center justify-center text-white" style={{ background: NAVY }}><Ship size={18}/></div>
             <div>
-              <p className="text-lg font-semibold">Sans Permis Saint-Jorioz</p>
-              <p className="text-xs opacity-70">Port • Réservation en ligne</p>
+              <p className="spsj-serif text-lg font-semibold">Sans Permis Saint-Jorioz</p>
+              <p className="text-xs uppercase tracking-[0.14em] opacity-70">Port · Réservation en ligne</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => setLang(lang === "fr" ? "en" : "fr")} className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-sm">
+            <button onClick={() => setLang(lang === "fr" ? "en" : "fr")} className="inline-flex items-center gap-2 border px-3 py-1 text-sm" style={{ borderColor: `${NAVY}33` }}>
               <Languages size={14}/> {lang.toUpperCase()}
             </button>
           </div>
@@ -96,7 +116,7 @@ export default function SansPermisSaintJorioz() {
           <div className="space-y-6">
             <div className="space-y-3">
               <Pill><Anchor size={16}/> {t.tagline}</Pill>
-              <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">{t.pitch}</h1>
+              <h1 className="spsj-serif text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">{t.pitch}</h1>
               <p className="max-w-prose text-base opacity-80">Acompte sécurisé, empreinte bancaire pour la caution, rappel SMS et carte des zones autorisées. Montez à bord en toute sérénité et profitez du lac d’Annecy.</p>
             </div>
             <div className="flex flex-wrap items-center gap-4">
@@ -106,14 +126,14 @@ export default function SansPermisSaintJorioz() {
               </div>
             </div>
           </div>
-          <div className="relative h-72 w-full overflow-hidden rounded-3xl shadow-xl md:h-96">
+          <div className="relative h-72 w-full overflow-hidden shadow-xl md:h-96">
             <img
               src="/sans permis/sanspermis1.jpg"
               alt="Balade en bateau sans permis à Saint-Jorioz"
               className="absolute inset-0 h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0f172acc] via-transparent to-transparent" />
-            <div className="absolute bottom-6 left-6 rounded-2xl bg-white/80 px-4 py-3 text-sm font-medium text-[#0F172A] shadow-lg">
+            <div className="absolute bottom-6 left-6 bg-white/90 px-4 py-3 text-sm font-medium text-[#0F172A] shadow-lg">
               Vue sur le port de Saint-Jorioz
             </div>
           </div>
@@ -123,14 +143,14 @@ export default function SansPermisSaintJorioz() {
       <Section className="pb-16">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-[#0EA5E9]">Flotte</p>
-            <h2 className="mt-2 text-2xl font-semibold sm:text-3xl">{t.fleetTitle}</h2>
+            <p className="text-sm uppercase tracking-[0.3em]" style={{ color: BRASS }}>Flotte</p>
+            <h2 className="spsj-serif mt-2 text-2xl font-semibold sm:text-3xl">{t.fleetTitle}</h2>
           </div>
           <p className="max-w-xl text-sm opacity-70">Tous nos bateaux sont livrés avec gilets adultes/enfants, briefing personnalisé et carte des zones recommandées pour profiter du lac sans stress.</p>
         </div>
         <div className="mt-6 grid gap-6 md:grid-cols-3">
           {t.fleet.map((b, i) => (
-            <div key={i} className="flex h-full flex-col overflow-hidden rounded-2xl border border-black/10 bg-white/70 shadow-sm backdrop-blur">
+            <div key={i} className="flex h-full flex-col overflow-hidden border border-[#12314E1f] bg-white shadow-sm">
               <div className="relative h-48 w-full overflow-hidden">
                 <img src={b.image} alt={b.name} className="h-full w-full object-cover" loading="lazy" />
                 <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/50 to-transparent" />
@@ -150,13 +170,13 @@ export default function SansPermisSaintJorioz() {
             {t.features.map((f, i) => (
               <Card key={i} className="h-full">
                 <div className="flex items-start gap-3">
-                  <f.Icon size={20} className="mt-0.5 text-[#0EA5E9]" />
+                  <f.Icon size={20} className="mt-0.5 text-[#B08D3F]" />
                   <p className="text-sm leading-relaxed">{f.text}</p>
                 </div>
               </Card>
             ))}
           </div>
-          <div className="relative overflow-hidden rounded-3xl">
+          <div className="relative overflow-hidden">
             <img
               src="/sans permis/sanspermis4.jpg"
               alt="Navigation détente sur le lac"
@@ -176,12 +196,12 @@ export default function SansPermisSaintJorioz() {
         <Card>
           <h3 className="mb-4 text-lg font-semibold">{t.formTitle}</h3>
           <form className="grid gap-4 md:grid-cols-3">
-            <div><label className="mb-1 block text-sm opacity-70">{t.labels.date}</label><input type="date" className="w-full rounded-xl border border-black/10 px-3 py-2" /></div>
-            <div><label className="mb-1 block text-sm opacity-70">{t.labels.time}</label><input type="time" className="w-full rounded-xl border border-black/10 px-3 py-2" /></div>
-            <div><label className="mb-1 block text-sm opacity-70">{t.labels.duration}</label><select className="w-full rounded-xl border border-black/10 px-3 py-2">{t.durations.map(d=><option key={d}>{d}</option>)}</select></div>
-            <div><label className="mb-1 block text-sm opacity-70">{t.labels.model}</label><select className="w-full rounded-xl border border-black/10 px-3 py-2"><option>Sans permis 6cv</option><option>Sans permis confort</option><option>Électrique</option></select></div>
-            <div><label className="mb-1 block text-sm opacity-70">{t.labels.name}</label><input placeholder="Alex Dupont" className="w-full rounded-xl border border-black/10 px-3 py-2" /></div>
-            <div><label className="mb-1 block text-sm opacity-70">{t.labels.phone}</label><input placeholder="+33 6 00 00 00 10" className="w-full rounded-xl border border-black/10 px-3 py-2" /></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.labels.date}</label><input type="date" className="w-full border border-[#12314E33] bg-white px-3 py-2" /></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.labels.time}</label><input type="time" className="w-full border border-[#12314E33] bg-white px-3 py-2" /></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.labels.duration}</label><select className="w-full border border-[#12314E33] bg-white px-3 py-2">{t.durations.map(d=><option key={d}>{d}</option>)}</select></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.labels.model}</label><select className="w-full border border-[#12314E33] bg-white px-3 py-2"><option>Sans permis 6cv</option><option>Sans permis confort</option><option>Électrique</option></select></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.labels.name}</label><input placeholder="Alex Dupont" className="w-full border border-[#12314E33] bg-white px-3 py-2" /></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.labels.phone}</label><input placeholder="+33 6 00 00 00 10" className="w-full border border-[#12314E33] bg-white px-3 py-2" /></div>
             <div className="md:col-span-3"><CTA label={t.labels.submit} /></div>
           </form>
         </Card>

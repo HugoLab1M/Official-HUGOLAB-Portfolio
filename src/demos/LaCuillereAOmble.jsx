@@ -121,27 +121,31 @@ export default function LaCuillereAOmble() {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <div className="min-h-screen bg-[#F7F4F1] text-[#1F1F1F]">
-      <header className="sticky top-0 z-40 border-b border-black/10 bg-[#F7F4F1]/90 backdrop-blur">
+    <div className="min-h-screen bg-[#F7F4EE] text-[#22372B]" style={{ fontFamily: '"Manrope", system-ui, sans-serif' }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap');
+        .omb-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+      `}</style>
+      <header className="sticky top-0 z-40 border-b border-black/10 bg-[#F7F4EE]/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-[#1F1F1F] to-[#4F4C4A] text-white">
+            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-[#22372B] to-[#3E5A48] text-white">
               <UtensilsCrossed className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-base font-semibold tracking-tight">{content.brand}</p>
+              <p className="omb-serif text-xl font-semibold tracking-tight">{content.brand}</p>
               <p className="text-xs uppercase tracking-[0.35em] text-[#6F6B68]">{content.location}</p>
             </div>
           </div>
           <nav className="hidden items-center gap-6 text-sm font-medium text-[#6F6B68] md:flex">
             {content.nav.map((item) => (
-              <button key={item.id} onClick={() => scrollTo(item.id)} className="transition hover:text-[#1F1F1F]">
+              <button key={item.id} onClick={() => scrollTo(item.id)} className="transition hover:text-[#22372B]">
                 {item.label}
               </button>
             ))}
             <a
               href="tel:+33450443071"
-              className="inline-flex items-center gap-2 rounded-full bg-[#1F1F1F] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#383533]"
+              className="inline-flex items-center gap-2 rounded-full bg-[#22372B] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2F4A3A]"
             >
               <Phone className="h-4 w-4" />
               Réserver
@@ -166,12 +170,12 @@ export default function LaCuillereAOmble() {
               <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-[#F6D9A7]">
                 {content.hero.kicker}
               </span>
-              <h1 className="mt-4 text-3xl font-semibold leading-tight md:text-5xl">{content.hero.title}</h1>
+              <h1 className="omb-serif mt-4 text-4xl font-semibold leading-tight md:text-6xl">{content.hero.title}</h1>
               <p className="mt-4 max-w-xl text-base text-white/85 md:text-lg">{content.hero.sub}</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="tel:+33450443071"
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#1F1F1F] shadow-lg shadow-black/20 transition hover:bg-[#FBE8C8]"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#22372B] shadow-lg shadow-black/20 transition hover:bg-[#FBE8C8]"
                 >
                   <CalendarDays className="h-4 w-4" />
                   {content.hero.cta}
@@ -201,12 +205,12 @@ export default function LaCuillereAOmble() {
         <section id="menu" className="mx-auto max-w-6xl px-4 py-16">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
-              <h2 className="text-2xl font-semibold md:text-3xl">{content.menu.title}</h2>
+              <h2 className="omb-serif text-3xl font-semibold md:text-4xl">{content.menu.title}</h2>
               <p className="text-sm text-[#6F6B68]">{content.menu.desc}</p>
             </div>
             <a
               href="mailto:contact@lacuilleeraomble.fr"
-              className="hidden items-center gap-2 text-sm font-semibold text-[#1F1F1F] underline underline-offset-4 md:inline-flex"
+              className="hidden items-center gap-2 text-sm font-semibold text-[#22372B] underline underline-offset-4 md:inline-flex"
             >
               Obtenir la carte complète
             </a>
@@ -214,11 +218,11 @@ export default function LaCuillereAOmble() {
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {content.menu.sections.map((section) => (
               <div key={section.title} className="rounded-3xl border border-[#E2DED9] bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-[#1F1F1F]">{section.title}</h3>
+                <h3 className="text-lg font-semibold text-[#22372B]">{section.title}</h3>
                 <ul className="mt-4 space-y-3 text-sm text-[#6F6B68]">
                   {section.items.map((item) => (
                     <li key={item.name}>
-                      <p className="font-medium text-[#1F1F1F]">{item.name}</p>
+                      <p className="font-medium text-[#22372B]">{item.name}</p>
                       <p>{item.note}</p>
                     </li>
                   ))}
@@ -231,13 +235,13 @@ export default function LaCuillereAOmble() {
 
         <section id="experience" className="bg-white py-16">
           <div className="mx-auto max-w-6xl px-4">
-            <h2 className="text-2xl font-semibold md:text-3xl">{content.experience.title}</h2>
+            <h2 className="omb-serif text-3xl font-semibold md:text-4xl">{content.experience.title}</h2>
             <div className="mt-6 grid gap-6 md:grid-cols-3">
               {content.experience.items.map((item) => (
                 <div key={item.title} className="flex items-start gap-3 rounded-3xl border border-[#E2DED9] bg-[#FDFBF7] p-5">
                   <item.icon className="h-5 w-5 text-[#D2975C]" />
                   <div>
-                    <p className="font-semibold text-[#1F1F1F]">{item.title}</p>
+                    <p className="font-semibold text-[#22372B]">{item.title}</p>
                     <p className="text-sm text-[#6F6B68]">{item.text}</p>
                   </div>
                 </div>
@@ -250,7 +254,7 @@ export default function LaCuillereAOmble() {
         </section>
 
         <section id="galerie" className="mx-auto max-w-6xl px-4 py-16">
-          <h2 className="text-2xl font-semibold md:text-3xl">{content.gallery.title}</h2>
+          <h2 className="omb-serif text-3xl font-semibold md:text-4xl">{content.gallery.title}</h2>
           <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3">
             {content.gallery.images.map((src, idx) => (
               <div key={idx} className="aspect-[4/3] overflow-hidden rounded-2xl">
@@ -267,10 +271,10 @@ export default function LaCuillereAOmble() {
           </div>
         </section>
 
-        <section id="reservation" className="bg-[#1F1F1F] py-20 text-white">
+        <section id="reservation" className="bg-[#22372B] py-20 text-white">
           <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <h2 className="text-2xl font-semibold md:text-3xl">{content.reservation.title}</h2>
+              <h2 className="omb-serif text-3xl font-semibold md:text-4xl">{content.reservation.title}</h2>
               <p className="mt-2 text-sm text-white/80">{content.reservation.desc}</p>
               <div className="mt-6 space-y-3 text-sm text-white/80">
                 <p className="flex items-center gap-3"><Phone className="h-4 w-4 text-[#F6D9A7]" /> {content.reservation.phone}</p>
@@ -309,7 +313,7 @@ export default function LaCuillereAOmble() {
                 {content.reservation.form.note}
                 <textarea rows={3} className="mt-1 w-full rounded-xl border border-white/20 bg-white/5 px-3 py-2 text-white focus:border-[#F6D9A7] focus:outline-none" placeholder="Allergies, poussette, etc." />
               </label>
-              <button type="button" className="inline-flex items-center justify-center rounded-xl bg-[#F6D9A7] px-4 py-3 text-sm font-semibold text-[#1F1F1F] transition hover:bg-[#F3C888]">
+              <button type="button" className="inline-flex items-center justify-center rounded-xl bg-[#F6D9A7] px-4 py-3 text-sm font-semibold text-[#22372B] transition hover:bg-[#F3C888]">
                 {content.reservation.form.submit}
               </button>
             </form>
@@ -317,7 +321,7 @@ export default function LaCuillereAOmble() {
         </section>
       </main>
 
-      <footer className="border-t border-black/10 bg-[#F7F4F1] py-6 text-center text-sm text-[#6F6B68]">
+      <footer className="border-t border-black/10 bg-[#F7F4EE] py-6 text-center text-sm text-[#6F6B68]">
         {content.footer}
       </footer>
     </div>

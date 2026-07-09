@@ -232,11 +232,11 @@ const cardVariants = {
   visible: (i = 1) => ({ opacity: 1, y: 0, transition: { delay: i * 0.12, duration: 0.6, ease: "easeOut" } }),
 };
 
-function SectionTitle({ kicker, title, align = "left" }) {
+function SectionTitle({ kicker, title, align = "left", light = false }) {
   return (
     <div className={`mb-10 ${align === "center" ? "text-center" : "text-left"}`}>
-      <span className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-400/70">{kicker}</span>
-      <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white md:text-3xl">{title}</h2>
+      <span className={`text-xs font-semibold uppercase tracking-[0.3em] ${light ? "text-[#FFDE8A]" : "text-[#1878B8]"}`}>{kicker}</span>
+      <h2 className={`pdl-display mt-3 text-2xl font-bold md:text-3xl ${light ? "text-white" : "text-[#123B54]"}`}>{title}</h2>
     </div>
   );
 }
@@ -256,16 +256,20 @@ export default function LeDeckPedalos() {
   }, []);
 
   return (
-    <div className="bg-gradient-to-b from-cyan-950 via-slate-950 to-slate-950 text-white">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur">
+    <div className="bg-[#FDF9F0] text-[#123B54]" style={{ fontFamily: '"Manrope", system-ui, sans-serif' }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&display=swap');
+        .pdl-display { font-family: 'Baloo 2', system-ui, sans-serif; }
+      `}</style>
+      <header className="sticky top-0 z-40 border-b border-[#123B54]/10 bg-[#FDF9F0]/92 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400 to-indigo-500 text-lg font-black text-slate-950 shadow-lg">
+            <div className="grid h-11 w-11 place-items-center rounded-full bg-[#FFC94D] text-lg font-black text-[#123B54] shadow-md">
               LD
             </div>
             <div>
               <p className="text-base font-semibold tracking-tight">{content.brand}</p>
-              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">{content.badge}</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-[#1878B8]">{content.badge}</p>
             </div>
           </div>
           <nav className="hidden items-center gap-6 text-sm font-medium lg:flex">
@@ -276,7 +280,7 @@ export default function LeDeckPedalos() {
                   const target = document.getElementById(item.id);
                   if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
                 }}
-                className="text-slate-200 transition hover:text-cyan-200"
+                className="text-[#41607A] transition hover:text-[#1878B8]"
               >
                 {item.label}
               </button>
@@ -285,7 +289,7 @@ export default function LeDeckPedalos() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-              className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:border-cyan-300 hover:text-cyan-200"
+              className="rounded-full border border-[#123B54]/25 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#123B54] transition hover:border-[#1878B8] hover:text-[#1878B8]"
             >
               {lang === "fr" ? "EN" : "FR"}
             </button>
@@ -293,7 +297,7 @@ export default function LeDeckPedalos() {
               href="https://cal.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden rounded-full bg-cyan-300 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200 lg:inline-flex"
+              className="hidden rounded-full bg-[#1878B8] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#2FA6DE] lg:inline-flex"
             >
               {lang === "fr" ? "Réserver" : "Book"}
             </a>
@@ -312,14 +316,14 @@ export default function LeDeckPedalos() {
               className="absolute inset-0"
               style={{ backgroundImage: `url(${HERO_GALLERY[heroIndex]})`, backgroundSize: "cover", backgroundPosition: "center" }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-slate-950/80 to-slate-950" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0E3A5C]/55 via-[#0E3A5C]/70 to-[#0E3A5C]/90" />
           </div>
           <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-24 lg:flex-row lg:items-center lg:py-28">
             <div className="lg:w-3/5">
-              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">
+              <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#FFDE8A]">
                 {content.hero.kicker}
               </span>
-              <h1 className="mt-4 text-3xl font-semibold leading-tight md:text-5xl">
+              <h1 className="pdl-display mt-4 text-3xl font-bold leading-tight text-white md:text-5xl">
                 {content.hero.title}
               </h1>
               <p className="mt-4 text-lg text-slate-200">{content.hero.sub}</p>
@@ -328,14 +332,14 @@ export default function LeDeckPedalos() {
                   href="https://cal.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-cyan-300 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-300/40 transition hover:bg-cyan-200"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#FFC94D] px-5 py-3 text-sm font-semibold text-[#123B54] shadow-lg shadow-[#FFC94D]/40 transition hover:bg-[#FFD97A]"
                 >
                   <Sailboat className="h-4 w-4" />
                   {content.hero.cta}
                 </a>
                 <button
                   onClick={() => document.getElementById("flotte")?.scrollIntoView({ behavior: "smooth" })}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-200 hover:text-cyan-200"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-3 text-sm font-semibold text-white transition hover:border-[#FFC94D] hover:text-[#FFDE8A]"
                 >
                   <ArrowRight className="h-4 w-4" />
                   {content.hero.ghost}
@@ -353,11 +357,11 @@ export default function LeDeckPedalos() {
                 transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
                 className="relative h-56 w-full max-w-sm overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-5 backdrop-blur"
               >
-                <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-cyan-400/30 to-indigo-500/30" />
+                <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-[#FFC94D]/25 to-[#2FA6DE]/30" />
                 <div className="space-y-3 text-sm text-white/90">
                   <div className="flex items-center justify-between">
                     <p className="font-semibold">Sunset Premium</p>
-                    <span className="rounded-full bg-white/15 px-2 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">New</span>
+                    <span className="rounded-full bg-white/15 px-2 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#FFDE8A]">New</span>
                   </div>
                   <div className="flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-2">
                     <CalendarClock className="h-4 w-4 text-cyan-200" />
@@ -378,7 +382,7 @@ export default function LeDeckPedalos() {
                     </div>
                   </div>
                   <div className="pt-0">
-                    <button className="w-full rounded-2xl bg-cyan-300 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200">
+                    <button className="w-full rounded-2xl bg-[#FFC94D] py-2 text-sm font-semibold text-[#123B54] transition hover:bg-[#FFD97A]">
                       {content.cta}
                     </button>
                   </div>
@@ -399,13 +403,13 @@ export default function LeDeckPedalos() {
                 viewport={{ once: true }}
                 variants={cardVariants}
                 custom={idx + 1}
-                className="rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur transition hover:-translate-y-1 hover:border-cyan-300/60"
+                className="rounded-3xl border border-[#123B54]/10 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-[#2FA6DE]"
               >
-                <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-300/20 text-cyan-100">
+                <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#2FA6DE]/15 text-[#1878B8]">
                   <feature.icon className="h-5 w-5" />
                 </div>
-                <p className="text-lg font-semibold text-white">{feature.title}</p>
-                <p className="mt-2 text-sm text-cyan-100/80">{feature.text}</p>
+                <p className="text-lg font-semibold text-[#123B54]">{feature.title}</p>
+                <p className="mt-2 text-sm text-[#41607A]">{feature.text}</p>
               </motion.div>
             ))}
           </div>
@@ -443,13 +447,13 @@ export default function LeDeckPedalos() {
         </section>
 
         <section id="disponibilites" className="relative overflow-hidden py-20">
-          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(94,234,212,0.12),_transparent_55%)]" />
-          <div className="mx-auto max-w-4xl rounded-3xl border border-white/15 bg-white/10 p-8 text-white backdrop-blur">
-            <SectionTitle kicker={lang === "fr" ? "Réservation" : "Booking"} title={content.availability.title} align="center" />
-            <p className="mx-auto mb-8 max-w-xl text-center text-sm text-cyan-100/80">{content.availability.note}</p>
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(255,201,77,0.18),_transparent_55%)]" />
+          <div className="mx-auto max-w-4xl rounded-3xl bg-[#123B54] p-8 text-white shadow-xl">
+            <SectionTitle kicker={lang === "fr" ? "Réservation" : "Booking"} title={content.availability.title} align="center" light />
+            <p className="mx-auto mb-8 max-w-xl text-center text-sm text-white/75">{content.availability.note}</p>
             <div className="grid gap-4 md:grid-cols-2">
               <fieldset className="space-y-3">
-                <legend className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">{lang === "fr" ? "Taille" : "Size"}</legend>
+                <legend className="text-xs font-semibold uppercase tracking-[0.3em] text-[#FFDE8A]">{lang === "fr" ? "Taille" : "Size"}</legend>
                 <div className="flex flex-wrap gap-2">
                   {content.availability.sizes.map((size, idx) => (
                     <button
@@ -457,8 +461,8 @@ export default function LeDeckPedalos() {
                       onClick={() => setSelectedSize(idx)}
                       className={`rounded-full border px-4 py-2 text-sm transition ${
                         selectedSize === idx
-                          ? "border-cyan-300 bg-cyan-300/20 text-cyan-100"
-                          : "border-white/20 text-white hover:border-cyan-200/70"
+                          ? "border-[#FFC94D] bg-[#FFC94D]/20 text-[#FFDE8A]"
+                          : "border-white/25 text-white hover:border-[#FFC94D]/70"
                       }`}
                     >
                       {size}
@@ -467,7 +471,7 @@ export default function LeDeckPedalos() {
                 </div>
               </fieldset>
               <fieldset className="space-y-3">
-                <legend className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">{lang === "fr" ? "Durée" : "Duration"}</legend>
+                <legend className="text-xs font-semibold uppercase tracking-[0.3em] text-[#FFDE8A]">{lang === "fr" ? "Durée" : "Duration"}</legend>
                 <div className="flex flex-wrap gap-2">
                   {content.availability.durations.map((duration, idx) => (
                     <button
@@ -475,8 +479,8 @@ export default function LeDeckPedalos() {
                       onClick={() => setSelectedDuration(idx)}
                       className={`rounded-full border px-4 py-2 text-sm transition ${
                         selectedDuration === idx
-                          ? "border-cyan-300 bg-cyan-300/20 text-cyan-100"
-                          : "border-white/20 text-white hover:border-cyan-200/70"
+                          ? "border-[#FFC94D] bg-[#FFC94D]/20 text-[#FFDE8A]"
+                          : "border-white/25 text-white hover:border-[#FFC94D]/70"
                       }`}
                     >
                       {duration}
@@ -485,7 +489,7 @@ export default function LeDeckPedalos() {
                 </div>
               </fieldset>
             </div>
-            <p className="mt-6 text-center text-xs text-cyan-100/70">{content.availability.footer}</p>
+            <p className="mt-6 text-center text-xs text-white/60">{content.availability.footer}</p>
           </div>
         </section>
 
@@ -508,7 +512,7 @@ export default function LeDeckPedalos() {
                   <ul className="mt-5 space-y-2 text-sm text-slate-600">
                     {card.includes.map((item) => (
                       <li key={item} className="flex items-start gap-2">
-                        <LifeBuoy className="mt-0.5 h-4 w-4 text-cyan-500" />
+                        <LifeBuoy className="mt-0.5 h-4 w-4 text-[#1878B8]" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -518,7 +522,7 @@ export default function LeDeckPedalos() {
                       href="https://cal.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                      className="inline-flex w-full items-center justify-center rounded-xl bg-[#1878B8] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#2FA6DE]"
                     >
                       {content.cta}
                     </a>
@@ -540,12 +544,12 @@ export default function LeDeckPedalos() {
                 viewport={{ once: true }}
                 variants={cardVariants}
                 custom={idx + 1}
-                className="flex items-start gap-3 rounded-3xl border border-white/20 bg-white/5 px-5 py-4 text-white"
+                className="flex items-start gap-3 rounded-3xl border border-[#123B54]/10 bg-white px-5 py-4 text-[#123B54] shadow-sm"
               >
-                <item.icon className="mt-0.5 h-5 w-5 text-cyan-200" />
+                <item.icon className="mt-0.5 h-5 w-5 text-[#1878B8]" />
                 <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">{item.label}</p>
-                  <p className="text-sm text-cyan-50/90">{item.value}</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-[#1878B8]">{item.label}</p>
+                  <p className="text-sm text-[#41607A]">{item.value}</p>
                 </div>
               </motion.div>
             ))}
@@ -573,7 +577,7 @@ export default function LeDeckPedalos() {
         </section>
       </main>
 
-      <footer className="border-t border-white/10 bg-slate-950/90 py-10 text-sm text-cyan-100/80">
+      <footer className="border-t border-[#123B54]/10 bg-[#123B54] py-10 text-sm text-white/80">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-center md:flex-row md:justify-between md:text-left">
           <p>© {new Date().getFullYear()} Le Deck Pédalos</p>
           <div className="flex flex-wrap items-center gap-3">
@@ -581,7 +585,7 @@ export default function LeDeckPedalos() {
               <button
                 key={item.id}
                 onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" })}
-                className="transition hover:text-cyan-200"
+                className="transition hover:text-[#FFDE8A]"
               >
                 {item.label}
               </button>

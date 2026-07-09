@@ -259,8 +259,8 @@ const fade = {
 function SectionTitle({ kicker, title }) {
   return (
     <div className="mb-8">
-      <span className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-500/80">{kicker}</span>
-      <h2 className="mt-3 text-2xl font-semibold text-slate-900 md:text-3xl">{title}</h2>
+      <span className="text-xs font-semibold uppercase tracking-[0.4em] text-[#E2593B]">{kicker}</span>
+      <h2 className="ppg-display mt-3 text-2xl font-medium tracking-tight text-[#12395B] md:text-3xl">{title}</h2>
     </div>
   );
 }
@@ -280,11 +280,15 @@ export default function MicroEcoleParapente() {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-100 via-white to-white text-slate-900">
+    <div className="min-h-screen bg-gradient-to-b from-[#DDEEFB] via-white to-white text-[#12395B]">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
+        .ppg-display { font-family: 'Outfit', system-ui, sans-serif; letter-spacing: 0.01em; }
+      `}</style>
       <header className="sticky top-0 z-40 border-b border-sky-200/60 bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-emerald-400 to-sky-500 text-lg font-black text-white shadow-lg">
+            <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-[#7CC3F2] to-[#2C7FCB] text-lg font-bold text-white shadow-lg">
               MP
             </div>
             <div>
@@ -294,14 +298,14 @@ export default function MicroEcoleParapente() {
           </div>
           <div className="hidden items-center gap-5 text-sm font-medium text-slate-600 lg:flex">
             {content.nav.map((item) => (
-              <button key={item.id} onClick={() => scrollTo(item.id)} className="transition hover:text-emerald-500">
+              <button key={item.id} onClick={() => scrollTo(item.id)} className="transition hover:text-[#2C7FCB]">
                 {item.label}
               </button>
             ))}
           </div>
           <button
             onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-slate-600 transition hover:border-emerald-400 hover:text-emerald-500"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-slate-600 transition hover:border-[#2C7FCB] hover:text-[#2C7FCB]"
           >
             {lang === "fr" ? "EN" : "FR"}
           </button>
@@ -321,17 +325,17 @@ export default function MicroEcoleParapente() {
           <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/70 to-slate-900" />
           <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-20 lg:flex-row lg:items-center lg:py-24">
             <motion.div initial="hidden" animate="show" variants={fade} className="lg:w-7/12">
-              <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-emerald-200">
+              <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-[#BBDFF7]">
                 {content.tagline}
               </span>
-              <h1 className="mt-4 text-3xl font-semibold leading-tight md:text-5xl">{content.hero.headline}</h1>
+              <h1 className="ppg-display mt-4 text-3xl font-medium leading-tight md:text-5xl">{content.hero.headline}</h1>
               <p className="mt-4 max-w-2xl text-base text-slate-200 md:text-lg">{content.hero.sub}</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="https://cal.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-emerald-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-400/30 transition hover:bg-emerald-300"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#FF6B4A] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#FF6B4A]/30 transition hover:bg-[#FF835F]"
                 >
                   <Thermometer className="h-4 w-4" />
                   {content.hero.cta}
@@ -340,7 +344,7 @@ export default function MicroEcoleParapente() {
                   href="https://drive.google.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-emerald-300 hover:text-emerald-200"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:border-[#BBDFF7] hover:text-[#BBDFF7]"
                 >
                   <ArrowRight className="h-4 w-4" />
                   {content.hero.ghost}
@@ -357,9 +361,9 @@ export default function MicroEcoleParapente() {
                 <div key={stat.label} className="flex flex-col items-center gap-2 rounded-3xl border border-white/15 bg-white/10 p-5 text-center shadow-sm backdrop-blur">
                   <p className="flex items-baseline gap-1 text-3xl font-semibold text-white">
                     {stat.value}
-                    {stat.suffix ? <span className="text-lg font-medium text-emerald-200/90">{stat.suffix}</span> : null}
+                    {stat.suffix ? <span className="text-lg font-medium text-[#BBDFF7]">{stat.suffix}</span> : null}
                   </p>
-                  <p className="text-xs uppercase tracking-[0.3em] text-emerald-200/80">{stat.label}</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-[#BBDFF7]">{stat.label}</p>
                 </div>
               ))}
             </motion.div>
@@ -380,14 +384,14 @@ export default function MicroEcoleParapente() {
                 className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="flex items-center gap-3">
-                  <Sparkles className="h-5 w-5 text-emerald-500" />
+                  <Sparkles className="h-5 w-5 text-[#FF6B4A]" />
                   <p className="text-lg font-semibold text-slate-900">{flight.name}</p>
                 </div>
                 <p className="text-sm text-slate-600">{flight.desc}</p>
                 <ul className="space-y-1 text-xs text-slate-500">
                   {flight.extras.map((extra) => (
                     <li key={extra} className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[#FF6B4A]" />
                       {extra}
                     </li>
                   ))}
@@ -397,7 +401,7 @@ export default function MicroEcoleParapente() {
           </div>
         </section>
 
-        <section id="experience" className="bg-gradient-to-br from-emerald-50 to-white py-16">
+        <section id="experience" className="bg-gradient-to-br from-[#EAF4FD] to-white py-16">
           <div className="mx-auto max-w-6xl px-4">
             <SectionTitle kicker={lang === "fr" ? "Parcours" : "Journey"} title={content.timeline.title} />
             <div className="space-y-6">
@@ -414,10 +418,10 @@ export default function MicroEcoleParapente() {
                     className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:flex-row md:items-center"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="inline-flex min-w-[70px] items-center justify-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-500">
+                      <span className="inline-flex min-w-[70px] items-center justify-center rounded-full bg-[#EAF4FD] px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#2C7FCB]">
                         {step.time}
                       </span>
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-500">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#DDEEFB] text-[#2C7FCB]">
                         <Icon className="h-5 w-5" />
                       </div>
                     </div>
@@ -445,12 +449,12 @@ export default function MicroEcoleParapente() {
                 custom={idx + 1}
                 className="flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-lg"
               >
-                <p className="text-xs uppercase tracking-[0.3em] text-emerald-500">{card.title}</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-[#2C7FCB]">{card.title}</p>
                 <p className="mt-2 text-3xl font-semibold text-slate-900">{card.price}</p>
                 <ul className="mt-4 space-y-1 text-sm text-slate-600">
                   {card.includes.map((line) => (
                     <li key={line} className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[#FF6B4A]" />
                       {line}
                     </li>
                   ))}
@@ -460,7 +464,7 @@ export default function MicroEcoleParapente() {
                     href="https://cal.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-[#12395B] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#2C7FCB]"
                   >
                     {content.hero.cta}
                   </a>
@@ -470,11 +474,11 @@ export default function MicroEcoleParapente() {
           </div>
           <div className="mt-8 grid gap-4 text-sm text-slate-600 md:grid-cols-3">
             {content.pricing.options.map((option) => (
-              <div key={option.label} className="flex items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4">
-                <option.icon className="h-5 w-5 text-emerald-500" />
+              <div key={option.label} className="flex items-center gap-3 rounded-2xl border border-[#CBE4F8] bg-[#EAF4FD]/70 p-4">
+                <option.icon className="h-5 w-5 text-[#2C7FCB]" />
                 <div>
                   <p className="font-semibold text-slate-900">{option.label}</p>
-                  <p className="text-xs text-emerald-600">{option.value}</p>
+                  <p className="text-xs text-[#2C7FCB]">{option.value}</p>
                 </div>
               </div>
             ))}
@@ -509,7 +513,7 @@ export default function MicroEcoleParapente() {
           </div>
         </section>
 
-        <section id="infos" className="bg-slate-900 py-16 text-white">
+        <section id="infos" className="bg-[#0F2E4A] py-16 text-white">
           <div className="mx-auto max-w-6xl px-4">
             <SectionTitle kicker={lang === "fr" ? "Infos pratiques" : "Good to know"} title={content.info.title} />
             <div className="grid gap-6 md:grid-cols-2">
@@ -523,9 +527,9 @@ export default function MicroEcoleParapente() {
                   custom={idx + 1}
                   className="flex items-start gap-3 rounded-3xl border border-white/15 bg-white/10 px-5 py-4"
                 >
-                  <block.icon className="mt-0.5 h-5 w-5 text-emerald-200" />
+                  <block.icon className="mt-0.5 h-5 w-5 text-[#7CC3F2]" />
                   <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-100/80">{block.title}</p>
+                    <p className="text-xs uppercase tracking-[0.3em] text-[#BBDFF7]">{block.title}</p>
                     <p className="text-sm text-white/90">{block.text}</p>
                   </div>
                 </motion.div>
@@ -581,7 +585,7 @@ export default function MicroEcoleParapente() {
               {content.form.labels.message}
               <textarea rows={3} className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" placeholder="Poids, préférences sensations, âge..." />
             </label>
-            <button type="button" className="md:col-span-2 inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
+            <button type="button" className="md:col-span-2 inline-flex items-center justify-center rounded-xl bg-[#12395B] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#2C7FCB]">
               {content.form.labels.submit}
             </button>
           </motion.form>
