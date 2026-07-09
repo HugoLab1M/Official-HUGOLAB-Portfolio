@@ -1,11 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&display=swap");
+
 /* Tailwind layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* =========================
-   Global polish / tokens
+   HügoLab — design tokens
+   Palette construite autour du violet du logo (#8C52FF)
    ========================= */
+
+:root {
+  --paper: #faf9f5;        /* fond principal, papier chaud */
+  --surface: #f2efe9;      /* surfaces secondaires */
+  --lavender: #efeafd;     /* teinte violette douce */
+  --ink: #17141f;          /* texte principal, encre violacée */
+  --muted: #5d5868;        /* texte secondaire — AA sur papier */
+  --violet: #8c52ff;       /* violet logo, usage décoratif */
+  --violet-deep: #5b34e8;  /* interactions, hovers */
+  --violet-text: #4c2bd3;  /* violet lisible en texte sur papier */
+  --border: #e6e2d9;
+  --border-strong: #d6d1c4;
+
+  /* rétro-compatibilité avec les anciens tokens utilisés dans le code */
+  --bg: var(--paper);
+  --sand: var(--surface);
+  --panel: var(--surface);
+  --brown: var(--violet);
+  --brown-2: var(--violet-text);
+}
 
 /* Typography smoothing + scroll behavior */
 html {
@@ -15,23 +38,17 @@ html {
   scroll-behavior: smooth;
 }
 
-:root {
-  --bg: #FFFFFF;
-  --ink: #171717;
-  --muted: #6B6B6B;
-  --brown: #B99164;
-  --brown-2: #8A6C47;
-  --sand: #F7F2EA;
-  --border: #EAE6DE;
-  --panel: #F7F2EA;
-}
-
 html,
 body {
-  background: var(--bg);
+  background: var(--paper);
   color: var(--ink);
   font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   text-rendering: optimizeLegibility;
+}
+
+.font-display {
+  font-family: "Fraunces", Georgia, serif;
+  font-optical-sizing: auto;
 }
 
 /* Respect user's motion preference */
@@ -51,16 +68,15 @@ body {
 
 /* Selection color */
 ::selection {
-  background: rgba(23, 23, 23, 0.12);
+  background: rgba(140, 82, 255, 0.22);
   color: inherit;
 }
 
-/* Better default focus rings (complements Tailwind focus classes) */
+/* Focus visible : anneau violet net, lisible sur papier comme sur encre */
 :focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 2px rgba(23, 23, 23, 0.85),
-    0 0 0 4px rgba(185, 145, 100, 0.45);
+  outline: 2px solid var(--violet-deep);
+  outline-offset: 3px;
+  box-shadow: none;
 }
 
 /* Smooth image rendering + sane defaults */
@@ -68,7 +84,6 @@ img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
 }
-img { image-rendering: auto; -ms-interpolation-mode: bicubic; } /* legacy */
 
 /* Form controls inherit fonts */
 input, button, textarea, select { font: inherit; }
@@ -80,32 +95,87 @@ input, button, textarea, select { font: inherit; }
    Tailwind layer: components
    ========================= */
 @layer components {
-  /* App container helper (optional) */
   .hugolab-container {
-    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
   }
 
-  /* Primary button */
+  /* Bouton principal : encre → violet, flèche qui glisse */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium text-white
-           shadow-sm transition active:scale-[0.99]
-           bg-black hover:bg-neutral-900
-           focus:outline-none focus:ring-2 focus:ring-black/30 focus:ring-offset-2 focus:ring-offset-white
-           dark:bg-white dark:text-black dark:hover:bg-neutral-100
-           dark:focus:ring-white/30 dark:focus:ring-offset-neutral-900;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white
+           transition-colors duration-300;
+    background: var(--ink);
+  }
+  .btn-primary:hover {
+    background: var(--violet-deep);
+  }
+  .btn-primary .btn-arrow {
+    transition: transform 0.3s ease;
+  }
+  .btn-primary:hover .btn-arrow {
+    transform: translateX(4px);
   }
 
-  /* Ghost / outline button */
+  /* Bouton secondaire : contour, fond lavande au survol */
   .btn-ghost {
-    @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium
-           border border-neutral-300 text-neutral-900 transition
-           hover:bg-neutral-900 hover:text-white
-           focus:outline-none focus:ring-2 focus:ring-neutral-300 focus:ring-offset-2 focus:ring-offset-white
-           dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-white dark:hover:text-black
-           dark:focus:ring-neutral-700 dark:focus:ring-offset-neutral-900;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold
+           transition-colors duration-300;
+    color: var(--ink);
+    border: 1px solid var(--border-strong);
+    background: transparent;
+  }
+  .btn-ghost:hover {
+    border-color: var(--violet);
+    background: var(--lavender);
   }
 
-  /* Rounded pill (used across site) */
+  /* Kicker éditorial : petit carré violet + petites capitales */
+  .kicker {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+  }
+  .kicker::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: var(--violet);
+    flex: none;
+  }
+
+  /* Carte éditoriale : bord fin, lift discret, bord violet au survol */
+  .card-editorial {
+    @apply rounded-2xl border bg-white transition duration-300;
+    border-color: var(--border);
+  }
+  .card-editorial:hover {
+    border-color: var(--violet);
+    transform: translateY(-3px);
+    box-shadow: 0 24px 60px -30px rgba(23, 20, 31, 0.25);
+  }
+
+  /* Lien avec soulignement animé */
+  .link-underline {
+    position: relative;
+    text-decoration: none;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s ease;
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Rounded pill (héritage — encore utilisé ponctuellement) */
   .pill {
     @apply inline-flex items-center gap-2 rounded-full border border-[var(--border)]
            bg-white px-3 py-1.5 text-xs font-medium uppercase tracking-[0.06em] text-[var(--muted)];
@@ -116,25 +186,19 @@ input, button, textarea, select { font: inherit; }
    Tailwind layer: utilities
    ========================= */
 @layer utilities {
-  /* Subtle hover lift */
   .hover-lift {
     @apply transition-transform duration-300 ease-out hover:-translate-y-1 hover:shadow-md;
   }
 
-  /* Subtle gradient text (light & dark) */
-  .text-gradient{
-    background: linear-gradient(90deg, #111111 0%, #4b5563 100%);
-    -webkit-background-clip: text; /* Safari/Chrome */
-    background-clip: text;         /* Firefox */
+  .text-gradient {
+    background: linear-gradient(90deg, var(--ink) 0%, var(--violet-text) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    display: inline;               /* avoid block background area */
-  }
-  .dark .text-gradient{
-    background: linear-gradient(90deg, #ffffff 0%, #e5e7eb 100%);
+    display: inline;
   }
 
-  /* Clamp helper for multi-line text (fallback if plugin not used) */
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -143,20 +207,9 @@ input, button, textarea, select { font: inherit; }
     overflow: hidden;
   }
 
-  /* Simple fade-in utility */
   .fade-in { animation: fade-in 0.6s ease both; }
 
-  .torn-top {
-    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'><path d='M0,110 C120,140 220,90 360,120 C480,148 620,92 760,118 C900,142 1020,88 1160,116 C1260,138 1340,108 1440,126 L1440,0 L0,0 Z' fill='black'/></svg>");
-    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'><path d='M0,110 C120,140 220,90 360,120 C480,148 620,92 760,118 C900,142 1020,88 1160,116 C1260,138 1340,108 1440,126 L1440,0 L0,0 Z' fill='black'/></svg>");
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-size: 100% 150px;
-    mask-size: 100% 150px;
-    -webkit-mask-position: top center;
-    mask-position: top center;
-  }
-
+  /* Masque "papier déchiré" utilisé par la démo La Seiche */
   .torn-bottom {
     -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'><path d='M0,40 C120,12 260,64 400,38 C520,12 660,70 780,42 C920,10 1060,62 1180,34 C1300,6 1360,32 1440,14 L1440,150 L0,150 Z' fill='black'/></svg>");
     mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'><path d='M0,40 C120,12 260,64 400,38 C520,12 660,70 780,42 C920,10 1060,62 1180,34 C1300,6 1360,32 1440,14 L1440,150 L0,150 Z' fill='black'/></svg>");

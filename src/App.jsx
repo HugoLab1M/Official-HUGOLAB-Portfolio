@@ -1,24 +1,24 @@
 'use client';
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUp } from "lucide-react";
 import { Routes, Route, Link, useLocation, Navigate } from "react-router-dom";
-import CoupDePompe from "./demos/CoupDePompe.jsx";
-import LeDeckPedalos from "./demos/LeDeckPedalos.jsx";
-import SansPermisSaintJorioz from "./demos/SansPermisSaintJorioz.jsx";
-import MicroEcoleParapente from "./demos/MicroEcoleParapente.jsx";
-import CascadeNomadeCanyoning from "./demos/CascadeNomadeCanyoning.jsx";
-import LaCuillereAOmble from "./demos/LaCuillereAOmble.jsx";
-import PalaceLacLumiere from "./demos/PalaceLacLumiere.jsx";
-import LaSeiche from "./demos/LaSeiche.jsx";
-import PricingSection from "./components/PricingSection.jsx"; // +++
+import PricingSection from "./components/PricingSection.jsx";
+
+// Démos chargées à la demande pour garder le bundle principal léger
+const CoupDePompe = lazy(() => import("./demos/CoupDePompe.jsx"));
+const LeDeckPedalos = lazy(() => import("./demos/LeDeckPedalos.jsx"));
+const SansPermisSaintJorioz = lazy(() => import("./demos/SansPermisSaintJorioz.jsx"));
+const MicroEcoleParapente = lazy(() => import("./demos/MicroEcoleParapente.jsx"));
+const CascadeNomadeCanyoning = lazy(() => import("./demos/CascadeNomadeCanyoning.jsx"));
+const LaCuillereAOmble = lazy(() => import("./demos/LaCuillereAOmble.jsx"));
+const PalaceLacLumiere = lazy(() => import("./demos/PalaceLacLumiere.jsx"));
+const LaSeiche = lazy(() => import("./demos/LaSeiche.jsx"));
+const SalonLumen = lazy(() => import("./demos/SalonLumen.jsx"));
+const RefugeAltara = lazy(() => import("./demos/RefugeAltara.jsx"));
 import CookieBanner, { getStoredConsent, storeConsent } from "./components/CookieBanner.jsx";
 import { initAnalytics, disableAnalytics } from "./utils/analytics.js";
-import TallyModal from "./components/TallyModal.jsx";
 import WhyUs from "./sections/WhyUs.jsx";
-import ServicesTeaser from "./sections/ServicesTeaser.jsx";
-import ProcessSection from "./sections/Process.jsx";
-import AboutTeaser from "./sections/AboutTeaser.jsx";
 import MentionsLegales from "./legal/MentionsLegales.jsx";
 import Confidentialite from "./legal/Confidentialite.jsx";
 import CookiesPage from "./legal/Cookies.jsx";
@@ -114,9 +114,29 @@ const PROJECTS = [
     tagline: "Agenda partagé, stands food, privatisations et newsletter pour Sévrier.",
     industry: "Lieu hybride",
     stack: ["React", "Tailwind", "Framer Motion"],
-    image: "/images/la-seiche/1.jpg",
+    image: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1200&q=80",
     url: "/demos/la-seiche",
     caseStudyUrl: "#case-la-seiche",
+  },
+  {
+    slug: "salon-lumen",
+    title: "Salon Lumen — Coiffeur",
+    tagline: "One-page sobre et efficace : tarifs, horaires, appel en un clic. L'offre Landing Express en situation.",
+    industry: "Commerce de proximité",
+    stack: ["React", "Tailwind", "Landing Express"],
+    image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80",
+    url: "/demos/salon-lumen",
+    caseStudyUrl: "#case-salon-lumen",
+  },
+  {
+    slug: "refuge-altara",
+    title: "Refuge Altara — Chalet d'exception",
+    tagline: "Vitrine immersive : parallaxe, animations au scroll, storytelling premium. Notre savoir-faire poussé à fond.",
+    industry: "Hôtellerie de charme",
+    stack: ["React", "Framer Motion", "Signature"],
+    image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80",
+    url: "/demos/refuge-altara",
+    caseStudyUrl: "#case-refuge-altara",
   }
 ];
 
@@ -137,12 +157,65 @@ const STRINGS = {
   fr: {
     nav: { home: "Accueil", work: "Projets", services: "Services", pricing: "Tarifs", about: "À propos", contact: "Contact" },
     hero: {
-      kicker: "Agence web créative à Annecy",
-      title: "HügoLab — Création de sites internet à Annecy",
-      subtitle:
-        "Nous créons des sites vitrines et e-commerce pour les entreprises locales de Haute-Savoie et marques en croissance. Notre ADN : design moderne, SEO local, et une expérience utilisateur pensée pour la conversion.",
-      ctaPrimary: "Voir nos projets",
-      ctaSecondary: "Discuter de votre besoin",
+      kicker: "Studio web près d’Annecy",
+      title: "Des sites clairs, élégants et efficaces pour vos clients",
+      subtitle: "Design, création et refonte de sites vitrines avec SEO local intégré pour les entreprises autour du lac.",
+      ctaPrimary: "Voir les maquettes",
+      ctaSecondary: "Décrire mon projet",
+    },
+    homeIntro: {
+      title: "Studio indépendant près d’Annecy",
+      body:
+        "HügoLab accompagne les commerces, maisons d’hôtes et artisans du lac à clarifier leur présence en ligne. Nous concevons des sites sobres, humains et orientés résultats avec un suivi de proximité.",
+      highlights: [
+        {
+          title: "Création & refonte",
+          desc: "Sites vitrines sur-mesure pour raconter votre activité simplement.",
+        },
+        {
+          title: "SEO local",
+          desc: "Architecture, contenus et balises pensés pour être trouvés autour d’Annecy.",
+        },
+        {
+          title: "Suivi continu",
+          desc: "Maintenance légère, mises à jour et optimisations régulières.",
+        },
+      ],
+    },
+    homeProjects: {
+      title: "Maquettes & projets en situation",
+      intro: "Quelques exemples prêts à personnaliser pour montrer la qualité visuelle et la clarté que nous livrons.",
+      cta: "Voir toutes les maquettes",
+      ctaHref: "/work",
+    },
+    homeApproach: {
+      kicker: "Notre mission",
+      title: "Des sites qui respirent et convertissent",
+      description:
+        "Workshops courts, direction artistique douce et intégration légère pour livrer des pages rapides, lisibles et optimisées pour vos objectifs.",
+      slogan: "Clarté, vitesse, conversions — pas d’effet de manche inutile.",
+    },
+    homeTestimonials: {
+      kicker: "Témoignages maquette",
+      title: "Ils apprécient notre manière de travailler",
+      note: "Contenu fictif pour la maquette, destiné à illustrer la mise en page.",
+      items: [
+        {
+          quote: "Site livré en trois semaines avec un ton qui colle parfaitement à notre maison d’hôtes.",
+          name: "Claire Martin",
+          role: "Maison Plume, Talloires",
+        },
+        {
+          quote: "Process simple, beaucoup de transparence et surtout un site clair qui nous apporte des demandes locales.",
+          name: "Ludovic Perrin",
+          role: "Atelier vélo du Semnoz",
+        },
+        {
+          quote: "On a enfin un site qui nous ressemble : chaleureux, rapide et optimisé pour être trouvé sur Google.",
+          name: "Sonia B.",
+          role: "Restaurant Ô Berges",
+        },
+      ],
     },
     whyUs: {
       kicker: "Pourquoi HügoLab",
@@ -152,23 +225,28 @@ const STRINGS = {
       items: [
         {
           icon: "local",
-          title: "Local & réactifs",
-          desc: "Basés à Doussard, nous échangeons facilement et avançons étape par étape sur votre projet.",
+          title: "Ancré autour du lac",
+          desc: "Studio basé à Doussard, disponible pour des échanges terrain et une relation de proximité.",
         },
         {
           icon: "speed",
-          title: "Rapide & propre",
-          desc: "Stack moderne (React, Tailwind) pour des sites stables, modernes et faciles à faire évoluer.",
+          title: "Production rapide",
+          desc: "Sprints courts, validations régulières et mise en ligne en quelques semaines.",
         },
         {
-          icon: "seo",
-          title: "SEO local intégré",
-          desc: "Balises, performances et Google Business optimisés pour être visibles là où vos clients vous cherchent.",
+          icon: "transparent",
+          title: "Transparence totale",
+          desc: "Devis clair, étapes partagées et aucun jargon inutile.",
         },
         {
-          icon: "ai",
-          title: "IA comme levier",
-          desc: "Nous utilisons l’IA pour gagner du temps sur la production sans sacrifier la qualité du rendu final.",
+          icon: "human",
+          title: "Relation humaine",
+          desc: "Un seul interlocuteur qui vous accompagne du contenu aux réglages techniques.",
+        },
+        {
+          icon: "design",
+          title: "Design qui respire",
+          desc: "Typographies modernes, espaces aérés et storytelling premium.",
         },
       ],
     },
@@ -357,7 +435,7 @@ const STRINGS = {
         ctaSecondaryUrl: "https://tally.so/r/mOQNRL",
       },
       highlights: [
-        { label: "Maquettes sectorielles prêtes", value: "6" },
+        { label: "Maquettes sectorielles prêtes", value: "10" },
         { label: "Mise en ligne sous", value: "30 jours" },
         { label: "Création officielle", value: "2025" },
       ],
@@ -393,12 +471,10 @@ const STRINGS = {
       },
     },
     contact: {
-      title: "Parlons de votre projet",
+      title: "Parlez-nous de votre projet",
       kicker: "Contact",
-      p: "Expliquez en 3 lignes votre activité, votre objectif, et si vous avez déjà un site. Nous revenons vers vous sous 24h avec un plan simple et un devis clair.",
-      btn: "Écrire un message",
-      briefCta: "Envoyer le brief",
-      logoCta: "Demander un devis logo",
+      p: "Décrivez votre activité, l’objectif du site et toute contrainte (délais, refonte, SEO). Nous revenons sous 24h avec un plan simple et un devis clair.",
+      btn: "Ouvrir ma messagerie",
     },
     footer: {
       rights: "Tous droits réservés.",
@@ -462,12 +538,43 @@ const STRINGS = {
   en: {
     nav: { home: "Home", work: "Work", services: "Services", pricing: "Pricing", about: "About", contact: "Contact" },
     hero: {
-      kicker: "Creative web agency from Annecy",
-      title: "HügoLab — modern websites that convert",
-      subtitle:
-        "We build high-performing showcase and e-commerce sites for local businesses and growing brands. Our DNA: speed, SEO, and UX designed for conversions.",
-      ctaPrimary: "See our projects",
-      ctaSecondary: "Discuss your brief",
+      kicker: "Boutique studio near Annecy",
+      title: "Calm, conversion-ready websites for local brands",
+      subtitle: "Design, build and redesign showcase sites with integrated local SEO.",
+      ctaPrimary: "Browse mockups",
+      ctaSecondary: "Tell us about your project",
+    },
+    homeIntro: {
+      title: "Independent studio on Lake Annecy",
+      body:
+        "HügoLab helps hospitality, artisans and creative businesses share their story online with simple, elegant and human websites.",
+      highlights: [
+        { title: "Creation & redesign", desc: "Showcase sites tailored to your offers and tone of voice." },
+        { title: "Local SEO", desc: "Structure and copy that make you visible around Annecy." },
+        { title: "Ongoing care", desc: "Light maintenance, copy tweaks and analytics guidance." },
+      ],
+    },
+    homeProjects: {
+      title: "Mockups & recent builds",
+      intro: "A quick look at what we can craft — each mockup is ready to be tuned to your activity.",
+      cta: "Open the full gallery",
+      ctaHref: "/work",
+    },
+    homeApproach: {
+      kicker: "How we work",
+      title: "Clarity first, then the pixels",
+      description: "Short workshops, editorial design and a lean integration to ship pages that read fast and feel premium.",
+      slogan: "Clear stories, fast loading, conversion-focused.",
+    },
+    homeTestimonials: {
+      kicker: "Mockup content",
+      title: "Clients love the calm energy of our process",
+      note: "Sample quotes used to demonstrate the layout.",
+      items: [
+        { quote: "Three weeks from kickoff to launch with a tone of voice that finally feels right.", name: "Claire Martin", role: "Maison Plume, Talloires" },
+        { quote: "Simple steps, transparent budget and a site that delivers qualified leads every week.", name: "Ludovic Perrin", role: "Atelier Vélo du Semnoz" },
+        { quote: "Our new site feels handcrafted, quick to load and visible on Google Maps.", name: "Sonia B.", role: "Ô Berges restaurant" },
+      ],
     },
     whyUs: {
       kicker: "Why HügoLab",
@@ -477,23 +584,28 @@ const STRINGS = {
       items: [
         {
           icon: "local",
-          title: "Local & responsive",
-          desc: "Based in Doussard (Lake Annecy) for hands-on collaboration and easy check-ins.",
+          title: "Grounded around the lake",
+          desc: "Based in Doussard for hands-on collaboration, in-person check-ins and local culture.",
         },
         {
           icon: "speed",
-          title: "Clean & modern",
-          desc: "Modern stack (React, Tailwind) for stable, future-proof websites that stay easy to update.",
+          title: "Fast production",
+          desc: "Lean sprints, frequent approvals and shipping within a few weeks.",
         },
         {
-          icon: "seo",
-          title: "Local SEO ready",
-          desc: "Structured content, performance and Google Business setup to appear where clients search.",
+          icon: "transparent",
+          title: "Full transparency",
+          desc: "Straightforward pricing, shared timelines and no jargon.",
         },
         {
-          icon: "ai",
-          title: "AI-assisted",
-          desc: "We leverage AI to stay efficient while keeping a polished, human-focused result.",
+          icon: "human",
+          title: "Human relationship",
+          desc: "One partner from discovery to launch and beyond.",
+        },
+        {
+          icon: "design",
+          title: "Design that breathes",
+          desc: "Soft fonts, curated imagery and copy that tells your story with confidence.",
         },
       ],
     },
@@ -682,7 +794,7 @@ const STRINGS = {
         ctaSecondaryUrl: "https://tally.so/r/mOQNRL",
       },
       highlights: [
-        { label: "Sector mockups ready", value: "6" },
+        { label: "Sector mockups ready", value: "10" },
         { label: "Showcase live within", value: "30 days" },
         { label: "Registered micro-business", value: "2025" },
       ],
@@ -718,12 +830,10 @@ const STRINGS = {
       },
     },
     contact: {
-      title: "Let's talk",
+      title: "Let's talk about your project",
       kicker: "Contact",
-      p: "Tell us your business, your goal, and whether you already have a site. We’ll reply within 24 hours with a simple plan and quote.",
-      btn: "Send a message",
-      briefCta: "Send the brief",
-      logoCta: "Request a logo quote",
+      p: "Share a few lines about your business, goal and current website. We’ll reply within 24 hours with a clear plan and quote.",
+      btn: "Open my email app",
     },
     footer: {
       rights: "All rights reserved.",
@@ -790,15 +900,6 @@ function classNames(...c) {
   return c.filter(Boolean).join(" ");
 }
 
-function useDarkMode() {
-  const [enabled, setEnabled] = useState(true);
-  useEffect(() => {
-    if (enabled) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-  }, [enabled]);
-  return [enabled, setEnabled];
-}
-
 const EMAIL_TEMPLATES = {
   FR: {
     subject: "Demande via hugolab.fr",
@@ -853,22 +954,9 @@ function LangToggle({ lang, onToggle }) {
     <button
       onClick={onToggle}
       aria-label="Toggle language"
-      className="rounded-xl border border-neutral-300 dark:border-neutral-700 px-2.5 py-1 text-xs text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+      className="rounded-full border border-[var(--border-strong)] px-2.5 py-1 text-xs font-semibold text-[var(--ink)] transition hover:bg-[var(--lavender)]"
     >
       {lang.toUpperCase()}
-    </button>
-  );
-}
-
-function ThemeToggle() {
-  const [enabled, setEnabled] = useDarkMode();
-  return (
-    <button
-      onClick={() => setEnabled(!enabled)}
-      aria-label="Toggle theme"
-      className="rounded-xl border border-neutral-300 dark:border-neutral-700 px-2.5 py-1 text-xs text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-    >
-      {enabled ? "Dark" : "Light"}
     </button>
   );
 }
@@ -893,21 +981,21 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
     ? "Ouvrir le menu"
     : "Open menu";
   return (
-    <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-neutral-900/60 border-b border-neutral-200/60 dark:border-neutral-800">
-      <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-40 border-b border-[var(--border)] backdrop-blur supports-[backdrop-filter]:bg-[rgba(250,249,245,0.85)]">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         <Link to="/" className="flex items-center gap-3 group" aria-label="HügoLab — accueil">
           <img src="/logo.svg" alt="HügoLab" className="h-9 w-auto" />
-          <span className="hidden sm:inline-block text-base font-semibold tracking-tight text-neutral-900 dark:text-white group-hover:opacity-90 transition-opacity">
+          <span className="font-display hidden text-lg font-medium tracking-tight text-[var(--ink)] transition-opacity group-hover:opacity-80 sm:inline-block">
             HügoLab
           </span>
         </Link>
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden items-center gap-7 md:flex">
           {items.map((item) => (
             <Link
               key={item.label}
               to={item.to}
               aria-label={item.aria}
-              className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
+              className="link-underline text-sm font-medium text-[var(--muted)] transition-colors hover:text-[var(--ink)]"
             >
               {item.label}
             </Link>
@@ -915,30 +1003,33 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
         </div>
         <div className="flex items-center gap-2">
           <LangToggle lang={lang} onToggle={onLangToggle} />
-          <ThemeToggle />
-          <button onClick={onContactClick} className="hidden sm:inline-flex rounded-2xl text-sm px-3 py-1.5 bg-black text-white dark:bg-white dark:text-black">
+          <button
+            onClick={onContactClick}
+            className="hidden items-center gap-2 rounded-full bg-[var(--ink)] px-4 py-2 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[var(--violet-deep)] sm:inline-flex"
+          >
             {t.hero.ctaSecondary}
           </button>
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-xl border border-neutral-300 p-2 text-neutral-700 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800 md:hidden"
+            className="inline-flex items-center justify-center rounded-full border border-[var(--border-strong)] p-2 text-[var(--ink)] transition hover:bg-[var(--lavender)] md:hidden"
             onClick={() => setMobileOpen((prev) => !prev)}
             aria-label={mobileLabel}
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </nav>
       {mobileOpen && (
-        <div className="md:hidden border-t border-neutral-200/70 bg-white/95 px-4 py-4 backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/95">
-          <div className="flex flex-col gap-3">
+        <div className="border-t border-[var(--border)] bg-[var(--paper)] px-5 py-4 md:hidden">
+          <div className="flex flex-col gap-1">
             {items.map((item) => (
               <Link
                 key={`mobile-${item.label}`}
                 to={item.to}
                 onClick={closeMobile}
                 aria-label={item.aria}
-                className="rounded-xl px-3 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-800"
+                className="rounded-xl px-3 py-2.5 text-sm font-medium text-[var(--ink)] hover:bg-[var(--lavender)]"
               >
                 {item.label}
               </Link>
@@ -949,7 +1040,7 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
                 onContactClick();
                 closeMobile();
               }}
-              className="rounded-xl bg-black px-3 py-2 text-sm font-medium text-white hover:bg-neutral-900 dark:bg-white dark:text-black dark:hover:bg-neutral-100"
+              className="mt-2 rounded-full bg-[var(--ink)] px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--violet-deep)]"
             >
               {t.hero.ctaSecondary}
             </button>
@@ -962,11 +1053,9 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
 
 function SectionTitle({ children, kicker }) {
   return (
-    <div className="max-w-6xl mx-auto px-4">
-      {kicker ? (
-        <p className="uppercase tracking-widest text-xs text-neutral-500 dark:text-neutral-400 mb-2">{kicker}</p>
-      ) : null}
-      <h2 className="text-2xl md:text-3xl font-semibold mb-6">{children}</h2>
+    <div className="mx-auto max-w-6xl px-4">
+      {kicker ? <p className="kicker mb-3">{kicker}</p> : null}
+      <h2 className="font-display mb-8 text-3xl font-medium tracking-tight text-[var(--ink)] md:text-4xl">{children}</h2>
     </div>
   );
 }
@@ -974,39 +1063,151 @@ function SectionTitle({ children, kicker }) {
 function Hero({ t }) {
   const [index, setIndex] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % HERO_IMAGES.length), 4000);
+    const id = setInterval(() => setIndex((i) => (i + 1) % HERO_IMAGES.length), 5000);
     return () => clearInterval(id);
   }, []);
+  const isFr = t.langLabel === "FR";
   return (
-    <section id="top" className="relative overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-950 dark:to-neutral-900" />
-      <div className="mx-auto max-w-6xl px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+    <section id="top" className="relative overflow-hidden border-b border-[var(--border)]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-40 -top-40 h-[480px] w-[480px] rounded-full opacity-40 blur-3xl"
+        style={{ background: "radial-gradient(circle, var(--lavender) 0%, transparent 70%)" }}
+      />
+      <div className="hugolab-container grid items-center gap-14 py-20 md:py-28 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
-          <p className="uppercase tracking-widest text-xs text-neutral-500 dark:text-neutral-400 mb-3">{t.hero.kicker}</p>
-          <h1 className="text-3xl md:text-5xl font-semibold leading-tight mb-4">{t.hero.title}</h1>
-          <p className="text-neutral-700 dark:text-neutral-300 max-w-xl mb-6">{t.hero.subtitle}</p>
-          <div className="flex gap-3">
-            <a href="#work" className="btn-primary">
+          <p className="kicker">{t.hero.kicker}</p>
+          <h1 className="font-display mt-6 text-4xl font-medium leading-[1.08] tracking-tight text-[var(--ink)] md:text-6xl">
+            {t.hero.title}
+          </h1>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-[var(--muted)]">{t.hero.subtitle}</p>
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <a href="#projects" className="btn-primary">
               {t.hero.ctaPrimary}
+              <span className="btn-arrow" aria-hidden>→</span>
             </a>
             <a href="#contact" className="btn-ghost">
               {t.hero.ctaSecondary}
             </a>
           </div>
+          <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-[var(--border)] pt-6">
+            {[
+              { value: "10", label: isFr ? "maquettes sectorielles" : "sector mockups" },
+              { value: "< 24h", label: isFr ? "délai de réponse" : "reply time" },
+              { value: "30 j", label: isFr ? "mise en ligne moyenne" : "average launch" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <dt className="sr-only">{stat.label}</dt>
+                <dd className="font-display text-2xl text-[var(--ink)]">{stat.value}</dd>
+                <p className="mt-1 text-xs leading-snug text-[var(--muted)]">{stat.label}</p>
+              </div>
+            ))}
+          </dl>
         </div>
-        <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-xl">
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={index}
-              src={HERO_IMAGES[index]}
-              alt={`HügoLab showcase ${index + 1}`}
-              className="absolute inset-0 w-full h-full object-cover"
-              initial={{ opacity: 0, scale: 1.02 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.01 }}
-              transition={{ duration: 0.8 }}
-            />
-          </AnimatePresence>
+        <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+          <div
+            className="relative overflow-hidden border border-[var(--border)] bg-[var(--surface)]"
+            style={{ borderRadius: "180px 180px 28px 28px" }}
+          >
+            <div className="relative aspect-[4/5]">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={index}
+                  src={HERO_IMAGES[index]}
+                  alt={isFr ? "Aperçu d’une maquette HügoLab" : "Preview of a HügoLab mockup"}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  initial={{ opacity: 0, scale: 1.03 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.9, ease: "easeOut" }}
+                />
+              </AnimatePresence>
+            </div>
+          </div>
+          <div className="absolute -left-4 bottom-8 hidden rounded-xl border border-[var(--border)] bg-white/95 px-4 py-3 shadow-[0_18px_50px_-20px_rgba(23,20,31,0.35)] backdrop-blur md:block">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--violet-text)]">
+              {isFr ? "Studio local" : "Local studio"}
+            </p>
+            <p className="mt-1 text-sm text-[var(--ink)]">
+              {isFr ? "Annecy · Doussard · lac" : "Annecy · Doussard · lake"}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function IntroSection({ t }) {
+  const intro = t.homeIntro;
+  if (!intro) return null;
+  const kicker = t.langLabel === "FR" ? "À propos" : "About";
+
+  return (
+    <section className="py-16 md:py-24">
+      <div className="hugolab-container space-y-12">
+        <div className="max-w-3xl">
+          <p className="kicker">{kicker}</p>
+          <h2 className="font-display mt-4 text-3xl font-medium tracking-tight text-[var(--ink)] md:text-4xl">{intro.title}</h2>
+          <p className="mt-5 text-lg leading-relaxed text-[var(--muted)]">{intro.body}</p>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {intro.highlights?.map((item, idx) => (
+            <div key={item.title} className="card-editorial flex flex-col gap-3 p-6">
+              <p className="font-display text-sm text-[var(--violet-text)]">{String(idx + 1).padStart(2, "0")}</p>
+              <p className="text-base font-semibold text-[var(--ink)]">{item.title}</p>
+              <p className="text-sm leading-relaxed text-[var(--muted)]">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ApproachSection({ data, lang }) {
+  if (!data) return null;
+  return (
+    <section id="approach" className="py-16 md:py-24">
+      <div className="hugolab-container">
+        <div className="rounded-[32px] bg-[var(--ink)] p-10 text-white md:p-16">
+          <p className="kicker !text-white/60">{data.kicker || (lang === "FR" ? "Approche" : "Approach")}</p>
+          <div className="mt-6 flex flex-col gap-8 md:flex-row md:items-start md:gap-20">
+            <h2 className="font-display max-w-md text-3xl font-medium leading-snug md:text-4xl">{data.title}</h2>
+            <p className="max-w-xl text-lg leading-relaxed text-white/70">{data.description}</p>
+          </div>
+          <p className="font-display mt-10 text-xl italic text-[var(--violet)]">{data.slogan}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TestimonialsSection({ data }) {
+  if (!data) return null;
+  return (
+    <section id="testimonials" className="border-y border-[var(--border)] py-16 md:py-24">
+      <div className="hugolab-container">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="kicker">{data.kicker}</p>
+            <h2 className="font-display mt-3 text-3xl font-medium tracking-tight text-[var(--ink)] md:text-4xl">{data.title}</h2>
+          </div>
+          {data.note ? <p className="text-xs italic text-[var(--muted)]">{data.note}</p> : null}
+        </div>
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {data.items?.map((item) => (
+            <figure key={item.name} className="card-editorial flex h-full flex-col justify-between p-6">
+              <blockquote>
+                <span aria-hidden className="font-display block text-4xl leading-none text-[var(--violet)]">“</span>
+                <p className="mt-2 text-[15px] leading-relaxed text-[var(--ink)]">{item.quote}</p>
+              </blockquote>
+              <figcaption className="mt-6 border-t border-[var(--border)] pt-4">
+                <p className="text-sm font-semibold text-[var(--ink)]">{item.name}</p>
+                <p className="mt-0.5 text-xs text-[var(--muted)]">{item.role}</p>
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </div>
     </section>
@@ -1015,6 +1216,67 @@ function Hero({ t }) {
 
 // util pour ProjectCard
 const isExternalUrl = (u) => /^https?:\/\//i.test(u);
+
+function FeaturedMockups({ t }) {
+  const copy = t.homeProjects;
+  const items = PROJECTS.slice(0, 3);
+
+  return (
+    <section id="projects" className="border-t border-[var(--border)] bg-[var(--surface)]/60 py-16 md:py-24">
+      <div className="hugolab-container">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <p className="kicker">{t.langLabel === "FR" ? "Maquettes" : "Mockups"}</p>
+            <h2 className="font-display mt-3 text-3xl font-medium tracking-tight text-[var(--ink)] md:text-4xl">{copy.title}</h2>
+            <p className="mt-4 text-base leading-relaxed text-[var(--muted)]">{copy.intro}</p>
+          </div>
+          <Link to={copy.ctaHref} className="btn-ghost whitespace-nowrap">
+            {copy.cta}
+          </Link>
+        </div>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+          {items.map((item, idx) => {
+            const order = String(idx + 1).padStart(2, "0");
+            const card = (
+              <div className="card-editorial group flex h-full flex-col overflow-hidden">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt={`${item.title} — ${item.industry}`}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.04]"
+                  />
+                  <span className="absolute left-4 top-4 bg-[var(--paper)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--ink)]">
+                    {item.industry}
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="font-display text-sm text-[var(--violet-text)]">{order}</p>
+                  <h3 className="mt-2 text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{item.tagline}</p>
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--violet-text)]">
+                    {t.langLabel === "FR" ? "Voir la maquette" : "Open mockup"}
+                    <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </span>
+                </div>
+              </div>
+            );
+            return isExternalUrl(item.url) ? (
+              <a key={item.slug} href={item.url} target="_blank" rel="noopener noreferrer" className="block h-full">
+                {card}
+              </a>
+            ) : (
+              <Link key={item.slug} to={item.url} className="block h-full">
+                {card}
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function ProjectCard({ p, lang }) {
   const isFrench = lang === "FR";
@@ -1029,47 +1291,36 @@ function ProjectCard({ p, lang }) {
           loading="lazy"
           width="1280"
           height="800"
-          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]"
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
         />
-        <div className="absolute left-3 top-3 flex gap-2">
+        <div className="absolute left-3 top-3 flex flex-wrap gap-2">
           {p.stack.map((s) => (
-            <span key={s} className="text-[10px] px-2 py-1 rounded-full bg-white/90 dark:bg-neutral-900/80 border border-neutral-200 dark:border-neutral-800">
+            <span key={s} className="bg-[var(--paper)]/95 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--ink)]">
               {s}
             </span>
           ))}
         </div>
       </div>
-      <div className="p-5">
-        <div className="flex items-center gap-2 text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">
-          <span>{p.industry}</span>
-          <span>•</span>
-          <span>{p.slug}</span>
-        </div>
-        <h3 className="text-lg font-medium mb-1">{p.title}</h3>
-        <p className="text-sm text-neutral-600 dark:text-neutral-300 line-clamp-2">{p.tagline}</p>
-        <div className="mt-3 flex items-center gap-3">
+      <div className="p-6">
+        <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--violet-text)]">{p.industry}</p>
+        <h3 className="mb-1 text-lg font-semibold text-[var(--ink)]">{p.title}</h3>
+        <p className="line-clamp-2 text-sm leading-relaxed text-[var(--muted)]">{p.tagline}</p>
+        <div className="mt-4 flex items-center gap-4">
           {isExternalUrl(p.url) ? (
             <a
               href={p.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm underline underline-offset-4"
+              className="link-underline text-sm font-semibold text-[var(--ink)]"
               aria-label={`${liveLabel} (${p.title})`}
             >
               {liveLabel}
             </a>
           ) : (
-            <Link to={p.url} className="text-sm underline underline-offset-4" aria-label={`${liveLabel} (${p.title})`}>
+            <Link to={p.url} className="link-underline text-sm font-semibold text-[var(--ink)]" aria-label={`${liveLabel} (${p.title})`}>
               {liveLabel}
             </Link>
           )}
-          <a
-            href={p.caseStudyUrl}
-            className="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
-            aria-label={`${caseLabel} (${p.title})`}
-          >
-            {caseLabel}
-          </a>
         </div>
       </div>
     </>
@@ -1082,7 +1333,7 @@ function ProjectCard({ p, lang }) {
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
       id={p.caseStudyUrl && p.caseStudyUrl.startsWith("#") ? p.caseStudyUrl.slice(1) : undefined}
-      className="group rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:shadow-xl hover-lift"
+      className="card-editorial group overflow-hidden"
     >
       {isExternalUrl(p.url) ? (
         <a href={p.url} target="_blank" rel="noopener noreferrer" className="block">
@@ -1110,7 +1361,7 @@ function Services({ t }) {
         )}
       >
         {/* Image */}
-        <div className="relative overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800">
+        <div className="relative overflow-hidden rounded-3xl border border-[var(--border)]">
           <div className="aspect-[4/3] md:aspect-[3/2]">
             <img
               src={section.img}
@@ -1126,47 +1377,31 @@ function Services({ t }) {
   
         {/* Texte (reste en haut) */}
         <div>
-          <p className="mb-2 text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
-            {section.tag}
-          </p>
-          <h3 className="text-xl md:text-2xl font-semibold">{section.title}</h3>
-          <p className="mt-3 text-neutral-700 dark:text-neutral-300">{section.desc}</p>
-  
-          <ul className="mt-4 space-y-2 text-sm">
+          <p className="kicker mb-3">{section.tag}</p>
+          <h3 className="font-display text-2xl font-medium tracking-tight text-[var(--ink)] md:text-3xl">{section.title}</h3>
+          <p className="mt-4 leading-relaxed text-[var(--muted)]">{section.desc}</p>
+
+          <ul className="mt-5 space-y-2.5 text-sm">
             {section.bullets.map((b, i) => (
-              <li key={i} className="flex items-center gap-2">
-                <span className="inline-block h-2 w-2 rounded-full bg-black dark:bg-white"></span>
-                <span className="text-neutral-700 dark:text-neutral-300">{b}</span>
+              <li key={i} className="flex items-start gap-3">
+                <span aria-hidden className="mt-[7px] inline-block h-1.5 w-1.5 flex-none bg-[var(--violet)]"></span>
+                <span className="leading-relaxed text-[var(--ink)]">{b}</span>
               </li>
             ))}
           </ul>
-  
-          <div className="mt-5 flex gap-3">
-            <a
-              href="#work"
-              className="rounded-2xl px-4 py-2 text-sm bg-black text-white dark:bg-white dark:text-black
-             transform-gpu transition-transform motion-safe:hover:scale-[1.03] motion-safe:active:scale-[0.98]
-             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black/30 dark:focus:ring-white/30"
-            >
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link to="/work" className="btn-primary !px-5 !py-2.5">
               {t.services.cta}
-            </a>
+              <span className="btn-arrow" aria-hidden>→</span>
+            </Link>
             <button
               type="button"
-              onClick={() =>
-                openMail(
-                  CONTACT.email,
-                  emailCopy.subject,
-                  emailCopy.body
-                )
-              }
-              className="inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm
-              border border-neutral-300 dark:border-neutral-700
-              transform-gpu transition-transform motion-safe:hover:scale-[1.05] motion-safe:active:scale-[0.98]
-              hover:bg-neutral-900 hover:text-white dark:hover:bg-white dark:hover:text-black
-              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-300 dark:focus:ring-neutral-700"
+              onClick={() => openMail(CONTACT.email, emailCopy.subject, emailCopy.body)}
+              className="btn-ghost !px-5 !py-2.5"
             >
               {t.contact.btn}
-              </button>
+            </button>
           </div>
         </div>
       </div>
@@ -1205,13 +1440,10 @@ function Work({ t, limit = 6, showMore = true }) {
         ))}
       </div>
       {shouldShowMore && (
-        <div className="mt-10 text-center">
-          <Link
-            to="/work"
-            className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-neutral-700 transition hover:border-neutral-500 hover:text-neutral-900"
-          >
+        <div className="mt-12 text-center">
+          <Link to="/work" className="btn-ghost">
             {t.work.viewMore ?? (t.langLabel === "FR" ? "Voir davantage" : "See more")}
-            <span aria-hidden>&rarr;</span>
+            <span aria-hidden>→</span>
           </Link>
         </div>
       )}
@@ -1228,7 +1460,7 @@ function About({ t }) {
       <div className="mx-auto max-w-6xl px-4 grid gap-8 md:gap-10 items-start md:grid-cols-12">
         {/* IMAGE (left) */}
         <figure className="md:col-span-5">
-          <div className="relative aspect-[16/9] md:aspect-[19/9] overflow-hidden rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800">
+          <div className="relative aspect-[16/9] md:aspect-[19/9] overflow-hidden rounded-3xl ring-1 ring-[var(--border)]">
             <img
               src="/about/hugolab-team.webp"   // ← your image (public/about/hugolab-team.webp)
               alt="HügoLab — l’équipe au travail"
@@ -1242,7 +1474,7 @@ function About({ t }) {
         </figure>
 
         {/* TEXT (right) */}
-        <div className="md:col-span-7 text-neutral-700 dark:text-neutral-300 space-y-4">
+        <div className="md:col-span-7 space-y-4 leading-relaxed text-[var(--muted)]">
           <p>{t.about.p1}</p>
           <p>{t.about.p2}</p>
         </div>
@@ -1250,12 +1482,12 @@ function About({ t }) {
 
       {/* QUOTE centered BELOW image+text */}
       {t.about.quote && (
-        <figure className="mt-8 md:mt-12 mx-auto max-w-3xl px-4 text-center">
-          <blockquote className="rounded-2xl border border-neutral-200 bg-white/70 p-6 md:p-7 italic leading-relaxed text-neutral-800 backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/60 dark:text-neutral-100">
+        <figure className="mx-auto mt-10 max-w-3xl px-4 text-center md:mt-14">
+          <blockquote className="font-display border-y border-[var(--border)] py-8 text-xl italic leading-relaxed text-[var(--ink)] md:text-2xl">
             {t.about.quote}
           </blockquote>
           {t.about.quoteAuthor && (
-            <figcaption className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+            <figcaption className="mt-4 text-sm font-semibold text-[var(--violet-text)]">
               {t.about.quoteAuthor}
             </figcaption>
           )}
@@ -1266,130 +1498,150 @@ function About({ t }) {
 }
 
 function Contact({ t }) {
-  const [siteBriefOpen, setSiteBriefOpen] = useState(false);
-  const [logoBriefOpen, setLogoBriefOpen] = useState(false);
+  const emailCopy = getEmailTemplate(t.langLabel);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    project: "",
+    budget: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const labels =
+    t.langLabel === "FR"
+      ? {
+          name: "Votre nom",
+          email: "Email",
+          project: "Parlez-nous de votre activité et de votre besoin",
+          budget: "Budget ou timing (optionnel)",
+          helper: "Vous recevrez une réponse sous 24h.",
+          confirmation: "Votre messagerie s’ouvre pour finaliser l’envoi.",
+        }
+      : {
+          name: "Your name",
+          email: "Email",
+          project: "Tell us about your activity and what you need",
+          budget: "Budget or timing (optional)",
+          helper: "We reply within 24 hours.",
+          confirmation: "Your email app opens so you can send the message.",
+        };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const nameLabel = t.langLabel === "FR" ? "Nom" : "Name";
+    const projectLabel = t.langLabel === "FR" ? "Projet" : "Project";
+    const budgetLabel = t.langLabel === "FR" ? "Budget / timing" : "Budget / timing";
+    const lines = [
+      `${nameLabel}: ${formData.name || "-"}`,
+      `Email: ${formData.email || "-"}`,
+      "",
+      `${projectLabel}:`,
+      formData.project || "-",
+      "",
+      `${budgetLabel}:`,
+      formData.budget || "-",
+    ].join("\n");
+    openMail(CONTACT.email, emailCopy.subject, lines);
+    setSubmitted(true);
+  };
 
   return (
-    <section id="contact" className="py-14 md:py-20">
-      <SectionTitle kicker={t.contact.kicker}>{t.contact.title}</SectionTitle>
-      <div className="max-w-4xl mx-auto px-4">
-        <p className="text-neutral-700 dark:text-neutral-300 mb-6">{t.contact.p}</p>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-3xl border border-neutral-200 bg-white/95 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">Email</p>
-            <a href={`mailto:${CONTACT.email}`} className="mt-2 inline-flex items-center gap-2 text-lg font-medium text-neutral-900 transition hover:text-neutral-600 dark:text-neutral-100 dark:hover:text-neutral-300">
+    <section id="contact" className="bg-white py-20">
+      <div className="hugolab-container grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="space-y-6">
+          <p className="kicker">{t.contact.kicker}</p>
+          <h2 className="font-display text-3xl font-medium tracking-tight text-[var(--ink)] md:text-4xl">{t.contact.title}</h2>
+          <p className="text-lg leading-relaxed text-[var(--muted)]">{t.contact.p}</p>
+          <div className="space-y-3 text-sm text-[var(--muted)]">
+            <a
+              href={`mailto:${CONTACT.email}`}
+              className="text-lg font-semibold text-[var(--ink)] transition hover:text-[var(--brown-2)]"
+            >
               {CONTACT.email}
             </a>
-            <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
-              {t.langLabel === "FR"
-                ? "Nous répondons sous 24h avec un plan simple."
-                : "We reply within 24h with a simple plan."}
-            </p>
-          </div>
-
-          <div className="rounded-3xl border border-neutral-200 bg-white/95 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">{t.langLabel === "FR" ? "Téléphone" : "Phone"}</p>
-            <a href={`tel:${CONTACT.phone.replace(/\s+/g, "")}`} className="mt-2 inline-flex items-center gap-2 text-lg font-medium text-neutral-900 transition hover:text-neutral-600 dark:text-neutral-100 dark:hover:text-neutral-300">
+            <a
+              href={`tel:${CONTACT.phone.replace(/\s+/g, "")}`}
+              className="block text-lg font-semibold text-[var(--ink)] transition hover:text-[var(--brown-2)]"
+            >
               {CONTACT.phone}
             </a>
-            <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
-              {t.langLabel === "FR"
-                ? "Appel découverte (15 min) pour cadrer votre besoin."
-                : "Discovery call (15 min) to scope your needs."}
-            </p>
+            <p>{CONTACT.location}</p>
           </div>
-
-          <div className="rounded-3xl border border-neutral-200 bg-white/95 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">{t.langLabel === "FR" ? "Zones d'intervention" : "Areas we cover"}</p>
-            <p className="mt-2 text-lg font-medium text-neutral-900 dark:text-neutral-100">{CONTACT.location}</p>
-            <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
-              {t.langLabel === "FR"
-                ? "Présence locale, déplacements possibles sur rendez-vous."
-                : "Local presence, on-site meetings on request."}
-            </p>
-          </div>
-
-          <div className="rounded-3xl border border-neutral-200 bg-white/95 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">{t.langLabel === "FR" ? "Réseaux" : "Socials"}</p>
-            <div className="mt-2 flex items-center gap-4 text-sm">
-              {SOCIALS.map((s) => (
-                <a
-                  key={s.name}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-neutral-900 transition hover:text-neutral-600 dark:text-neutral-100 dark:hover:text-neutral-300"
-                >
-                  {s.name === "LinkedIn" ? (
-                    <img src="/icons/linkedin.svg" alt="LinkedIn" className="h-4 w-4" />
-                  ) : s.name === "Instagram" ? (
-                    <img src="/icons/instagram.svg" alt="Instagram" className="h-4 w-4" />
-                  ) : null}
-                  {s.name}
-                </a>
-              ))}
-            </div>
-            <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
-              {t.langLabel === "FR"
-                ? "Suivez l’évolution des maquettes et des projets."
-                : "Follow mockups and project updates."}
-            </p>
+          <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.3em] text-[var(--muted)]">
+            <span className="rounded-full border border-[var(--border)] px-3 py-1">{t.langLabel === "FR" ? "Réponse < 24h" : "Reply < 24h"}</span>
+            <span className="rounded-full border border-[var(--border)] px-3 py-1">
+              {t.langLabel === "FR" ? "Studio humain" : "Human studio"}
+            </span>
           </div>
         </div>
-
-        {/* CTAs */}
-        <div className="mt-6 flex flex-wrap gap-3">
-          <a
-            href={`mailto:${CONTACT.email}`}
-            className="btn-primary"
-          >
+        <form onSubmit={handleSubmit} className="space-y-4 rounded-[32px] border border-[var(--border)] bg-[var(--sand)]/70 p-6 md:p-8">
+          <div>
+            <label htmlFor="name" className="text-xs uppercase tracking-[0.3em] text-[var(--muted)]">
+              {labels.name}
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              value={formData.name}
+              onChange={handleChange}
+              className="mt-2 w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--brown)]/60"
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="text-xs uppercase tracking-[0.3em] text-[var(--muted)]">
+              {labels.email}
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="mt-2 w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--brown)]/60"
+            />
+          </div>
+          <div>
+            <label htmlFor="project" className="text-xs uppercase tracking-[0.3em] text-[var(--muted)]">
+              {labels.project}
+            </label>
+            <textarea
+              id="project"
+              name="project"
+              rows={4}
+              value={formData.project}
+              onChange={handleChange}
+              className="mt-2 w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--brown)]/60"
+            />
+          </div>
+          <div>
+            <label htmlFor="budget" className="text-xs uppercase tracking-[0.3em] text-[var(--muted)]">
+              {labels.budget}
+            </label>
+            <input
+              id="budget"
+              name="budget"
+              type="text"
+              value={formData.budget}
+              onChange={handleChange}
+              className="mt-2 w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--brown)]/60"
+            />
+          </div>
+          <p className="text-sm text-[var(--muted)]">{labels.helper}</p>
+          <button type="submit" className="btn-primary w-full justify-center">
             {t.contact.btn}
-          </a>
-
-          <button
-            type="button"
-            onClick={() => setSiteBriefOpen(true)}
-            className="rounded-2xl border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-800"
-          >
-            {t.contact.briefCta}
           </button>
-
-          <button
-            type="button"
-            onClick={() => setLogoBriefOpen(true)}
-            className="rounded-2xl border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-800"
-          >
-            {t.contact.logoCta}
-          </button>
-
-          <a
-            href="https://g.page/r/CSjpwPvLGK4YEAE/review"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-ghost inline-flex items-center gap-2"
-            aria-label="Laisser un avis Google pour HügoLab (ouvre un nouvel onglet)"
-          >
-            <img src="/icons/google.svg" alt="Google" className="h-4 w-4" />
-            Laisser un avis Google
-          </a>
-        </div>
+          {submitted && (
+            <p className="text-center text-sm text-[var(--brown-2)]">{labels.confirmation}</p>
+          )}
+        </form>
       </div>
-
-      {siteBriefOpen && (
-        <TallyModal
-          url="https://tally.so/r/mJ7Zgd"
-          onClose={() => setSiteBriefOpen(false)}
-          title="Brief site (gratuit)"
-        />
-      )}
-      {logoBriefOpen && (
-        <TallyModal
-          url="https://tally.so/r/mOveKp"
-          onClose={() => setLogoBriefOpen(false)}
-          title="Brief logo (gratuit)"
-        />
-      )}
     </section>
   );
 }
@@ -1401,33 +1653,31 @@ function AboutPage({ t }) {
   const timelineKicker = t.langLabel === "FR" ? "Parcours" : "Journey";
 
   return (
-    <main className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-white">
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-950" />
+    <main className="min-h-screen bg-[var(--paper)] text-[var(--ink)]">
+      <section className="relative overflow-hidden border-b border-[var(--border)]">
         <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 pb-20 pt-24 md:flex-row md:items-center">
           <div className="max-w-2xl">
-            <span className="pill text-xs font-medium text-neutral-700 dark:text-neutral-200">
-              {page.hero.pill}
-            </span>
-            <h1 className="mt-6 text-3xl font-semibold leading-tight md:text-5xl">
+            <span className="pill">{page.hero.pill}</span>
+            <h1 className="font-display mt-6 text-3xl font-medium leading-tight tracking-tight md:text-5xl">
               {page.hero.title}
             </h1>
-            <p className="mt-4 text-neutral-700 dark:text-neutral-300 md:text-lg">
+            <p className="mt-5 leading-relaxed text-[var(--muted)] md:text-lg">
               {page.hero.subtitle}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button
                 type="button"
                 onClick={() => openMail(CONTACT.email, emailCopy.subject, emailCopy.body)}
-                className="rounded-2xl bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-neutral-900 dark:bg-white dark:text-black dark:hover:bg-neutral-100"
+                className="btn-primary !px-5 !py-2.5"
               >
                 {page.hero.ctaPrimary}
+                <span className="btn-arrow" aria-hidden>→</span>
               </button>
               <a
                 href={page.hero.ctaSecondaryUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-2xl border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-800"
+                className="btn-ghost !px-5 !py-2.5"
               >
                 {page.hero.ctaSecondary}
               </a>
@@ -1437,12 +1687,10 @@ function AboutPage({ t }) {
             {page.highlights.map((item, idx) => (
               <div
                 key={`${item.label}-${idx}`}
-                className="flex flex-col items-center gap-2 rounded-2xl border border-neutral-200 bg-white/90 px-5 py-6 text-center text-neutral-900 shadow-sm backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/80 dark:text-white"
+                className="card-editorial flex flex-col items-center gap-2 px-5 py-6 text-center"
               >
-                <div className="text-3xl font-semibold md:text-4xl">{item.value}</div>
-                <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
-                  {item.label}
-                </p>
+                <div className="font-display text-3xl text-[var(--ink)] md:text-4xl">{item.value}</div>
+                <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">{item.label}</p>
               </div>
             ))}
           </div>
@@ -1453,13 +1701,14 @@ function AboutPage({ t }) {
 
       <section className="py-16 md:py-20" id="process">
         <div className="mx-auto max-w-6xl px-4">
-          <p className="uppercase tracking-[0.3em] text-xs text-neutral-500 dark:text-neutral-400">{valuesKicker}</p>
-          <h2 className="mt-3 text-2xl font-semibold md:text-3xl">{page.values.title}</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {page.values.items.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900">
-                <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">{item.desc}</p>
+          <p className="kicker">{valuesKicker}</p>
+          <h2 className="font-display mt-3 text-2xl font-medium tracking-tight md:text-3xl">{page.values.title}</h2>
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            {page.values.items.map((item, idx) => (
+              <div key={item.title} className="card-editorial p-6">
+                <p className="font-display text-sm text-[var(--violet-text)]">{String(idx + 1).padStart(2, "0")}</p>
+                <h3 className="mt-2 text-lg font-semibold">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -1468,14 +1717,15 @@ function AboutPage({ t }) {
 
       <section className="py-16 md:py-20" id="timeline">
         <div className="mx-auto max-w-6xl px-4">
-          <p className="uppercase tracking-[0.3em] text-xs text-neutral-500 dark:text-neutral-400">{timelineKicker}</p>
-          <h2 className="mt-3 text-2xl font-semibold md:text-3xl">{page.timeline.title}</h2>
-          <div className="mt-10 space-y-6">
+          <p className="kicker">{timelineKicker}</p>
+          <h2 className="font-display mt-3 text-2xl font-medium tracking-tight md:text-3xl">{page.timeline.title}</h2>
+          <div className="mt-10 space-y-0 border-l border-[var(--border-strong)]">
             {page.timeline.items.map((step) => (
-              <div key={step.year} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-                <div className="text-xs uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">{step.year}</div>
+              <div key={step.year} className="relative py-6 pl-8">
+                <span aria-hidden className="absolute -left-[5px] top-8 h-[9px] w-[9px] bg-[var(--violet)]" />
+                <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--violet-text)]">{step.year}</div>
                 <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
-                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">{step.desc}</p>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -1491,24 +1741,22 @@ function AboutPage({ t }) {
 
 function ServicesPage({ t }) {
   return (
-    <main className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-white">
-      <section className="bg-neutral-50 py-16 dark:bg-neutral-900">
+    <main className="min-h-screen bg-[var(--paper)] text-[var(--ink)]">
+      <section className="border-b border-[var(--border)] bg-[var(--surface)]/60 py-16 md:py-20">
         <div className="mx-auto max-w-5xl px-4 text-center">
-          <p className="uppercase tracking-[0.3em] text-xs text-neutral-500 dark:text-neutral-400">{t.servicesPage.kicker}</p>
-          <h1 className="mt-3 text-3xl font-semibold md:text-4xl">{t.servicesPage.title}</h1>
-          <p className="mt-4 text-neutral-700 dark:text-neutral-300 md:text-lg">{t.servicesPage.desc}</p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <a
-              href={t.servicesPage.ctaPrimaryHref}
-              className="inline-flex items-center justify-center rounded-2xl bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-neutral-900 dark:bg-white dark:text-black dark:hover:bg-neutral-100"
-            >
+          <p className="kicker justify-center">{t.servicesPage.kicker}</p>
+          <h1 className="font-display mt-4 text-3xl font-medium tracking-tight md:text-5xl">{t.servicesPage.title}</h1>
+          <p className="mx-auto mt-5 max-w-2xl leading-relaxed text-[var(--muted)] md:text-lg">{t.servicesPage.desc}</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <a href={t.servicesPage.ctaPrimaryHref} className="btn-primary !px-5 !py-2.5">
               {t.servicesPage.ctaPrimary}
+              <span className="btn-arrow" aria-hidden>→</span>
             </a>
             <a
               href={t.servicesPage.ctaSecondaryHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-2xl border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-800"
+              className="btn-ghost !px-5 !py-2.5"
             >
               {t.servicesPage.ctaSecondary}
             </a>
@@ -1534,18 +1782,16 @@ function ServicesPage({ t }) {
 
 function WorkPage({ t }) {
   return (
-    <main className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-white">
-      <section className="bg-neutral-50 py-16 dark:bg-neutral-900">
+    <main className="min-h-screen bg-[var(--paper)] text-[var(--ink)]">
+      <section className="border-b border-[var(--border)] bg-[var(--surface)]/60 py-16 md:py-20">
         <div className="mx-auto max-w-4xl px-4 text-center">
-          <p className="uppercase tracking-[0.3em] text-xs text-neutral-500 dark:text-neutral-400">{t.workPage.kicker}</p>
-          <h1 className="mt-3 text-3xl font-semibold md:text-4xl">{t.workPage.title}</h1>
-          <p className="mt-4 text-neutral-700 dark:text-neutral-300 md:text-lg">{t.workPage.desc}</p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <a
-              href={t.workPage.ctaPrimaryHref}
-              className="inline-flex items-center justify-center rounded-2xl bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-neutral-900 dark:bg-white dark:text-black dark:hover:bg-neutral-100"
-            >
+          <p className="kicker justify-center">{t.workPage.kicker}</p>
+          <h1 className="font-display mt-4 text-3xl font-medium tracking-tight md:text-5xl">{t.workPage.title}</h1>
+          <p className="mx-auto mt-5 max-w-2xl leading-relaxed text-[var(--muted)] md:text-lg">{t.workPage.desc}</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <a href={t.workPage.ctaPrimaryHref} className="btn-primary !px-5 !py-2.5">
               {t.workPage.ctaPrimary}
+              <span className="btn-arrow" aria-hidden>→</span>
             </a>
           </div>
         </div>
@@ -1571,8 +1817,14 @@ export default function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [lang, setLang] = useState("fr");
   const location = useLocation();
+  // Les démos sont des sites autonomes : on masque la nav/footer HügoLab
+  const isDemoRoute = location.pathname.startsWith("/demos/");
   const t = useMemo(() => STRINGS[lang], [lang]);
   const emailCopy = useMemo(() => getEmailTemplate(t.langLabel), [t.langLabel]);
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -1674,21 +1926,39 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-white">
-      {/* La Nav reste affichée partout */}
-      <Nav
-        t={t}
-        lang={lang}
-        onLangToggle={() => setLang(lang === "fr" ? "en" : "fr")}
-        onContactClick={() =>
-          openMail(
-            CONTACT.email,
-            emailCopy.subject,
-            emailCopy.body
-          )
-        }
-      />
+    <div className="min-h-screen bg-[var(--paper)] text-[var(--ink)]">
+      {/* La Nav est masquée sur les démos pour les présenter comme de vrais sites */}
+      {!isDemoRoute && (
+        <Nav
+          t={t}
+          lang={lang}
+          onLangToggle={() => setLang(lang === "fr" ? "en" : "fr")}
+          onContactClick={() =>
+            openMail(
+              CONTACT.email,
+              emailCopy.subject,
+              emailCopy.body
+            )
+          }
+        />
+      )}
+      {isDemoRoute && (
+        <Link
+          to="/work"
+          className="fixed bottom-6 left-6 z-[60] inline-flex items-center gap-2 rounded-full bg-[var(--ink)] px-4 py-2.5 text-sm font-semibold text-white shadow-xl transition-colors hover:bg-[var(--violet-deep)]"
+        >
+          <span aria-hidden>←</span>
+          {lang === "fr" ? "Maquette HügoLab — retour" : "HügoLab mockup — back"}
+        </Link>
+      )}
       {/* Ici on gère les routes */}
+      <Suspense
+        fallback={
+          <div className="flex min-h-[60vh] items-center justify-center" role="status" aria-live="polite">
+            <span className="text-sm text-[var(--muted)]">{lang === "fr" ? "Chargement…" : "Loading…"}</span>
+          </div>
+        }
+      >
       <Routes>
         {/* Page d’accueil (portfolio existant) */}
         <Route
@@ -1696,21 +1966,21 @@ export default function App() {
           element={
             <main>
               <Hero t={t} />
+              <IntroSection t={t} />
+              <FeaturedMockups t={t} />
+              <ApproachSection data={t.homeApproach} lang={t.langLabel} />
               <WhyUs section={t.whyUs} />
-              <AboutTeaser section={t.aboutTeaser} />
-              <ServicesTeaser section={t.servicesTeaser} />
-              <ProcessSection section={t.process} />
-              <Work t={t} />
-              <PricingSection 
-              briefFormUrl="https://tally.so/r/mJ7Zgd"    // Brief site
-              logoFormUrl="https://tally.so/r/mOveKp"     // Brief logo
-              paymentLinks={{
-                starterDeposit: "https://buy.stripe.com/eVq6oJ8QC3SzdoH6LV8so00",
-                vitrineDeposit: "https://buy.stripe.com/5kQ6oJ7My0Gn1FZgmv8so01",
-                maintenance49:  "https://buy.stripe.com/7sYdRbaYKagXbgz4DN8so02", // Basic
-                maintenance99:  "https://buy.stripe.com/4gMaEZ7MygFl2K39Y78so03", // Premium
-              }}
+              <PricingSection
+                briefFormUrl="https://tally.so/r/mJ7Zgd"
+                logoFormUrl="https://tally.so/r/mOveKp"
+                paymentLinks={{
+                  starterDeposit: "https://buy.stripe.com/eVq6oJ8QC3SzdoH6LV8so00",
+                  vitrineDeposit: "https://buy.stripe.com/5kQ6oJ7My0Gn1FZgmv8so01",
+                  maintenance49: "https://buy.stripe.com/7sYdRbaYKagXbgz4DN8so02",
+                  maintenance99: "https://buy.stripe.com/4gMaEZ7MygFl2K39Y78so03",
+                }}
               />
+              <TestimonialsSection data={t.homeTestimonials} />
               <Contact t={t} />
             </main>
           }
@@ -1734,20 +2004,25 @@ export default function App() {
         <Route path="/demos/la-cuillere-a-omble" element={<LaCuillereAOmble />} />
         <Route path="/demos/palace-lac-lumiere" element={<PalaceLacLumiere />} />
         <Route path="/demos/la-seiche/*" element={<LaSeiche />} />
+        <Route path="/demos/salon-lumen" element={<SalonLumen />} />
+        <Route path="/demos/refuge-altara" element={<RefugeAltara />} />
       </Routes>
+      </Suspense>
 
-      {/* Footer reste affiché partout */}
-      <FooterPro
-        t={t}
-        onManageCookies={handleManageCookies}
-        contact={CONTACT}
-        socials={SOCIALS}
-      />
+      {/* Footer masqué sur les démos (sites autonomes) */}
+      {!isDemoRoute && (
+        <FooterPro
+          t={t}
+          onManageCookies={handleManageCookies}
+          contact={CONTACT}
+          socials={SOCIALS}
+        />
+      )}
       {showScrollTop && (
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 z-40 inline-flex h-11 w-11 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-900 shadow-lg transition hover:-translate-y-1 hover:border-neutral-400 hover:shadow-xl dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
+          className="fixed bottom-6 right-6 z-40 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--paper)] text-[var(--ink)] shadow-lg transition hover:-translate-y-1 hover:border-[var(--violet)] hover:shadow-xl"
           aria-label={lang === "fr" ? "Revenir en haut" : "Back to top"}
         >
           <ArrowUp className="h-4 w-4" />
@@ -1763,39 +2038,3 @@ export default function App() {
   );
 }
 
-// --- Self-tests (basic smoke tests) -----------------------------------------
-(function runSelfTests() {
-  const tests = [];
-  function assert(name, cond) { tests.push({ name, pass: !!cond }); }
-  try {
-    assert("Hero component defined", typeof Hero === "function");
-    assert("Nav component defined", typeof Nav === "function");
-    assert("Work component defined", typeof Work === "function");
-    assert("Services component defined", typeof Services === "function");
-    assert("About component defined", typeof About === "function");
-    assert("Contact component defined", typeof Contact === "function");
-    assert("Footer component defined", typeof Footer === "function");
-
-    assert("Hero has 3+ images", Array.isArray(HERO_IMAGES) && HERO_IMAGES.length >= 3);
-
-    ["fr", "en"].forEach((k) => {
-      const tt = STRINGS[k];
-      assert(`${k} strings exist`, !!tt);
-      assert(`${k} nav`, !!tt.nav && tt.nav.work && tt.nav.services && tt.nav.about && tt.nav.contact);
-      assert(`${k} hero`, !!tt.hero && tt.hero.title && tt.hero.kicker && tt.hero.subtitle);
-      assert(`${k} contact`, !!tt.contact && tt.contact.title && tt.contact.btn);
-    });
-
-    assert("Projects array not empty", Array.isArray(PROJECTS) && PROJECTS.length > 0);
-    PROJECTS.forEach((p, i) => {
-      assert(`Project ${i} has image`, typeof p.image === "string" && p.image.length > 0);
-      assert(`Project ${i} has url`, typeof p.url === "string" && p.url.length > 0);
-    });
-  } catch (e) {
-    console.error("❌ HügoLab self-tests error:", e);
-  } finally {
-    const failed = tests.filter((t) => !t.pass);
-    if (failed.length === 0) console.log("✅ HügoLab portfolio self-tests passed", tests);
-    else console.warn("⚠️ HügoLab portfolio self-tests failed:", failed);
-  }
-})();

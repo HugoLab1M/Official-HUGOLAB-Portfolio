@@ -266,7 +266,7 @@ function SectionTitle({ kicker, title, align = "left" }) {
       <span className="text-xs font-semibold uppercase tracking-[0.35em] text-[#F47529]">
         {kicker}
       </span>
-      <h2 className="mt-3 text-2xl font-semibold text-[#1F1F1F] md:text-3xl">
+      <h2 className="cdp-display mt-3 text-2xl font-bold md:text-3xl">
         {title}
       </h2>
     </div>
@@ -293,6 +293,10 @@ export default function CoupDePompe() {
 
   return (
     <div className="bg-[#F4EDE3] text-[#1F1F1F]">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap');
+        .cdp-display { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+      `}</style>
       <header className="sticky top-0 z-40 border-b border-black/10 bg-[#F4EDE3]/90 backdrop-blur">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
@@ -300,7 +304,7 @@ export default function CoupDePompe() {
               CP
             </div>
             <div>
-              <p className="text-base font-semibold tracking-tight">{content.brand}</p>
+              <p className="cdp-display text-base font-bold tracking-tight">{content.brand}</p>
               <p className="text-xs uppercase tracking-[0.3em] text-[#8B7F73]">{content.badge}</p>
             </div>
           </div>
@@ -355,7 +359,7 @@ export default function CoupDePompe() {
               <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[#F4C6A6]">
                 {content.hero.kicker}
               </span>
-              <h1 className="mt-4 text-3xl font-semibold leading-tight text-white md:text-5xl">
+              <h1 className="cdp-display mt-4 text-3xl font-extrabold leading-tight text-white md:text-5xl">
                 {content.hero.title}
               </h1>
               <p className="mt-4 max-w-xl text-base text-slate-200 md:text-lg">

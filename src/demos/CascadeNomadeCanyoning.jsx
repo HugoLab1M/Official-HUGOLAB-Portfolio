@@ -3,16 +3,29 @@ import {
   Waves, Mountain, MapPin, Shield, Clock, Users, Camera, CalendarCheck, LifeBuoy, Car, Award, CheckCircle2, ChevronRight, Languages
 } from "lucide-react";
 
-/* ====== Prims ====== */
-function Pill({ children }) { return <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-3 py-1 text-sm shadow-sm">{children}</span>; }
-function Section({ children, className = "" }) { return <section className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</section>; }
+/* ====== DA "torrent" : page sombre pétrole, accent lime, typo condensée ====== */
+const PETROL = "#0E2C2A";
+const PETROL_2 = "#143B38";
+const LIME = "#C8F04C";
+const FOAM = "#EFF7F1";
+
+function Pill({ children }) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm" style={{ borderColor: "rgba(239,247,241,0.25)", background: "rgba(239,247,241,0.06)", color: FOAM }}>
+      {children}
+    </span>
+  );
+}
+function Section({ children, className = "", id }) { return <section id={id} className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</section>; }
 function CTA({ label, onClick, href }) {
-  const className = "inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold shadow-sm transition-transform hover:scale-[1.01] active:scale-[0.99] focus:outline-none focus:ring";
-  const style = { background: "linear-gradient(90deg,#7C3AED,#06B6D4)", color: "#fff" };
+  const className = "cnc-display inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-bold uppercase tracking-[0.08em] shadow-sm transition-transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2";
+  const style = { background: LIME, color: PETROL };
   if (href) return <a href={href} className={className} style={style}>{label}</a>;
   return <button onClick={onClick} className={className} style={style}>{label}</button>;
 }
-function Card({ children, className = "" }) { return <div className={`rounded-2xl border border-black/10 bg-white/80 p-5 shadow-sm backdrop-blur ${className}`}>{children}</div>; }
+function Card({ children, className = "" }) {
+  return <div className={`rounded-2xl border p-5 ${className}`} style={{ borderColor: "rgba(239,247,241,0.12)", background: PETROL_2 }}>{children}</div>;
+}
 
 /* ====== Copy FR/EN ====== */
 const copy = {
@@ -184,58 +197,50 @@ export default function CascadeNomadeCanyoning() {
   const t = copy[lang];
 
   return (
-    <div className="min-h-screen bg-white text-[#0F172A]">
-      {/* Colorful top gradient background */}
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-70">
-        <div className="absolute -top-48 left-1/2 h-96 w-[80vw] -translate-x-1/2 rounded-full blur-3xl" style={{ background: "radial-gradient(ellipse at center,#7C3AED33,#06B6D433,#FFFFFF00)" }} />
-      </div>
+    <div className="min-h-screen" style={{ background: PETROL, color: FOAM, fontFamily: '"Manrope", system-ui, sans-serif' }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&display=swap');
+        .cnc-display { font-family: 'Archivo', system-ui, sans-serif; }
+        .cnc-input { background: rgba(239,247,241,0.06); border: 1px solid rgba(239,247,241,0.2); color: #EFF7F1; border-radius: 0.5rem; }
+        .cnc-input::placeholder { color: rgba(239,247,241,0.4); }
+      `}</style>
 
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-black/10 bg-white/80 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b backdrop-blur" style={{ borderColor: "rgba(239,247,241,0.12)", background: "rgba(14,44,42,0.9)" }}>
         <Section className="flex items-center justify-between py-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-cyan-500 text-white"><Waves size={18}/></div>
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: LIME, color: PETROL }}><Waves size={18}/></div>
             <div>
-              <p className="text-lg font-semibold">{t.brand}</p>
+              <p className="cnc-display text-lg font-bold uppercase tracking-wide">{t.brand}</p>
               <p className="text-xs opacity-70">{t.sub}</p>
             </div>
           </div>
           <div className="hidden md:flex items-center gap-4 text-sm">
-            <a href="#tours" className="hover:opacity-80">{t.nav.tours}</a>
-            <a href="#pricing" className="hover:opacity-80">{t.nav.pricing}</a>
-            <a href="#safety" className="hover:opacity-80">{t.nav.safety}</a>
-            <a href="#gallery" className="hover:opacity-80">{t.nav.gallery}</a>
-            <a href="#faq" className="hover:opacity-80">{t.nav.faq}</a>
-            <a href="#contact" className="hover:opacity-80">{t.nav.contact}</a>
-            <button onClick={() => setLang(lang === "fr" ? "en" : "fr")} className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1">
+            <a href="#tours" className="hover:text-[#C8F04C]">{t.nav.tours}</a>
+            <a href="#pricing" className="hover:text-[#C8F04C]">{t.nav.pricing}</a>
+            <a href="#safety" className="hover:text-[#C8F04C]">{t.nav.safety}</a>
+            <a href="#gallery" className="hover:text-[#C8F04C]">{t.nav.gallery}</a>
+            <a href="#faq" className="hover:text-[#C8F04C]">{t.nav.faq}</a>
+            <a href="#contact" className="hover:text-[#C8F04C]">{t.nav.contact}</a>
+            <button onClick={() => setLang(lang === "fr" ? "en" : "fr")} className="inline-flex items-center gap-2 rounded-full px-3 py-1" style={{ background: "rgba(239,247,241,0.1)" }}>
               <Languages size={14}/> {lang.toUpperCase()}
             </button>
           </div>
         </Section>
-
-        {/* Subnav sticky (anchors) */}
-        <div className="border-t border-black/10 bg-white/70 backdrop-blur">
-          <Section className="flex flex-wrap items-center gap-3 py-2 text-xs">
-            <Pill><a href="#tours">{t.nav.tours}</a></Pill>
-            <Pill><a href="#pricing">{t.nav.pricing}</a></Pill>
-            <Pill><a href="#safety">{t.nav.safety}</a></Pill>
-            <Pill><a href="#gallery">{t.nav.gallery}</a></Pill>
-            <Pill><a href="#faq">{t.nav.faq}</a></Pill>
-            <Pill><a href="#contact">{t.nav.contact}</a></Pill>
-          </Section>
-        </div>
       </header>
 
       {/* Hero */}
-      <Section className="pt-10 pb-12">
-        <div className="grid items-center gap-8 md:grid-cols-2">
+      <Section className="pt-14 pb-16">
+        <div className="grid items-center gap-10 md:grid-cols-2">
           <div>
             <Pill><Mountain size={16}/> {t.hero.kicker}</Pill>
-            <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t.hero.title}</h1>
-            <p className="mt-3 max-w-prose text-sm opacity-80">{t.hero.subtitle}</p>
-            <div className="mt-6 flex gap-3">
+            <h1 className="cnc-display mt-5 text-4xl font-extrabold uppercase leading-[1.05] tracking-tight sm:text-5xl">
+              {t.hero.title}
+            </h1>
+            <p className="mt-4 max-w-prose text-base opacity-80">{t.hero.subtitle}</p>
+            <div className="mt-7 flex flex-wrap gap-3">
               <CTA label={t.hero.cta1} href="#contact" />
-              <a href="#tours" className="inline-flex items-center gap-2 rounded-xl border border-black/10 px-5 py-3 text-sm">
+              <a href="#tours" className="inline-flex items-center gap-2 rounded-lg border px-5 py-3 text-sm font-semibold transition hover:bg-white/5" style={{ borderColor: "rgba(239,247,241,0.3)" }}>
                 {t.hero.cta2} <ChevronRight size={16}/>
               </a>
             </div>
@@ -243,15 +248,19 @@ export default function CascadeNomadeCanyoning() {
               {t.hero.badges.map(({ Icon, text }, i) => <Pill key={i}><Icon size={14}/>{text}</Pill>)}
             </div>
           </div>
-          <div className="relative h-64 w-full overflow-hidden rounded-3xl bg-[url('/canyoning/1_v2.jpg')] bg-cover bg-center shadow-lg md:h-80">
-            <div className="absolute inset-0 bg-gradient-to-tr" />
+          <div className="relative h-64 w-full overflow-hidden rounded-2xl shadow-2xl md:h-96 md:-rotate-1">
+            <img src="/canyoning/1_v2.jpg" alt="Descente de canyon avec Cascade Nomade" className="h-full w-full object-cover" />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(14,44,42,0.55), transparent 55%)" }} />
+            <p className="cnc-display absolute bottom-4 left-4 text-sm font-bold uppercase tracking-[0.14em]" style={{ color: LIME }}>
+              Seythenex · Faverges
+            </p>
           </div>
         </div>
       </Section>
 
       {/* Tours */}
 <Section id="tours" className="pb-10">
-  <h2 className="mb-4 text-2xl font-semibold">{t.tours.title}</h2>
+  <h2 className="cnc-display mb-6 text-2xl font-bold uppercase tracking-wide">{t.tours.title}</h2>
   <div className="grid gap-5 md:grid-cols-2">
     {t.tours.items.map((tour, i) => {
       const imgRight = i % 2 === 1; // 0,2 left — 1,3 right
@@ -263,7 +272,7 @@ export default function CascadeNomadeCanyoning() {
               className={[
                 "relative h-48 w-full overflow-hidden",
                 // Mobile: rounded on top; Desktop: reset all, then round left or right only
-                "rounded-t-2xl md:rounded-none",
+                "md:rounded-none",
                 imgRight ? "md:order-2 md:rounded-r-2xl" : "md:order-1 md:rounded-l-2xl",
               ].join(" ")}
             >
@@ -304,12 +313,12 @@ export default function CascadeNomadeCanyoning() {
 
       {/* Why us */}
       <Section className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{t.why.title}</h2>
+        <h2 className="cnc-display mb-6 text-2xl font-bold uppercase tracking-wide">{t.why.title}</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {t.why.bullets.map((b, i) => (
             <Card key={i}>
               <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-cyan-500 text-white"><b.Icon size={18}/></div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#C8F04C] text-[#0E2C2A]"><b.Icon size={18}/></div>
                 <div>
                   <p className="font-medium">{b.t}</p>
                   <p className="text-sm opacity-70">{b.d}</p>
@@ -322,12 +331,12 @@ export default function CascadeNomadeCanyoning() {
 
       {/* Steps */}
       <Section className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{t.steps.title}</h2>
+        <h2 className="cnc-display mb-6 text-2xl font-bold uppercase tracking-wide">{t.steps.title}</h2>
         <div className="grid gap-4 md:grid-cols-4">
           {t.steps.items.map((s) => (
             <Card key={s.n}>
               <div className="flex items-center gap-3">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-sm font-semibold">{s.n}</span>
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-sm font-semibold text-[#C8F04C]">{s.n}</span>
                 <p className="font-medium">{s.t}</p>
               </div>
               <p className="mt-2 text-sm opacity-70">{s.d}</p>
@@ -338,7 +347,7 @@ export default function CascadeNomadeCanyoning() {
 
       {/* Pricing */}
       <Section id="pricing" className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{t.pricing.title}</h2>
+        <h2 className="cnc-display mb-6 text-2xl font-bold uppercase tracking-wide">{t.pricing.title}</h2>
         <div className="grid gap-4 md:grid-cols-3">
           {t.pricing.packs.map((p, i) => (
             <Card key={i}>
@@ -356,7 +365,7 @@ export default function CascadeNomadeCanyoning() {
 
       {/* Safety */}
       <Section id="safety" className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{t.safety.title}</h2>
+        <h2 className="cnc-display mb-6 text-2xl font-bold uppercase tracking-wide">{t.safety.title}</h2>
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <ul className="space-y-2 text-sm">
@@ -372,7 +381,7 @@ export default function CascadeNomadeCanyoning() {
 
       {/* Gallery */}
       <Section id="gallery" className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{t.gallery.title}</h2>
+        <h2 className="cnc-display mb-6 text-2xl font-bold uppercase tracking-wide">{t.gallery.title}</h2>
         <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
           {[
             "/canyoning/7_v2.jpg",
@@ -401,7 +410,7 @@ export default function CascadeNomadeCanyoning() {
 
       {/* FAQ */}
       <Section id="faq" className="pb-10">
-        <h2 className="mb-4 text-2xl font-semibold">{t.faq.title}</h2>
+        <h2 className="cnc-display mb-6 text-2xl font-bold uppercase tracking-wide">{t.faq.title}</h2>
         <div className="grid gap-3 md:grid-cols-3">
           {t.faq.q.map((item, i) => (
             <Card key={i}>
@@ -416,20 +425,20 @@ export default function CascadeNomadeCanyoning() {
 
       {/* Contact / Booking */}
       <Section id="contact" className="pb-16">
-        <h2 className="mb-4 text-2xl font-semibold">{t.contact.title}</h2>
+        <h2 className="cnc-display mb-6 text-2xl font-bold uppercase tracking-wide">{t.contact.title}</h2>
         <Card>
           <form className="grid gap-4 md:grid-cols-3">
-            <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.date}</label><input type="date" className="w-full rounded-xl border border-black/10 px-3 py-2" /></div>
-            <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.time}</label><input type="time" className="w-full rounded-xl border border-black/10 px-3 py-2" /></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.date}</label><input type="date" className="cnc-input w-full px-3 py-2" /></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.time}</label><input type="time" className="cnc-input w-full px-3 py-2" /></div>
             <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.tour}</label>
-              <select className="w-full rounded-xl border border-black/10 px-3 py-2">
+              <select className="cnc-input w-full px-3 py-2">
                 {t.contact.tours.map((x) => <option key={x}>{x}</option>)}
               </select>
             </div>
-            <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.people}</label><input type="number" min="1" max="8" defaultValue={2} className="w-full rounded-xl border border-black/10 px-3 py-2" /></div>
-            <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.name}</label><input placeholder="Prénom Nom" className="w-full rounded-xl border border-black/10 px-3 py-2" /></div>
-            <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.phone}</label><input placeholder="+33 6 00 00 00 30" className="w-full rounded-xl border border-black/10 px-3 py-2" /></div>
-            <div className="md:col-span-3"><label className="mb-1 block text-sm opacity-70">{t.contact.labels.msg}</label><textarea rows={4} className="w-full rounded-xl border border-black/10 px-3 py-2" placeholder="Besoin, niveau, horaires souhaités..." /></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.people}</label><input type="number" min="1" max="8" defaultValue={2} className="cnc-input w-full px-3 py-2" /></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.name}</label><input placeholder="Prénom Nom" className="cnc-input w-full px-3 py-2" /></div>
+            <div><label className="mb-1 block text-sm opacity-70">{t.contact.labels.phone}</label><input placeholder="+33 6 00 00 00 30" className="cnc-input w-full px-3 py-2" /></div>
+            <div className="md:col-span-3"><label className="mb-1 block text-sm opacity-70">{t.contact.labels.msg}</label><textarea rows={4} className="cnc-input w-full px-3 py-2" placeholder="Besoin, niveau, horaires souhaités..." /></div>
             <div className="md:col-span-3"><CTA label={t.contact.labels.submit} /></div>
           </form>
         </Card>
@@ -441,7 +450,7 @@ export default function CascadeNomadeCanyoning() {
       </Section>
 
       {/* Footer */}
-      <footer className="border-t border-black/10 py-8 text-center text-sm opacity-70">
+      <footer className="border-t border-white/10 py-8 text-center text-sm opacity-60">
         © {new Date().getFullYear()} {t.brand} — Démo HugoLab
       </footer>
     </div>
