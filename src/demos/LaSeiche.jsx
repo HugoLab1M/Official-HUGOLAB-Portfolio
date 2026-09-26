@@ -11,6 +11,7 @@ import PhotosPage from "./la-seiche/pages/PhotosPage.jsx";
 import InfosPage from "./la-seiche/pages/InfosPage.jsx";
 import BlogPage from "./la-seiche/pages/BlogPage.jsx";
 import PrivatisationsPage from "./la-seiche/pages/PrivatisationsPage.jsx";
+import AvisPage from "../pages/Avis.jsx";
 
 export default function LaSeiche() {
   useEffect(() => {
@@ -54,6 +55,7 @@ export default function LaSeiche() {
           <Route path="infos" element={<InfosPage />} />
           <Route path="blog" element={<BlogPage />} />
           <Route path="privatisations" element={<PrivatisationsPage />} />
+          <Route path="avis" element={<AvisPage />} />
           <Route path="*" element={<Navigate to="." replace />} />
         </Routes>
       </main>

@@ -3,3 +3,7 @@ node_modules/
 dist/
 .DS_Store
 .vercel
+
+# Originaux des images générées (versions web .jpg commitées à côté)
+public/img/2026/*.png
+dist-ssr

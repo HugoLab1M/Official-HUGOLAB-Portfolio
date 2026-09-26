@@ -37,7 +37,7 @@ export default function ReviewsTeaser() {
             éditorial clair, directement lié au CTA privatisation ou à la page Agenda.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <PrimaryButton href="/avis">Consulter les avis</PrimaryButton>
+            <PrimaryButton href="/demos/la-seiche/avis">Consulter les avis</PrimaryButton>
             <GhostButton href="#privatiser">Privatiser La Seiche</GhostButton>
           </div>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Menu, X, ArrowUp } from "lucide-react";
 import { Routes, Route, Link, useLocation, Navigate } from "react-router-dom";
 import PricingSection from "./components/PricingSection.jsx";
@@ -26,7 +26,6 @@ import MentionsLegales from "./legal/MentionsLegales.jsx";
 import Confidentialite from "./legal/Confidentialite.jsx";
 import CookiesPage from "./legal/Cookies.jsx";
 import CGV from "./legal/CGV.jsx";
-import AvisPage from "./pages/Avis.jsx";
 import FooterPro from "./layout/FooterPro.jsx";
 import { openMail } from "./utils/mail.js";
 
@@ -36,7 +35,7 @@ import { openMail } from "./utils/mail.js";
 // =============================================
 
 // --- Hero carousel images ----------------------------------------------------
-const HERO_IMAGES = ["/hero/1_v2-web.jpg", "/hero/2_v2-web.jpg", "/hero/3_v2-web.jpg"];
+const HERO_IMAGE = "/img/2026/hero.jpg";
 
 // --- Projects (replace with real ones) --------------------------------------
 const PROJECTS = [
@@ -305,7 +304,7 @@ const STRINGS = {
             "Analytics & mesure des conversions",
             "Mise en ligne + maintenance légère",
           ],
-          img: "/services/vitrine-web.jpg",
+          img: "/img/2026/sites-web.jpg",
           imgAlt: "Exemple de site vitrine par HügoLab",
         },
         {
@@ -321,7 +320,7 @@ const STRINGS = {
             "E-mails commande & facture",
             "Statistiques de ventes",
           ],
-          img: "/services/eshop-web.jpg",
+          img: "/img/2026/eshop.jpg",
           imgAlt: "Exemple de boutique en ligne",
         },
         {
@@ -336,7 +335,7 @@ const STRINGS = {
             "Guide d’usage (couleurs, typo, marges)",
             "Gabarits réseaux sociaux (option)",
           ],
-          img: "/services/branding-web.jpg",
+          img: "/img/2026/identite.jpg",
           imgAlt: "Création de logo et identité",
         },
         {
@@ -351,7 +350,7 @@ const STRINGS = {
             "Rapport de visites & pistes SEO",
             "Petites évolutions incluses selon formule",
           ],
-          img: "/services/maintenance-web.jpg",
+          img: "/img/2026/maintenance.jpg",
           imgAlt: "Tableau de suivi et maintenance de site web",
         },
       ],
@@ -618,7 +617,7 @@ const STRINGS = {
             "Analytics & conversion tracking",
             "Launch + light maintenance",
           ],
-          img: "/services/vitrine-web.jpg",
+          img: "/img/2026/sites-web.jpg",
           imgAlt: "Showcase website by HügoLab",
         },
         {
@@ -634,7 +633,7 @@ const STRINGS = {
             "Order & invoice emails",
             "Sales statistics",
           ],
-          img: "/services/eshop-web.jpg",
+          img: "/img/2026/eshop.jpg",
           imgAlt: "Online store example",
         },
         {
@@ -649,7 +648,7 @@ const STRINGS = {
             "Quick style guide (colors, type, spacing)",
             "Social templates (optional)",
           ],
-          img: "/services/branding-web.jpg",
+          img: "/img/2026/identite.jpg",
           imgAlt: "Logo and identity work",
         },
         {
@@ -663,7 +662,7 @@ const STRINGS = {
             "Traffic report & SEO leads",
             "Small enhancements included per plan",
           ],
-          img: "/services/maintenance-web.jpg",
+          img: "/img/2026/maintenance.jpg",
           imgAlt: "Website care and optimisation dashboard",
         },
       ],
@@ -946,11 +945,6 @@ function SectionTitle({ children, kicker }) {
 }
 
 function Hero({ t }) {
-  const [index, setIndex] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % HERO_IMAGES.length), 5000);
-    return () => clearInterval(id);
-  }, []);
   const isFr = t.langLabel === "FR";
   return (
     <section id="top" className="relative overflow-hidden border-b border-[var(--border)]">
@@ -992,18 +986,14 @@ function Hero({ t }) {
             style={{ borderRadius: "180px 180px 28px 28px" }}
           >
             <div className="relative aspect-[4/5]">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={index}
-                  src={HERO_IMAGES[index]}
-                  alt={isFr ? "Aperçu d’une maquette de site HügoLab" : "Preview of a HügoLab website mockup"}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  initial={{ opacity: 0, scale: 1.03 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.9, ease: "easeOut" }}
-                />
-              </AnimatePresence>
+              <img
+                src={HERO_IMAGE}
+                alt={isFr ? "Bureau face au lac d’Annecy, ordinateur ouvert" : "Desk facing Lake Annecy, laptop open"}
+                width="1122"
+                height="1402"
+                fetchpriority="high"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
             </div>
           </div>
           <div className="relative -mt-40 w-[92%] sm:-mt-48 sm:w-[80%] lg:absolute lg:-left-10 lg:bottom-8 lg:mt-0 lg:w-[72%]">
@@ -1221,7 +1211,7 @@ function FeatureRow({ t, section, reverse = false }) {
               width="1200"
               height="900"
               className="h-full w-full object-cover"
-              style={{ objectPosition: "center 65%" }}
+              style={{ objectPosition: "center" }}
             />
           </div>
         </div>
@@ -1842,7 +1832,8 @@ export default function App() {
         <Route path="/confidentialite" element={<Confidentialite />} />
         <Route path="/cookies" element={<CookiesPage />} />
         <Route path="/cgv" element={<CGV />} />
-        <Route path="/avis" element={<AvisPage />} />
+        {/* Ancienne URL des avis fictifs de la démo La Seiche : ils vivent désormais dans la démo */}
+        <Route path="/avis" element={<Navigate to="/demos/la-seiche/avis" replace />} />
         {/* Pages démos */}
         <Route path="/demos/coup-de-pompe" element={<CoupDePompe />} />
         <Route path="/demos/le-deck-pedalos" element={<LeDeckPedalos />} />
