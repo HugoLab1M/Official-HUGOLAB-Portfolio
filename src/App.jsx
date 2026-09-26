@@ -19,12 +19,16 @@ const RefugeAltara = lazy(() => import("./demos/RefugeAltara.jsx"));
 import CookieBanner, { getStoredConsent, storeConsent } from "./components/CookieBanner.jsx";
 import { initAnalytics, disableAnalytics } from "./utils/analytics.js";
 import WhyUs from "./sections/WhyUs.jsx";
+import Branches from "./sections/Branches.jsx";
+import AiAnswerDemo from "./sections/AiAnswerDemo.jsx";
+import VisibiliteIA from "./pages/VisibiliteIA.jsx";
 import MentionsLegales from "./legal/MentionsLegales.jsx";
 import Confidentialite from "./legal/Confidentialite.jsx";
 import CookiesPage from "./legal/Cookies.jsx";
 import CGV from "./legal/CGV.jsx";
 import AvisPage from "./pages/Avis.jsx";
 import FooterPro from "./layout/FooterPro.jsx";
+import { openMail } from "./utils/mail.js";
 
 // =============================================
 // HügoLab — Portfolio Website (Agency Branding)
@@ -32,26 +36,26 @@ import FooterPro from "./layout/FooterPro.jsx";
 // =============================================
 
 // --- Hero carousel images ----------------------------------------------------
-const HERO_IMAGES = ["/hero/1_v2.jpg", "/hero/2_v2.jpg", "/hero/3_v2.jpg"];
+const HERO_IMAGES = ["/hero/1_v2-web.jpg", "/hero/2_v2-web.jpg", "/hero/3_v2-web.jpg"];
 
 // --- Projects (replace with real ones) --------------------------------------
 const PROJECTS = [
   {
     slug: "au-coup-de-pompe",
     title: "Au Coup de Pompe — Repair & Snacks",
-    tagline: "Local bike repair + snack bar with a modern, mobile-first site.",
-    industry: "Local Business",
+    tagline: "Atelier vélo et snack : un site moderne, pensé d’abord pour le mobile.",
+    industry: "Commerce local",
     stack: ["Next.js", "Tailwind", "Framer Motion", "SEO"],
     image:
-      "/projects/1_v2.jpg",
+      "/projects/1_v2-web.jpg",
     url: "/demos/coup-de-pompe",               // ⇦ route interne
     caseStudyUrl: "#case-au-coup-de-pompe",
   },
   {
     slug: "annecy-pedalos",
     title: "Le Deck Pédalos",
-    tagline: "Conversion-focused booking flow + dynamic pricing table.",
-    industry: "Tourism",
+    tagline: "Réservation en quelques clics et grille tarifaire dynamique.",
+    industry: "Tourisme",
     stack: ["React", "Tailwind", "Vite"],
     image:
       "/projects/2_v2.jpg",
@@ -143,187 +147,129 @@ const PROJECTS = [
 // --- Contact / Socials -------------------------------------------------------
 const SOCIALS = [
   { name: "LinkedIn", href: "https://www.linkedin.com/in/mateo-hugues/" },
-  { name: "Instagram", href: "https://www.instagram.com/" },
 ];
 
 const CONTACT = {
   email: "contact@hugolab.fr",
   phone: "+33 6 26 23 14 09",
-  location: "Annecy • Grenoble",
+  location: "Haute-Savoie · Lyon",
 };
 
 // --- i18n strings ------------------------------------------------------------
 const STRINGS = {
   fr: {
-    nav: { home: "Accueil", work: "Projets", services: "Services", pricing: "Tarifs", about: "À propos", contact: "Contact" },
+    nav: { home: "Accueil", ia: "Visibilité IA", work: "Réalisations", services: "Services", pricing: "Tarifs", about: "À propos", contact: "Contact" },
+    navCta: "Nous contacter",
     hero: {
-      kicker: "Studio web près d’Annecy",
-      title: "Des sites clairs, élégants et efficaces pour vos clients",
-      subtitle: "Design, création et refonte de sites vitrines avec SEO local intégré pour les entreprises autour du lac.",
-      ctaPrimary: "Voir les maquettes",
-      ctaSecondary: "Décrire mon projet",
+      kicker: "Studio de visibilité · Annecy & Lyon",
+      title: "Être trouvé.\nÊtre choisi.",
+      subtitle:
+        "HügoLab aide les cabinets, commerces et indépendants de Haute-Savoie et de Lyon à apparaître là où leurs clients cherchent — dans les réponses des moteurs IA comme sur Google — et à faire bonne impression une fois trouvés.",
+      ctaPrimary: "Découvrir l’audit Visibilité IA",
+      ctaSecondary: "Voir les réalisations",
+      stats: [
+        { value: "43", label: "cabinets étudiés en 2026" },
+        { value: "3", label: "pôles, un interlocuteur" },
+        { value: "< 24 h", label: "délai de réponse" },
+      ],
     },
-    homeIntro: {
-      title: "Studio indépendant près d’Annecy",
-      body:
-        "HügoLab accompagne les commerces, maisons d’hôtes et artisans du lac à clarifier leur présence en ligne. Nous concevons des sites sobres, humains et orientés résultats avec un suivi de proximité.",
-      highlights: [
+    branches: {
+      kicker: "Trois pôles",
+      title: "Un même objectif : qu’on vous trouve, et qu’on vous choisisse",
+      intro: "Mesurer où vous en êtes, construire ce qui manque, soigner l’image. Chaque pôle se prend seul ou se combine.",
+      items: [
         {
-          title: "Création & refonte",
-          desc: "Sites vitrines sur-mesure pour raconter votre activité simplement.",
+          badge: "Nouveau",
+          title: "Visibilité IA",
+          forWho: "Avocats · experts-comptables",
+          desc: "Ce que répond un moteur de recherche IA quand un client cherche un cabinet comme le vôtre, les pages qu’il lit pour répondre, et celles où vous manquez.",
+          bullets: ["Chaque question testée deux fois", "Pages citées et absences, une par une", "Trois actions concrètes"],
+          price: "Audit · 490 € HT",
+          cta: "Découvrir",
+          href: "/visibilite-ia",
         },
         {
-          title: "SEO local",
-          desc: "Architecture, contenus et balises pensés pour être trouvés autour d’Annecy.",
+          title: "Sites web",
+          forWho: "Commerces · indépendants · tourisme",
+          desc: "Des sites clairs, rapides et bien référencés, pensés pour transformer une visite en prise de contact.",
+          bullets: ["Landing page ou vitrine complète", "SEO local et fiche Google", "Maintenance mensuelle en option"],
+          price: "dès 649 € HT",
+          cta: "Voir les offres",
+          href: "/services#landing",
         },
         {
-          title: "Suivi continu",
-          desc: "Maintenance légère, mises à jour et optimisations régulières.",
+          title: "Identité visuelle",
+          forWho: "Création · refonte de marque",
+          desc: "Un logo et une identité cohérents sur tous vos supports, du site à l’enseigne.",
+          bullets: ["2 à 3 pistes créatives", "Fichiers sources et déclinaisons", "Mini guide d’usage"],
+          price: "dès 490 € HT",
+          cta: "En savoir plus",
+          href: "/services#logo",
         },
       ],
     },
+    studyTeaser: {
+      kicker: "Étude · septembre 2026",
+      title: "Le moteur sait qui sont les cabinets indépendants. Il ne les propose pas.",
+      body: "43 cabinets d’avocats et d’experts-comptables de Haute-Savoie et de Lyon, 258 réponses d’un moteur de recherche IA analysées, chaque question posée deux fois.",
+      stats: [
+        { value: "1", of: "sur 43", label: "nommé de façon stable quand on demande « le meilleur » de sa ville" },
+        { value: "42", of: "sur 43", label: "correctement identifiés quand on tape leur nom" },
+        { value: "18", of: "sur 43", label: "sans aucune page de leur propre site parmi les sources lues" },
+      ],
+      cta: "Lire les résultats",
+      href: "/visibilite-ia",
+    },
     homeProjects: {
-      title: "Maquettes & projets en situation",
-      intro: "Quelques exemples prêts à personnaliser pour montrer la qualité visuelle et la clarté que nous livrons.",
-      cta: "Voir toutes les maquettes",
+      title: "Sites web : réalisations et maquettes",
+      intro: "Chaque maquette a sa propre direction artistique : un aperçu concret de ce que nous livrons.",
+      cta: "Voir toutes les réalisations",
       ctaHref: "/work",
     },
     homeApproach: {
-      kicker: "Notre mission",
-      title: "Des sites qui respirent et convertissent",
+      kicker: "Notre méthode",
+      title: "Mesurer avant de promettre",
       description:
-        "Workshops courts, direction artistique douce et intégration légère pour livrer des pages rapides, lisibles et optimisées pour vos objectifs.",
-      slogan: "Clarté, vitesse, conversions — pas d’effet de manche inutile.",
-    },
-    homeTestimonials: {
-      kicker: "Témoignages maquette",
-      title: "Ils apprécient notre manière de travailler",
-      note: "Contenu fictif pour la maquette, destiné à illustrer la mise en page.",
-      items: [
-        {
-          quote: "Site livré en trois semaines avec un ton qui colle parfaitement à notre maison d’hôtes.",
-          name: "Claire Martin",
-          role: "Maison Plume, Talloires",
-        },
-        {
-          quote: "Process simple, beaucoup de transparence et surtout un site clair qui nous apporte des demandes locales.",
-          name: "Ludovic Perrin",
-          role: "Atelier vélo du Semnoz",
-        },
-        {
-          quote: "On a enfin un site qui nous ressemble : chaleureux, rapide et optimisé pour être trouvé sur Google.",
-          name: "Sonia B.",
-          role: "Restaurant Ô Berges",
-        },
-      ],
+        "Audit, site ou logo, nous partons de ce qui se passe vraiment : ce que voient vos clients, ce que lisent les moteurs, ce qui les pousse à vous contacter. Puis nous construisons l’essentiel, sans effet de manche.",
+      slogan: "Des faits, des pages qui travaillent, une image qui vous ressemble.",
     },
     whyUs: {
       kicker: "Pourquoi HügoLab",
-      title: "Une micro-agence locale engagée sur vos résultats",
+      title: "Un studio indépendant, un seul interlocuteur",
       cta: "En savoir plus sur HügoLab",
       ctaHref: "/about",
       items: [
         {
+          icon: "ai",
+          title: "Une méthode mesurée",
+          desc: "Chaque constat est vérifié deux fois, daté et sourcé. Aucune promesse bâtie sur une seule observation.",
+        },
+        {
           icon: "local",
-          title: "Ancré autour du lac",
-          desc: "Studio basé à Doussard, disponible pour des échanges terrain et une relation de proximité.",
+          title: "Ancré en Haute-Savoie",
+          desc: "Basé près d’Annecy, disponible pour des échanges de vive voix, en Haute-Savoie comme à Lyon.",
+        },
+        {
+          icon: "transparent",
+          title: "Des prix annoncés",
+          desc: "Des offres claires, un prix affiché dès le départ, aucun jargon inutile.",
+        },
+        {
+          icon: "human",
+          title: "Un seul interlocuteur",
+          desc: "La même personne de l’audit à la mise en ligne, et après.",
         },
         {
           icon: "speed",
           title: "Production rapide",
-          desc: "Sprints courts, validations régulières et mise en ligne en quelques semaines.",
-        },
-        {
-          icon: "transparent",
-          title: "Transparence totale",
-          desc: "Devis clair, étapes partagées et aucun jargon inutile.",
-        },
-        {
-          icon: "human",
-          title: "Relation humaine",
-          desc: "Un seul interlocuteur qui vous accompagne du contenu aux réglages techniques.",
+          desc: "Des étapes courtes, validées avec vous, et une mise en ligne en quelques semaines.",
         },
         {
           icon: "design",
-          title: "Design qui respire",
-          desc: "Typographies modernes, espaces aérés et storytelling premium.",
+          title: "Un design qui respire",
+          desc: "Typographies soignées, espaces aérés, une image à la hauteur de votre savoir-faire.",
         },
       ],
-    },
-    servicesTeaser: {
-      kicker: "Ce que nous faisons",
-      title: "Des sites clairs, modernes et performants",
-      primaryCta: "Voir nos services",
-      primaryHref: "/services",
-      secondaryCta: "Voir nos projets",
-      secondaryHref: "/work",
-      items: [
-        {
-          tag: "Landing page",
-          title: "Landing Express",
-          desc: "Une page unique pour lancer une offre, collecter des leads ou valider un concept.",
-          href: "/services#landing",
-          cta: "Voir les détails",
-        },
-        {
-          tag: "Site vitrine",
-          title: "Vitrine complète",
-          desc: "Cinq pages, formulaire, analytics et SEO local pour être trouvé et contacté facilement.",
-          href: "/services#vitrine",
-          cta: "Voir les détails",
-        },
-        {
-          tag: "Maintenance",
-          title: "Suivi & optimisation",
-          desc: "Mises à jour, sauvegardes, rapports mensuels et petits ajustements selon vos besoins.",
-          href: "/services#maintenance",
-          cta: "Voir les détails",
-        },
-        {
-          tag: "Identité",
-          title: "Logo & branding léger",
-          desc: "Logo, palette, favicon et mini guide pour garder une identité cohérente sur vos supports.",
-          href: "/services#logo",
-          cta: "Voir les détails",
-        },
-      ],
-    },
-    process: {
-      kicker: "Notre méthode",
-      title: "Une production claire en quatre étapes",
-      cta: "Comprendre notre méthode",
-      ctaHref: "/about#process",
-      steps: [
-        {
-          step: "1",
-          title: "Découverte",
-          desc: "On clarifie vos objectifs, les pages nécessaires, le ton et les délais.",
-        },
-        {
-          step: "2",
-          title: "Maquette",
-          desc: "Vous validez l’architecture, le contenu clé et le design avant intégration.",
-        },
-        {
-          step: "3",
-          title: "Dév & SEO",
-          desc: "Intégration en React, optimisation des performances et du référencement local.",
-        },
-        {
-          step: "4",
-          title: "Mise en ligne",
-          desc: "Configuration domaine, analytics, formation claire et maintenance si besoin.",
-        },
-      ],
-    },
-    aboutTeaser: {
-      kicker: "L’agence",
-      title: "Basés à Doussard, au bord du lac d’Annecy",
-      desc: "Nous concevons des sites vitrines modernes, crédibles et performants pour les entreprises locales. L’objectif : transformer une visite en prise de contact ou réservation.",
-      primaryCta: "En savoir plus sur l’agence",
-      primaryHref: "/about",
-      secondaryCta: "Voir nos projets",
-      secondaryHref: "/work",
     },
     services: {
       title: "Services",
@@ -331,157 +277,170 @@ const STRINGS = {
       cta: "Voir les maquettes",
       sections: [
         {
+          id: "visibilite-ia",
+          tag: "Visibilité IA",
+          title: "Audit de visibilité IA",
+          desc:
+            "Nous interrogeons un moteur de recherche IA avec les questions de vos futurs clients, chacune deux fois, et vous remettons la liste des pages qu’il lit pour répondre, celles où vous êtes absent, et trois actions pour y remédier.",
+          bullets: [
+            "Questions génériques, de besoin précis et sur votre nom",
+            "Réponses intégrales, moteur et date nommés",
+            "Pages citées et absences, une par une",
+            "Accompagnement mensuel possible : corrections et mesure",
+          ],
+          visual: "ai",
+          ctaLabel: "Découvrir l’audit",
+          ctaHref: "/visibilite-ia",
+        },
+        {
           id: "landing",
-          tag: "Site vitrine",
+          tag: "Sites web",
           title: "Création de site vitrine",
           desc:
-            "Nous concevons et mettons en ligne votre site vitrine : design soigné, texte clair, chargement fluide. Nous travaillons en React/Next.js pour un front ultra-léger et durable. Si besoin, on ajoute un petit CMS pour éditer vos pages en autonomie.",
+            "Nous concevons et mettons en ligne votre site vitrine : design soigné, texte clair, chargement fluide. Nous travaillons en React pour un site léger et durable. Si besoin, on ajoute un petit CMS pour éditer vos pages en autonomie.",
           bullets: [
             "Architecture claire & mobile-first",
-            "SEO technique (balises, perf, méta)",
+            "SEO technique (balises, performance, méta)",
             "CMS léger optionnel (édition simple)",
             "Analytics & mesure des conversions",
-            "Mise en ligne sur Vercel + maintenance légère",
+            "Mise en ligne + maintenance légère",
           ],
-          img: "/services/vitrine.jpg",
+          img: "/services/vitrine-web.jpg",
           imgAlt: "Exemple de site vitrine par HügoLab",
-          href: "#pricing",
         },
         {
           id: "vitrine",
-          tag: "Site e-commerce",
+          tag: "Sites web",
           title: "Création de site e-shop",
           desc:
-            "Une boutique en ligne simple et fiable, avec paiement sécurisé via Stripe. Front en React/Next.js, parcours d’achat fluide, e-mails de confirmation et tableau de bord de suivi. Nous configurons uniquement l'essentiel.",
+            "Une boutique en ligne simple et fiable, avec paiement sécurisé via Stripe : parcours d’achat fluide, e-mails de confirmation et tableau de bord de suivi. Nous configurons uniquement l’essentiel.",
           bullets: [
             "Catalogue & pages produit claires",
             "Paiement Stripe (CB, Apple/Google Pay)",
             "Livraison / retrait selon vos besoins",
             "E-mails commande & facture",
-            "Stats ventes & événements de conversion",
+            "Statistiques de ventes",
           ],
-          img: "/services/eshop.jpg",
+          img: "/services/eshop-web.jpg",
           imgAlt: "Exemple de boutique en ligne",
-          href: "#pricing",
         },
         {
           id: "logo",
           tag: "Identité visuelle",
           title: "Logo & identité de marque",
           desc:
-            "Nous créons une identité qui vous ressemble et qui fonctionne partout : logo, palette, typos et règles d’usage. Vous repartez avec les fichiers sources et un mini guide pour garder de la cohérence sur tous vos supports.",
+            "Nous créons une identité qui vous ressemble et qui fonctionne partout : logo, palette, typographies et règles d’usage. Vous repartez avec les fichiers sources et un mini guide pour rester cohérent sur tous vos supports.",
           bullets: [
             "2–3 pistes créatives, allers-retours inclus",
             "Versions horizontales/verticales + favicon",
             "Guide d’usage (couleurs, typo, marges)",
             "Gabarits réseaux sociaux (option)",
           ],
-          img: "/services/branding.jpg",
+          img: "/services/branding-web.jpg",
           imgAlt: "Création de logo et identité",
-          href: "#pricing",
         },
         {
           id: "maintenance",
-          tag: "Maintenance",
+          tag: "Sites web",
           title: "Suivi & optimisation",
           desc:
-            "Nous assurons mises à jour, sauvegardes, monitoring de performances et petites évolutions pour faire évoluer votre site en continu.",
+            "Nous assurons mises à jour, sauvegardes, surveillance des performances et petites évolutions pour que votre site continue de travailler pour vous.",
           bullets: [
             "Veille technique & mises à jour mensuelles",
             "Sauvegardes automatiques & restauration",
-            "Rapport de visites & opportunités SEO",
+            "Rapport de visites & pistes SEO",
             "Petites évolutions incluses selon formule",
           ],
-          img: "/services/maintenance.jpg",
+          img: "/services/maintenance-web.jpg",
           imgAlt: "Tableau de suivi et maintenance de site web",
-          href: "#pricing",
         },
       ],
     },
     servicesPage: {
-      kicker: "Offres & prestations",
-      title: "Sites vitrines, landing pages & maintenance web",
-      desc: "Des offres claires pour lancer ou refondre votre présence en ligne. Chaque formule inclut la mise en ligne, l’optimisation mobile et un accompagnement pour rester autonome.",
-      ctaPrimary: "Planifier un appel",
-      ctaPrimaryHref: "/contact",
+      kicker: "Services & tarifs",
+      title: "Visibilité IA, sites web et identité visuelle",
+      desc: "Trois pôles, des offres claires. Mesurer votre visibilité, construire le site qui convertit, soigner l’image qui vous distingue : chaque prestation se prend seule ou se combine.",
+      ctaPrimary: "Nous contacter",
+      ctaPrimaryHref: "/#contact",
       ctaSecondary: "Télécharger la plaquette",
       ctaSecondaryHref: "https://tally.so/r/mOQNRL",
     },
-    work: { title: "Projets en avant", kicker: "Nos réalisations", viewMore: "Voir davantage de maquettes" },
+    work: { title: "Projets en avant", kicker: "Réalisations", viewMore: "Voir davantage de maquettes" },
     workPage: {
-      kicker: "Portfolio",
-      title: "Projets et démonstrations HügoLab",
-      desc: "Sélection de projets livrés et de maquettes sectorielles conçues pour les acteurs locaux : tourisme, restauration, outdoor et services.",
-      ctaPrimary: "Demander une démo",
-      ctaPrimaryHref: "/contact",
+      kicker: "Réalisations",
+      title: "Sites et maquettes HügoLab",
+      desc: "Projets livrés et maquettes sectorielles conçues pour les acteurs locaux : tourisme, restauration, outdoor et services. Chacune avec sa propre direction artistique.",
+      ctaPrimary: "Parler de mon site",
+      ctaPrimaryHref: "/#contact",
     },
     about: {
       title: "Notre histoire",
       kicker: "À propos",
-      p1: "HügoLab est une jeune entreprise dynamique qui conçoit des sites modernes, orientés résultats pour les artisans, entreprises, associations, institutions et particuliers de Haute-Savoie. Fondée par Mateo Hugues, passionné de design et de stratégie digitale, notre mission est simple : transformer une visite en prise de contact, réservation ou vente.",
-      p2: "Nous allions design soigné et leviers d’IA pour produire des interfaces claires, SEO-friendly et performantes. Notre approche ? Comprendre vos besoins, concevoir et tester — jusqu’à obtenir un site à votre image qui attire, séduit et convertit vos visiteurs.",
-      quote: "À l’ère du digital, votre site web est bien plus qu’une vitrine : c’est la première impression que vos clients se font de votre marque. Clair, attractif et crédible, il reflète votre identité et inspire confiance. Chez HügoLab, notre mission est de traduire fidèlement la réalité de votre activité en page internet, pour que vos visiteurs deviennent vos clients.",
+      p1: "HügoLab est un studio indépendant basé près d’Annecy, fondé par Mateo Hugues. Nous aidons les cabinets, commerces et indépendants de Haute-Savoie et de Lyon à être trouvés — par les moteurs IA comme par Google — et à faire bonne impression une fois trouvés.",
+      p2: "Notre point de départ est toujours une mesure : ce que voient vos clients, ce que lisent les moteurs. En septembre 2026, nous avons ainsi étudié 43 cabinets indépendants d’avocats et d’experts-comptables. Viennent ensuite le site, les contenus et l’identité visuelle.",
+      quote: "Un client ne tombe plus seulement sur votre site : il demande aussi à une IA qui choisir. Notre travail est de faire en sorte que vous soyez dans la réponse, et que la première impression soit la bonne.",
       quoteAuthor: "Mateo Hugues — Fondateur de HügoLab",
     },
     aboutPage: {
       hero: {
-        kicker: "Studio digital",
-        title: "Nous concevons des expériences web qui donnent envie d’agir",
+        kicker: "Studio de visibilité",
+        title: "Nous aidons les indépendants à être trouvés, puis choisis",
         subtitle:
-          "Basés à Annecy, nous accompagnons entrepreneurs, marques et institutions à mettre en lumière leur savoir-faire avec des sites modernes, élégants et performants.",
+          "Basés près d’Annecy, nous accompagnons cabinets, commerces et indépendants de Haute-Savoie et de Lyon : audit de visibilité IA, sites web et identité visuelle.",
         pill: "HügoLab — fondé en 2025",
-        ctaPrimary: "Planifier un appel",
+        ctaPrimary: "Planifier un échange",
         ctaSecondary: "Télécharger la plaquette",
         ctaSecondaryUrl: "https://tally.so/r/mOQNRL",
       },
       highlights: [
-        { label: "Maquettes sectorielles prêtes", value: "10" },
-        { label: "Mise en ligne sous", value: "30 jours" },
-        { label: "Création officielle", value: "2025" },
+        { label: "Cabinets étudiés en 2026", value: "43" },
+        { label: "Pôles d’expertise", value: "3" },
+        { label: "Création", value: "2025" },
       ],
       values: {
         title: "Notre approche",
         items: [
           {
-            title: "Clarté et conversion",
-            desc: "Chaque page raconte une histoire qui mène vers l’action : prise de contact, réservation ou achat.",
+            title: "Mesurer d’abord",
+            desc: "Avant de proposer quoi que ce soit, nous regardons ce qui se passe : ce que répondent les moteurs, ce que voit un client, d’où viennent vos contacts.",
           },
           {
-            title: "Production agile",
-            desc: "Sprints courts, validations transparentes. Nous livrons un site prêt à performer en quelques semaines.",
+            title: "Clarté et conversion",
+            desc: "Chaque page mène vers l’action : prise de contact, réservation ou achat.",
           },
           {
             title: "Tech minimaliste",
-            desc: "Stack moderne (React, Vite, Next.js) avec uniquement les briques utiles pour rester fiable et évolutif.",
+            desc: "Une stack moderne avec uniquement les briques utiles, pour rester fiable et évolutif.",
           },
           {
             title: "Suivi continu",
-            desc: "Analytics, SEO local et améliorations trimestrielles pour garder une longueur d’avance.",
+            desc: "Mesure régulière, SEO local et améliorations pour garder une longueur d’avance.",
           },
         ],
       },
       timeline: {
         title: "Étapes clés",
         items: [
-          { year: "03/09/2025", title: "Création de HügoLab", desc: "Immatriculation de la micro-entreprise et premières landing pages pour artisans du lac." },
-          { year: "15/09/2025", title: "Offres vitrines prêtes", desc: "Structuration des offres Landing & Vitrine avec maquettes sectorielles et paiements Stripe." },
-          { year: "24/09/2025", title: "Démos tourisme & restauration", desc: "Mise en ligne des démonstrations personnalisables pour acteurs locaux (tourisme, restauration, outdoor)." },
-          { year: "01/10/2025", title: "Maintenance & SEO continu", desc: "Lancement des offres de suivi : analytics, SEO local et améliorations trimestrielles." },
+          { year: "03/09/2025", title: "Création de HügoLab", desc: "Immatriculation de la micro-entreprise et premières landing pages pour les artisans du lac." },
+          { year: "15/09/2025", title: "Offres vitrines", desc: "Structuration des offres Landing & Vitrine avec maquettes sectorielles et paiement en ligne." },
+          { year: "24/09/2025", title: "Démos tourisme & restauration", desc: "Mise en ligne de démonstrations personnalisables pour les acteurs locaux." },
+          { year: "01/10/2025", title: "Maintenance & SEO continu", desc: "Lancement des offres de suivi : analytics, SEO local et améliorations régulières." },
+          { year: "18/09/2026", title: "Pôle Visibilité IA", desc: "Étude sur 43 cabinets d’avocats et d’experts-comptables de Haute-Savoie et de Lyon, et premiers audits de visibilité IA." },
         ],
       },
     },
     contact: {
-      title: "Parlez-nous de votre projet",
+      title: "Parlons de votre projet",
       kicker: "Contact",
-      p: "Décrivez votre activité, l’objectif du site et toute contrainte (délais, refonte, SEO). Nous revenons sous 24h avec un plan simple et un devis clair.",
+      p: "Audit de visibilité IA, site web ou identité visuelle : décrivez votre activité et votre besoin. Nous revenons vers vous sous 24 h avec une réponse claire.",
       btn: "Ouvrir ma messagerie",
     },
     footer: {
       rights: "Tous droits réservés.",
       builtBy: "Site par HügoLab",
       tagline:
-        "Studio web indépendant basé à Annecy. Nous concevons des sites modernes et orientés conversion pour les entreprises locales et marques ambitieuses.",
-      availability: "Basés à Annecy & Grenoble — missions partout en France.",
+        "Studio de visibilité indépendant près d’Annecy : audit de visibilité IA, sites web et identité visuelle pour les cabinets, commerces et indépendants.",
+      availability: "Haute-Savoie & Lyon — missions partout en France.",
       ctaPrimary: "Planifier un échange",
       ctaPrimaryUrl: "/#contact",
       ctaSecondary: "Envoyer mon brief",
@@ -491,25 +450,25 @@ const STRINGS = {
           title: "Agence",
           links: [
             { label: "À propos", href: "/about" },
-            { label: "Process", href: "/about#process" },
-            { label: "Contact", href: "/contact" },
+            { label: "Méthode", href: "/about#process" },
+            { label: "Contact", href: "/#contact" },
           ],
         },
         {
           title: "Offres",
           links: [
-            { label: "Landing Express", href: "/services#landing" },
-            { label: "Vitrine complète", href: "/services#vitrine" },
+            { label: "Visibilité IA", href: "/visibilite-ia" },
+            { label: "Sites web", href: "/services#landing" },
             { label: "Maintenance", href: "/services#maintenance" },
-            { label: "Logo & branding", href: "/services#logo" },
+            { label: "Logo & identité", href: "/services#logo" },
           ],
         },
         {
           title: "Ressources",
           links: [
-            { label: "Projets", href: "/work" },
-            { label: "Services", href: "/services" },
-            { label: "Process", href: "/about#process" },
+            { label: "Étude IA 2026", href: "/visibilite-ia" },
+            { label: "Réalisations", href: "/work" },
+            { label: "Tarifs", href: "/services#pricing" },
           ],
         },
         {
@@ -530,159 +489,100 @@ const STRINGS = {
         socialsLabel: "Réseaux",
       },
       manageCookies: "Gérer les cookies",
-      bottomNav: ["work", "services", "about", "pricing", "contact"],
+      bottomNav: ["ia", "services", "work", "about", "contact"],
     },
     langLabel: "FR",
   },
 
   en: {
-    nav: { home: "Home", work: "Work", services: "Services", pricing: "Pricing", about: "About", contact: "Contact" },
+    nav: { home: "Home", ia: "AI visibility", work: "Work", services: "Services", pricing: "Pricing", about: "About", contact: "Contact" },
+    navCta: "Get in touch",
     hero: {
-      kicker: "Boutique studio near Annecy",
-      title: "Calm, conversion-ready websites for local brands",
-      subtitle: "Design, build and redesign showcase sites with integrated local SEO.",
-      ctaPrimary: "Browse mockups",
-      ctaSecondary: "Tell us about your project",
-    },
-    homeIntro: {
-      title: "Independent studio on Lake Annecy",
-      body:
-        "HügoLab helps hospitality, artisans and creative businesses share their story online with simple, elegant and human websites.",
-      highlights: [
-        { title: "Creation & redesign", desc: "Showcase sites tailored to your offers and tone of voice." },
-        { title: "Local SEO", desc: "Structure and copy that make you visible around Annecy." },
-        { title: "Ongoing care", desc: "Light maintenance, copy tweaks and analytics guidance." },
+      kicker: "Visibility studio · Annecy & Lyon",
+      title: "Get found.\nGet chosen.",
+      subtitle:
+        "HügoLab helps firms, shops and independents in Haute-Savoie and Lyon show up where their clients look — in AI search answers as well as on Google — and make the right impression once found.",
+      ctaPrimary: "Explore the AI visibility audit",
+      ctaSecondary: "See our work",
+      stats: [
+        { value: "43", label: "firms studied in 2026" },
+        { value: "3", label: "practices, one contact" },
+        { value: "< 24h", label: "reply time" },
       ],
     },
+    branches: {
+      kicker: "Three practices",
+      title: "One goal: be found, and be chosen",
+      intro: "Measure where you stand, build what is missing, sharpen your image. Each practice works on its own or combined.",
+      items: [
+        {
+          badge: "New",
+          title: "AI visibility",
+          forWho: "Lawyers · accountants",
+          desc: "What an AI search engine answers when a client looks for a firm like yours, the pages it reads to answer, and where you are missing.",
+          bullets: ["Every question tested twice", "Cited pages and gaps, one by one", "Three concrete actions"],
+          price: "Audit · €490 excl. VAT",
+          cta: "Explore",
+          href: "/visibilite-ia",
+        },
+        {
+          title: "Websites",
+          forWho: "Shops · independents · tourism",
+          desc: "Clear, fast, well-referenced websites designed to turn a visit into an inquiry.",
+          bullets: ["Landing page or full showcase", "Local SEO and Google listing", "Optional monthly care"],
+          price: "from €649 excl. VAT",
+          cta: "See offers",
+          href: "/services#landing",
+        },
+        {
+          title: "Visual identity",
+          forWho: "New brand · rebrand",
+          desc: "A logo and identity that stay consistent everywhere, from website to shop sign.",
+          bullets: ["2 to 3 creative routes", "Source files and variations", "Quick usage guide"],
+          price: "from €490 excl. VAT",
+          cta: "Learn more",
+          href: "/services#logo",
+        },
+      ],
+    },
+    studyTeaser: {
+      kicker: "Study · September 2026",
+      title: "The engine knows who independent firms are. It just doesn’t recommend them.",
+      body: "43 law and accounting firms in Haute-Savoie and Lyon, 258 answers from an AI search engine analysed, each question asked twice.",
+      stats: [
+        { value: "1", of: "of 43", label: "named consistently when asked for “the best” in its town" },
+        { value: "42", of: "of 43", label: "correctly identified when searched by name" },
+        { value: "18", of: "of 43", label: "with no page of their own website among the sources read" },
+      ],
+      cta: "Read the findings",
+      href: "/visibilite-ia",
+    },
     homeProjects: {
-      title: "Mockups & recent builds",
-      intro: "A quick look at what we can craft — each mockup is ready to be tuned to your activity.",
-      cta: "Open the full gallery",
+      title: "Websites: work and mockups",
+      intro: "Each mockup has its own art direction: a concrete look at what we deliver.",
+      cta: "See all work",
       ctaHref: "/work",
     },
     homeApproach: {
       kicker: "How we work",
-      title: "Clarity first, then the pixels",
-      description: "Short workshops, editorial design and a lean integration to ship pages that read fast and feel premium.",
-      slogan: "Clear stories, fast loading, conversion-focused.",
-    },
-    homeTestimonials: {
-      kicker: "Mockup content",
-      title: "Clients love the calm energy of our process",
-      note: "Sample quotes used to demonstrate the layout.",
-      items: [
-        { quote: "Three weeks from kickoff to launch with a tone of voice that finally feels right.", name: "Claire Martin", role: "Maison Plume, Talloires" },
-        { quote: "Simple steps, transparent budget and a site that delivers qualified leads every week.", name: "Ludovic Perrin", role: "Atelier Vélo du Semnoz" },
-        { quote: "Our new site feels handcrafted, quick to load and visible on Google Maps.", name: "Sonia B.", role: "Ô Berges restaurant" },
-      ],
+      title: "Measure before promising",
+      description:
+        "Audit, website or logo, we start from what actually happens: what your clients see, what engines read, what makes people get in touch. Then we build what matters, without the fluff.",
+      slogan: "Facts, pages that work, an image that looks like you.",
     },
     whyUs: {
       kicker: "Why HügoLab",
-      title: "A local solo studio shipping fast",
+      title: "An independent studio, one point of contact",
       cta: "Learn more about HügoLab",
       ctaHref: "/about",
       items: [
-        {
-          icon: "local",
-          title: "Grounded around the lake",
-          desc: "Based in Doussard for hands-on collaboration, in-person check-ins and local culture.",
-        },
-        {
-          icon: "speed",
-          title: "Fast production",
-          desc: "Lean sprints, frequent approvals and shipping within a few weeks.",
-        },
-        {
-          icon: "transparent",
-          title: "Full transparency",
-          desc: "Straightforward pricing, shared timelines and no jargon.",
-        },
-        {
-          icon: "human",
-          title: "Human relationship",
-          desc: "One partner from discovery to launch and beyond.",
-        },
-        {
-          icon: "design",
-          title: "Design that breathes",
-          desc: "Soft fonts, curated imagery and copy that tells your story with confidence.",
-        },
+        { icon: "ai", title: "A measured method", desc: "Every finding is checked twice, dated and sourced. No promise built on a single observation." },
+        { icon: "local", title: "Rooted in Haute-Savoie", desc: "Based near Annecy, available to meet in person in Haute-Savoie and Lyon." },
+        { icon: "transparent", title: "Upfront pricing", desc: "Clear offers, prices shown from the start, no jargon." },
+        { icon: "human", title: "One point of contact", desc: "The same person from audit to launch, and beyond." },
+        { icon: "speed", title: "Fast production", desc: "Short steps approved with you, and a launch within weeks." },
+        { icon: "design", title: "Design that breathes", desc: "Refined type, generous space, an image worthy of your expertise." },
       ],
-    },
-    servicesTeaser: {
-      kicker: "What we do",
-      title: "Launch-ready, modern sites built to perform",
-      primaryCta: "See our services",
-      primaryHref: "/services",
-      secondaryCta: "View our work",
-      secondaryHref: "/work",
-      items: [
-        {
-          tag: "Landing page",
-          title: "Landing Express",
-          desc: "Single-page launchpad to capture leads or validate a new offer fast.",
-          href: "/services#landing",
-          cta: "Explore",
-        },
-        {
-          tag: "Showcase site",
-          title: "Full showcase",
-          desc: "Five pages, contact form, analytics and local SEO to turn visitors into inquiries.",
-          href: "/services#vitrine",
-          cta: "Explore",
-        },
-        {
-          tag: "Care",
-          title: "Care & optimisation",
-          desc: "Monthly maintenance, updates, backups and micro-optimisations when you need them.",
-          href: "/services#maintenance",
-          cta: "Explore",
-        },
-        {
-          tag: "Identity",
-          title: "Logo & light branding",
-          desc: "Logo kit, color palette and quick brand guide to stay consistent across channels.",
-          href: "/services#logo",
-          cta: "Explore",
-        },
-      ],
-    },
-    process: {
-      kicker: "Our process",
-      title: "A clear four-step production",
-      cta: "See the full process",
-      ctaHref: "/about#process",
-      steps: [
-        {
-          step: "1",
-          title: "Discovery",
-          desc: "We align on goals, pages, tone of voice and timeline.",
-        },
-        {
-          step: "2",
-          title: "Prototype",
-          desc: "You approve layout, key copy and UI direction before development.",
-        },
-        {
-          step: "3",
-          title: "Build & SEO",
-          desc: "React integration, performance tweaks and local SEO setup.",
-        },
-        {
-          step: "4",
-          title: "Launch",
-          desc: "Domain setup, analytics, micro-training and optional care plan.",
-        },
-      ],
-    },
-    aboutTeaser: {
-      kicker: "Studio",
-      title: "Independent studio on Lake Annecy",
-      desc: "We craft modern, credible, high-performing showcase sites for local businesses. The goal: turn visits into inquiries.",
-      primaryCta: "Learn about the studio",
-      primaryHref: "/about",
-      secondaryCta: "View projects",
-      secondaryHref: "/work",
     },
     services: {
       title: "Services",
@@ -690,42 +590,56 @@ const STRINGS = {
       cta: "See mockups",
       sections: [
         {
+          id: "visibilite-ia",
+          tag: "AI visibility",
+          title: "AI visibility audit",
+          desc:
+            "We ask an AI search engine the questions your prospective clients ask, each twice, and hand you the list of pages it reads to answer, those where you are missing, and three actions to fix it.",
+          bullets: [
+            "Generic, need-specific and brand questions",
+            "Full answers, engine and date named",
+            "Cited pages and gaps, one by one",
+            "Optional monthly support: fixes and measurement",
+          ],
+          visual: "ai",
+          ctaLabel: "Explore the audit",
+          ctaHref: "/visibilite-ia",
+        },
+        {
           id: "landing",
-          tag: "Showcase website",
+          tag: "Websites",
           title: "Business website",
           desc:
-            "We design and launch your showcase website with clear copy, refined design and fast loading. We work with React/Next.js for a lean, future-proof front end. If you need to edit pages, we add a lightweight CMS.",
+            "We design and launch your showcase website with clear copy, refined design and fast loading. Built with React for a lean, future-proof front end. If you need to edit pages, we add a lightweight CMS.",
           bullets: [
             "Clear, mobile-first architecture",
-            "Technical SEO (tags, perf, meta)",
+            "Technical SEO (tags, performance, meta)",
             "Optional lightweight CMS (easy editing)",
             "Analytics & conversion tracking",
-            "Deployment on Vercel + light maintenance",
+            "Launch + light maintenance",
           ],
-          img: "/services/vitrine.jpg",
+          img: "/services/vitrine-web.jpg",
           imgAlt: "Showcase website by HügoLab",
-          href: "#pricing",
         },
         {
           id: "vitrine",
-          tag: "E-commerce",
+          tag: "Websites",
           title: "Online store",
           desc:
-            "A simple, reliable store with secure Stripe payments. React/Next.js front end, smooth checkout, order emails and a small dashboard. We set up only what you really need. ",
+            "A simple, reliable store with secure Stripe payments: smooth checkout, order emails and a small dashboard. We set up only what you really need.",
           bullets: [
             "Clean catalog & product pages",
             "Stripe payments (cards, Apple/Google Pay)",
             "Shipping or click & collect as needed",
             "Order & invoice emails",
-            "Sales stats & conversion events",
+            "Sales statistics",
           ],
-          img: "/services/eshop.jpg",
+          img: "/services/eshop-web.jpg",
           imgAlt: "Online store example",
-          href: "#pricing",
         },
         {
           id: "logo",
-          tag: "Brand identity",
+          tag: "Visual identity",
           title: "Logo & visual identity",
           desc:
             "We craft an identity that looks good and works everywhere: logo, color palette, type and usage rules. Delivered with source files and a quick style guide to keep everything consistent.",
@@ -735,112 +649,97 @@ const STRINGS = {
             "Quick style guide (colors, type, spacing)",
             "Social templates (optional)",
           ],
-          img: "/services/branding.jpg",
+          img: "/services/branding-web.jpg",
           imgAlt: "Logo and identity work",
-          href: "#pricing",
         },
         {
           id: "maintenance",
-          tag: "Care",
+          tag: "Websites",
           title: "Care & optimisation",
-          desc:
-            "We handle updates, backups, monitoring and micro improvements so your website keeps performing over time.",
+          desc: "We handle updates, backups, monitoring and small improvements so your website keeps working for you.",
           bullets: [
             "Monthly technical updates",
             "Backups & recovery plan",
-            "Analytics and local SEO watch",
-            "Micro enhancements included per plan",
+            "Traffic report & SEO leads",
+            "Small enhancements included per plan",
           ],
-          img: "/services/maintenance.jpg",
+          img: "/services/maintenance-web.jpg",
           imgAlt: "Website care and optimisation dashboard",
-          href: "#pricing",
         },
       ],
     },
     servicesPage: {
-      kicker: "Services & offerings",
-      title: "Showcase sites, landing pages and ongoing care",
-      desc: "Clear packages to launch or refresh your online presence. Every plan ships with mobile performance, SEO essentials and guidance so you stay autonomous.",
-      ctaPrimary: "Book a call",
-      ctaPrimaryHref: "/contact",
+      kicker: "Services & pricing",
+      title: "AI visibility, websites and visual identity",
+      desc: "Three practices, clear offers. Measure your visibility, build the site that converts, sharpen the image that sets you apart: each works on its own or combined.",
+      ctaPrimary: "Get in touch",
+      ctaPrimaryHref: "/#contact",
       ctaSecondary: "Download the deck",
       ctaSecondaryHref: "https://tally.so/r/mOQNRL",
     },
-    work: { title: "Featured Work", kicker: "Case studies", viewMore: "See more mockups" },
+    work: { title: "Featured work", kicker: "Work", viewMore: "See more mockups" },
     workPage: {
-      kicker: "Portfolio",
-      title: "Selected projects and demos",
-      desc: "Websites and sector demos crafted for tourism, hospitality, outdoor activities and ambitious local businesses.",
-      ctaPrimary: "Request a walkthrough",
-      ctaPrimaryHref: "/contact",
+      kicker: "Work",
+      title: "HügoLab websites and mockups",
+      desc: "Delivered projects and sector mockups for local businesses: tourism, hospitality, outdoor and services. Each with its own art direction.",
+      ctaPrimary: "Talk about my website",
+      ctaPrimaryHref: "/#contact",
     },
     about: {
       title: "Our story",
-      kicker: "About us",
-      p1: "HügoLab designs modern, fast, results-driven websites for local businesses in Annecy and growing brands. Founded by Mateo Hugues, our mission is simple: turn visits into inquiries, bookings, or sales.",
-      p2: "We blend refined design, strong performance and 2025-ready AI tooling to ship clear, SEO-friendly, high-performing interfaces. Our method: listen, prototype, test, iterate — until it converts.",
-      quote: "In the age of digital, your website is the front door to your brand: clear, fast, credible. Before showing up, most customers will check your site. Our job is to turn that visit into action.",
+      kicker: "About",
+      p1: "HügoLab is an independent studio near Annecy, founded by Mateo Hugues. We help firms, shops and independents in Haute-Savoie and Lyon get found — by AI engines as well as Google — and make the right impression once found.",
+      p2: "We always start from a measurement: what your clients see, what engines read. In September 2026 we studied 43 independent law and accounting firms this way. Then come the website, the content and the visual identity.",
+      quote: "Clients no longer just land on your website: they also ask an AI who to choose. Our job is to make sure you are in the answer, and that the first impression is the right one.",
       quoteAuthor: "Mateo Hugues — HügoLab Founder",
     },
     aboutPage: {
       hero: {
-        kicker: "Digital studio",
-        title: "We craft conversion-driven web experiences",
+        kicker: "Visibility studio",
+        title: "We help independents get found, then chosen",
         subtitle:
-          "From our base in Annecy we help founders, hospitality brands and institutions tell their story with modern, elegant, high-performing websites.",
+          "From near Annecy, we work with firms, shops and independents in Haute-Savoie and Lyon: AI visibility audits, websites and visual identity.",
         pill: "HügoLab — founded 2025",
-        ctaPrimary: "Book a discovery call",
+        ctaPrimary: "Book a call",
         ctaSecondary: "Download the deck",
         ctaSecondaryUrl: "https://tally.so/r/mOQNRL",
       },
       highlights: [
-        { label: "Sector mockups ready", value: "10" },
-        { label: "Showcase live within", value: "30 days" },
-        { label: "Registered micro-business", value: "2025" },
+        { label: "Firms studied in 2026", value: "43" },
+        { label: "Practices", value: "3" },
+        { label: "Founded", value: "2025" },
       ],
       values: {
         title: "How we work",
         items: [
-          {
-            title: "Clarity first",
-            desc: "Every page leads visitors toward the next action — inquiry, booking or checkout.",
-          },
-          {
-            title: "Lean production",
-          desc: "Short sprints and transparent approvals so your new site ships in a matter of weeks.",
-          },
-          {
-            title: "Minimal tech",
-            desc: "A modern React/Vite/Next.js stack with only the pieces required to stay reliable and scalable.",
-          },
-          {
-            title: "Ongoing care",
-            desc: "Analytics, local SEO and quarterly improvements to keep you ahead of competitors.",
-          },
+          { title: "Measure first", desc: "Before proposing anything, we look at what happens: what engines answer, what a client sees, where your leads come from." },
+          { title: "Clarity first", desc: "Every page leads visitors toward the next action — inquiry, booking or checkout." },
+          { title: "Minimal tech", desc: "A modern stack with only the pieces required to stay reliable and scalable." },
+          { title: "Ongoing care", desc: "Regular measurement, local SEO and improvements to stay ahead." },
         ],
       },
       timeline: {
         title: "Milestones",
         items: [
-          { year: "2025-04-01", title: "HügoLab launches", desc: "Micro-business registered with landing pages for artisans around Lake Annecy." },
-          { year: "2025-05-15", title: "Showcase packages", desc: "Packaged Landing + Vitrine offers with Stripe deposits and sector-specific mockups." },
-          { year: "2025-06-10", title: "Sector demos", desc: "Ready-to-customize demos for tourism, restaurants and outdoor brands." },
-          { year: "2025-10-01", title: "Care & SEO plans", desc: "Quarterly optimisation retainers covering analytics, local SEO and micro updates." },
+          { year: "2025-09-03", title: "HügoLab launches", desc: "Micro-business registered, first landing pages for artisans around Lake Annecy." },
+          { year: "2025-09-15", title: "Showcase packages", desc: "Landing + Showcase offers with sector mockups and online payment." },
+          { year: "2025-09-24", title: "Tourism & hospitality demos", desc: "Ready-to-customise demos for local businesses." },
+          { year: "2025-10-01", title: "Care & SEO plans", desc: "Care plans covering analytics, local SEO and regular improvements." },
+          { year: "2026-09-18", title: "AI visibility practice", desc: "Study of 43 law and accounting firms in Haute-Savoie and Lyon, and first AI visibility audits." },
         ],
       },
     },
     contact: {
       title: "Let's talk about your project",
       kicker: "Contact",
-      p: "Share a few lines about your business, goal and current website. We’ll reply within 24 hours with a clear plan and quote.",
+      p: "AI visibility audit, website or visual identity: tell us about your business and what you need. We reply within 24 hours with a clear answer.",
       btn: "Open my email app",
     },
     footer: {
       rights: "All rights reserved.",
       builtBy: "Site by HügoLab",
-      tagline:
-        "Boutique web studio from Annecy. We ship fast, conversion-first websites for local businesses and growing brands.",
-      availability: "Based in Annecy & Grenoble — partnering with clients across Europe.",
+      tagline: "Independent visibility studio near Annecy: AI visibility audits, websites and visual identity for firms, shops and independents.",
+      availability: "Haute-Savoie & Lyon — working across France.",
       ctaPrimary: "Schedule a call",
       ctaPrimaryUrl: "/#contact",
       ctaSecondary: "Send your brief",
@@ -850,25 +749,25 @@ const STRINGS = {
           title: "Studio",
           links: [
             { label: "About", href: "/about" },
-            { label: "Process", href: "/about#process" },
-            { label: "Contact", href: "/contact" },
+            { label: "Method", href: "/about#process" },
+            { label: "Contact", href: "/#contact" },
           ],
         },
         {
           title: "Offers",
           links: [
-            { label: "Landing Express", href: "/services#landing" },
-            { label: "Full showcase", href: "/services#vitrine" },
+            { label: "AI visibility", href: "/visibilite-ia" },
+            { label: "Websites", href: "/services#landing" },
             { label: "Care plans", href: "/services#maintenance" },
-            { label: "Logo & branding", href: "/services#logo" },
+            { label: "Logo & identity", href: "/services#logo" },
           ],
         },
         {
           title: "Resources",
           links: [
-            { label: "Projects", href: "/work" },
-            { label: "Services", href: "/services" },
-            { label: "Process", href: "/about#process" },
+            { label: "AI study 2026", href: "/visibilite-ia" },
+            { label: "Work", href: "/work" },
+            { label: "Pricing", href: "/services#pricing" },
           ],
         },
         {
@@ -885,14 +784,28 @@ const STRINGS = {
         title: "Contact",
         emailLabel: "Email",
         phoneLabel: "Phone",
-        locationLabel: "Based in",
+        locationLabel: "Areas served",
         socialsLabel: "Follow",
       },
       manageCookies: "Manage cookies",
-      bottomNav: ["work", "services", "about", "pricing", "contact"],
+      bottomNav: ["ia", "services", "work", "about", "contact"],
     },
     langLabel: "EN",
   },
+};
+
+const PAGE_TITLES = {
+  "/": {
+    fr: "HügoLab — Visibilité IA, sites web et identité visuelle · Annecy & Lyon",
+    en: "HügoLab — AI visibility, websites and visual identity · Annecy & Lyon",
+  },
+  "/visibilite-ia": {
+    fr: "Audit de visibilité IA pour avocats et experts-comptables — HügoLab",
+    en: "AI visibility audit for law and accounting firms — HügoLab",
+  },
+  "/services": { fr: "Services & tarifs — HügoLab", en: "Services & pricing — HügoLab" },
+  "/work": { fr: "Réalisations — HügoLab", en: "Work — HügoLab" },
+  "/about": { fr: "À propos — HügoLab", en: "About — HügoLab" },
 };
 
 // --- Utils ------------------------------------------------------------------
@@ -903,49 +816,17 @@ function classNames(...c) {
 const EMAIL_TEMPLATES = {
   FR: {
     subject: "Demande via hugolab.fr",
-    body: "Bonjour HügoLab,\n\nJ’ai un projet de site :\n- Activité :\n- Objectif :\n- Site actuel (si oui) :\n\nMerci !",
+    body: "Bonjour HügoLab,\n\nMon projet :\n- Activité :\n- Besoin (visibilité IA, site, logo) :\n- Site actuel (si oui) :\n\nMerci !",
   },
   EN: {
     subject: "Inquiry via hugolab.fr",
-    body: "Hello HügoLab,\n\nI have a website project:\n- Business:\n- Goal:\n- Current site (if any):\n\nThanks!",
+    body: "Hello HügoLab,\n\nMy project:\n- Business:\n- Need (AI visibility, website, logo):\n- Current site (if any):\n\nThanks!",
   },
 };
 
 function getEmailTemplate(langLabel) {
   const key = typeof langLabel === "string" ? langLabel.toUpperCase() : "FR";
   return EMAIL_TEMPLATES[key] ?? EMAIL_TEMPLATES.FR;
-}
-
-// NEW: robust email launcher + Gmail fallback (only if no client took over)
-function openMail(to, subject = "", body = "") {
-  const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-  const a = document.createElement("a");
-  a.href = mailto;
-  a.style.display = "none";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-
-  // If nothing stole focus after ~1s, gently offer Gmail compose.
-  let timer;
-  const cancelFallback = () => {
-    if (!timer) return;
-    clearTimeout(timer);
-    timer = null;
-    document.removeEventListener("visibilitychange", cancelFallback);
-    window.removeEventListener("blur", cancelFallback);
-  };
-
-  document.addEventListener("visibilitychange", cancelFallback);
-  window.addEventListener("blur", cancelFallback);
-
-  timer = setTimeout(() => {
-    if (document.visibilityState === "hidden" || !document.hasFocus()) return;
-    const gmail = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.open(gmail, "_blank", "noopener,noreferrer");
-    cancelFallback();
-  }, 1200);
 }
 
 // --- UI Components -----------------------------------------------------------
@@ -963,11 +844,12 @@ function LangToggle({ lang, onToggle }) {
 
 function Nav({ t, onLangToggle, lang, onContactClick }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { pathname } = useLocation();
   const items = [
-    { label: t.nav.home ?? "Home", to: "/", aria: lang === "fr" ? "Retour à l’accueil HügoLab" : "Back to HügoLab home" },
-    { label: t.nav.work, to: "/work", aria: lang === "fr" ? "Explorer les projets signés HügoLab" : "Explore HügoLab case studies" },
+    { label: t.nav.ia, to: "/visibilite-ia", aria: lang === "fr" ? "Découvrir l’audit de visibilité IA" : "Explore the AI visibility audit" },
     { label: t.nav.services, to: "/services", aria: lang === "fr" ? "Découvrir les services HügoLab" : "Discover HügoLab services" },
-    { label: t.nav.pricing, to: "/#pricing", aria: lang === "fr" ? "Consulter les tarifs HügoLab" : "See HügoLab pricing" },
+    { label: t.nav.work, to: "/work", aria: lang === "fr" ? "Explorer les réalisations HügoLab" : "Explore HügoLab work" },
+    { label: t.nav.pricing, to: "/services#pricing", aria: lang === "fr" ? "Consulter les tarifs HügoLab" : "See HügoLab pricing" },
     { label: t.nav.about, to: "/about", aria: lang === "fr" ? "En savoir plus sur HügoLab" : "Learn more about HügoLab" },
     { label: t.nav.contact, to: "/#contact", aria: lang === "fr" ? "Contacter HügoLab" : "Contact HügoLab" },
   ];
@@ -981,7 +863,7 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
     ? "Ouvrir le menu"
     : "Open menu";
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--border)] backdrop-blur supports-[backdrop-filter]:bg-[rgba(250,249,245,0.85)]">
+    <header className="sticky top-0 z-40 border-b border-[var(--border)] backdrop-blur supports-[backdrop-filter]:bg-[rgba(248,247,251,0.85)]">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         <Link to="/" className="flex items-center gap-3 group" aria-label="HügoLab — accueil">
           <img src="/logo.svg" alt="HügoLab" className="h-9 w-auto" />
@@ -995,7 +877,10 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
               key={item.label}
               to={item.to}
               aria-label={item.aria}
-              className="link-underline text-sm font-medium text-[var(--muted)] transition-colors hover:text-[var(--ink)]"
+              className={classNames(
+                "link-underline text-sm font-medium transition-colors hover:text-[var(--ink)]",
+                pathname === item.to ? "text-[var(--ink)]" : "text-[var(--muted)]"
+              )}
             >
               {item.label}
             </Link>
@@ -1007,7 +892,7 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
             onClick={onContactClick}
             className="hidden items-center gap-2 rounded-full bg-[var(--ink)] px-4 py-2 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[var(--violet-deep)] sm:inline-flex"
           >
-            {t.hero.ctaSecondary}
+            {t.navCta}
           </button>
           <button
             type="button"
@@ -1042,7 +927,7 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
               }}
               className="mt-2 rounded-full bg-[var(--ink)] px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--violet-deep)]"
             >
-              {t.hero.ctaSecondary}
+              {t.navCta}
             </button>
           </div>
         </div>
@@ -1077,25 +962,21 @@ function Hero({ t }) {
       <div className="hugolab-container grid items-center gap-14 py-20 md:py-28 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <p className="kicker">{t.hero.kicker}</p>
-          <h1 className="font-display mt-6 text-4xl font-medium leading-[1.08] tracking-tight text-[var(--ink)] md:text-6xl">
+          <h1 className="font-display mt-6 whitespace-pre-line text-5xl font-medium leading-[1.02] tracking-tight text-[var(--ink)] md:text-7xl">
             {t.hero.title}
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-[var(--muted)]">{t.hero.subtitle}</p>
+          <p className="mt-7 max-w-xl text-lg leading-relaxed text-[var(--muted)]">{t.hero.subtitle}</p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a href="#projects" className="btn-primary">
+            <Link to="/visibilite-ia" className="btn-primary">
               {t.hero.ctaPrimary}
               <span className="btn-arrow" aria-hidden>→</span>
-            </a>
-            <a href="#contact" className="btn-ghost">
+            </Link>
+            <Link to="/work" className="btn-ghost">
               {t.hero.ctaSecondary}
-            </a>
+            </Link>
           </div>
           <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-[var(--border)] pt-6">
-            {[
-              { value: "10", label: isFr ? "maquettes sectorielles" : "sector mockups" },
-              { value: "< 24h", label: isFr ? "délai de réponse" : "reply time" },
-              { value: "30 j", label: isFr ? "mise en ligne moyenne" : "average launch" },
-            ].map((stat) => (
+            {t.hero.stats.map((stat) => (
               <div key={stat.label}>
                 <dt className="sr-only">{stat.label}</dt>
                 <dd className="font-display text-2xl text-[var(--ink)]">{stat.value}</dd>
@@ -1104,9 +985,10 @@ function Hero({ t }) {
             ))}
           </dl>
         </div>
+        {/* Visuel : une maquette de site (pôle Sites) + la réponse d’un moteur IA (pôle Visibilité) */}
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
           <div
-            className="relative overflow-hidden border border-[var(--border)] bg-[var(--surface)]"
+            className="relative ml-auto w-[88%] overflow-hidden border border-[var(--border)] bg-[var(--surface)]"
             style={{ borderRadius: "180px 180px 28px 28px" }}
           >
             <div className="relative aspect-[4/5]">
@@ -1114,7 +996,7 @@ function Hero({ t }) {
                 <motion.img
                   key={index}
                   src={HERO_IMAGES[index]}
-                  alt={isFr ? "Aperçu d’une maquette HügoLab" : "Preview of a HügoLab mockup"}
+                  alt={isFr ? "Aperçu d’une maquette de site HügoLab" : "Preview of a HügoLab website mockup"}
                   className="absolute inset-0 h-full w-full object-cover"
                   initial={{ opacity: 0, scale: 1.03 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -1124,13 +1006,8 @@ function Hero({ t }) {
               </AnimatePresence>
             </div>
           </div>
-          <div className="absolute -left-4 bottom-8 hidden rounded-xl border border-[var(--border)] bg-white/95 px-4 py-3 shadow-[0_18px_50px_-20px_rgba(23,20,31,0.35)] backdrop-blur md:block">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--violet-text)]">
-              {isFr ? "Studio local" : "Local studio"}
-            </p>
-            <p className="mt-1 text-sm text-[var(--ink)]">
-              {isFr ? "Annecy · Doussard · lac" : "Annecy · Doussard · lake"}
-            </p>
+          <div className="relative -mt-40 w-[92%] sm:-mt-48 sm:w-[80%] lg:absolute lg:-left-10 lg:bottom-8 lg:mt-0 lg:w-[72%]">
+            <AiAnswerDemo lang={isFr ? "fr" : "en"} compact showToggle={false} />
           </div>
         </div>
       </div>
@@ -1138,27 +1015,42 @@ function Hero({ t }) {
   );
 }
 
-function IntroSection({ t }) {
-  const intro = t.homeIntro;
-  if (!intro) return null;
-  const kicker = t.langLabel === "FR" ? "À propos" : "About";
-
+function StudyTeaser({ data }) {
+  if (!data) return null;
   return (
-    <section className="py-16 md:py-24">
-      <div className="hugolab-container space-y-12">
-        <div className="max-w-3xl">
-          <p className="kicker">{kicker}</p>
-          <h2 className="font-display mt-4 text-3xl font-medium tracking-tight text-[var(--ink)] md:text-4xl">{intro.title}</h2>
-          <p className="mt-5 text-lg leading-relaxed text-[var(--muted)]">{intro.body}</p>
-        </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {intro.highlights?.map((item, idx) => (
-            <div key={item.title} className="card-editorial flex flex-col gap-3 p-6">
-              <p className="font-display text-sm text-[var(--violet-text)]">{String(idx + 1).padStart(2, "0")}</p>
-              <p className="text-base font-semibold text-[var(--ink)]">{item.title}</p>
-              <p className="text-sm leading-relaxed text-[var(--muted)]">{item.desc}</p>
+    <section className="pb-16 md:pb-24">
+      <div className="hugolab-container">
+        <div className="relative overflow-hidden rounded-[32px] bg-[var(--ink)] p-8 text-white md:p-14">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full opacity-40 blur-3xl"
+            style={{ background: "radial-gradient(circle, rgba(140,82,255,0.6) 0%, transparent 70%)" }}
+          />
+          <div className="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <p className="kicker !text-white/60">{data.kicker}</p>
+              <h2 className="font-display mt-5 text-3xl font-medium leading-snug md:text-[2.6rem]">{data.title}</h2>
+              <p className="mt-5 max-w-2xl leading-relaxed text-white/70">{data.body}</p>
             </div>
-          ))}
+            <Link
+              to={data.href}
+              className="inline-flex flex-none items-center gap-2 self-start rounded-full bg-[var(--violet-deep)] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--violet-text)] md:self-auto"
+            >
+              {data.cta}
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
+          <div className="relative mt-12 grid gap-8 md:grid-cols-3">
+            {data.stats.map((st) => (
+              <div key={st.label} className="border-t border-white/15 pt-5">
+                <p className="font-display text-5xl font-medium tracking-tight md:text-6xl">
+                  {st.value}
+                  <span className="ml-2 text-xl text-white/50">{st.of}</span>
+                </p>
+                <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/70">{st.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -1183,37 +1075,6 @@ function ApproachSection({ data, lang }) {
   );
 }
 
-function TestimonialsSection({ data }) {
-  if (!data) return null;
-  return (
-    <section id="testimonials" className="border-y border-[var(--border)] py-16 md:py-24">
-      <div className="hugolab-container">
-        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="kicker">{data.kicker}</p>
-            <h2 className="font-display mt-3 text-3xl font-medium tracking-tight text-[var(--ink)] md:text-4xl">{data.title}</h2>
-          </div>
-          {data.note ? <p className="text-xs italic text-[var(--muted)]">{data.note}</p> : null}
-        </div>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {data.items?.map((item) => (
-            <figure key={item.name} className="card-editorial flex h-full flex-col justify-between p-6">
-              <blockquote>
-                <span aria-hidden className="font-display block text-4xl leading-none text-[var(--violet)]">“</span>
-                <p className="mt-2 text-[15px] leading-relaxed text-[var(--ink)]">{item.quote}</p>
-              </blockquote>
-              <figcaption className="mt-6 border-t border-[var(--border)] pt-4">
-                <p className="text-sm font-semibold text-[var(--ink)]">{item.name}</p>
-                <p className="mt-0.5 text-xs text-[var(--muted)]">{item.role}</p>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // util pour ProjectCard
 const isExternalUrl = (u) => /^https?:\/\//i.test(u);
 
@@ -1226,7 +1087,7 @@ function FeaturedMockups({ t }) {
       <div className="hugolab-container">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p className="kicker">{t.langLabel === "FR" ? "Maquettes" : "Mockups"}</p>
+            <p className="kicker">{t.langLabel === "FR" ? "Sites web" : "Websites"}</p>
             <h2 className="font-display mt-3 text-3xl font-medium tracking-tight text-[var(--ink)] md:text-4xl">{copy.title}</h2>
             <p className="mt-4 text-base leading-relaxed text-[var(--muted)]">{copy.intro}</p>
           </div>
@@ -1281,7 +1142,6 @@ function FeaturedMockups({ t }) {
 function ProjectCard({ p, lang }) {
   const isFrench = lang === "FR";
   const liveLabel = isFrench ? "Voir le site en ligne" : "View live project";
-  const caseLabel = isFrench ? "Lire le cas client" : "Read the case study";
   const CardInner = (
     <>
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -1306,21 +1166,8 @@ function ProjectCard({ p, lang }) {
         <h3 className="mb-1 text-lg font-semibold text-[var(--ink)]">{p.title}</h3>
         <p className="line-clamp-2 text-sm leading-relaxed text-[var(--muted)]">{p.tagline}</p>
         <div className="mt-4 flex items-center gap-4">
-          {isExternalUrl(p.url) ? (
-            <a
-              href={p.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-underline text-sm font-semibold text-[var(--ink)]"
-              aria-label={`${liveLabel} (${p.title})`}
-            >
-              {liveLabel}
-            </a>
-          ) : (
-            <Link to={p.url} className="link-underline text-sm font-semibold text-[var(--ink)]" aria-label={`${liveLabel} (${p.title})`}>
-              {liveLabel}
-            </Link>
-          )}
+          {/* Toute la carte est déjà un lien : simple libellé ici, pas de lien imbriqué */}
+          <span className="link-underline text-sm font-semibold text-[var(--ink)]">{liveLabel}</span>
         </div>
       </div>
     </>
@@ -1348,19 +1195,23 @@ function ProjectCard({ p, lang }) {
   );
 }
 
-function Services({ t }) {
+// Ligne « visuel + contenu » qui alterne gauche/droite (hors de Services pour ne pas être remontée à chaque rendu)
+function FeatureRow({ t, section, reverse = false }) {
   const emailCopy = getEmailTemplate(t.langLabel);
-  // petit composant pour une ligne “image + contenu” qui alterne gauche/droite
-  function FeatureRow({ section, reverse = false }) {
-    return (
-      <div
-        id={section.id || undefined}
-        className={classNames(
-          "grid items-start gap-8 md:grid-cols-2 scroll-mt-24",
-          reverse ? "md:[&>div:first-child]:order-2" : ""
-        )}
-      >
-        {/* Image */}
+  return (
+    <div
+      id={section.id || undefined}
+      className={classNames(
+        "grid items-start gap-8 md:grid-cols-2 scroll-mt-24",
+        reverse ? "md:[&>div:first-child]:order-2" : ""
+      )}
+    >
+      {/* Visuel : image, ou la démo de réponse IA pour le pôle Visibilité */}
+      {section.visual === "ai" ? (
+        <div className="rounded-3xl border border-[var(--border)] bg-[var(--lavender)]/60 p-5 md:p-8">
+          <AiAnswerDemo lang={t.langLabel === "FR" ? "fr" : "en"} compact />
+        </div>
+      ) : (
         <div className="relative overflow-hidden rounded-3xl border border-[var(--border)]">
           <div className="aspect-[4/3] md:aspect-[3/2]">
             <img
@@ -1374,53 +1225,51 @@ function Services({ t }) {
             />
           </div>
         </div>
-  
-        {/* Texte (reste en haut) */}
-        <div>
-          <p className="kicker mb-3">{section.tag}</p>
-          <h3 className="font-display text-2xl font-medium tracking-tight text-[var(--ink)] md:text-3xl">{section.title}</h3>
-          <p className="mt-4 leading-relaxed text-[var(--muted)]">{section.desc}</p>
+      )}
 
-          <ul className="mt-5 space-y-2.5 text-sm">
-            {section.bullets.map((b, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <span aria-hidden className="mt-[7px] inline-block h-1.5 w-1.5 flex-none bg-[var(--violet)]"></span>
-                <span className="leading-relaxed text-[var(--ink)]">{b}</span>
-              </li>
-            ))}
-          </ul>
+      {/* Texte (reste en haut) */}
+      <div>
+        <p className="kicker mb-3">{section.tag}</p>
+        <h3 className="font-display text-2xl font-medium tracking-tight text-[var(--ink)] md:text-3xl">{section.title}</h3>
+        <p className="mt-4 leading-relaxed text-[var(--muted)]">{section.desc}</p>
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="/work" className="btn-primary !px-5 !py-2.5">
-              {t.services.cta}
-              <span className="btn-arrow" aria-hidden>→</span>
-            </Link>
-            <button
-              type="button"
-              onClick={() => openMail(CONTACT.email, emailCopy.subject, emailCopy.body)}
-              className="btn-ghost !px-5 !py-2.5"
-            >
-              {t.contact.btn}
-            </button>
-          </div>
+        <ul className="mt-5 space-y-2.5 text-sm">
+          {section.bullets.map((b, i) => (
+            <li key={i} className="flex items-start gap-3">
+              <span aria-hidden className="mt-[7px] inline-block h-1.5 w-1.5 flex-none bg-[var(--violet)]"></span>
+              <span className="leading-relaxed text-[var(--ink)]">{b}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link to={section.ctaHref ?? "/work"} className="btn-primary !px-5 !py-2.5">
+            {section.ctaLabel ?? t.services.cta}
+            <span className="btn-arrow" aria-hidden>→</span>
+          </Link>
+          <button
+            type="button"
+            onClick={() => openMail(CONTACT.email, emailCopy.subject, emailCopy.body)}
+            className="btn-ghost !px-5 !py-2.5"
+          >
+            {t.contact.btn}
+          </button>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
+function Services({ t }) {
   return (
     <section id="services" className="py-14 md:py-20">
       <SectionTitle kicker={t.services.kicker}>{t.services.title}</SectionTitle>
 
       <div className="mx-auto max-w-6xl space-y-14 px-4">
-        {/* 1 */}
-        <FeatureRow section={t.services.sections[0]} />
-        {/* 2 (image à droite sur desktop) */}
-        <FeatureRow section={t.services.sections[1]} reverse />
-        {/* 3 */}
-        <FeatureRow section={t.services.sections[2]} />
-        {/* 4 */}
-        {t.services.sections[3] && <FeatureRow section={t.services.sections[3]} reverse />}
+        {/* Visuel alterné gauche / droite sur desktop */}
+        {t.services.sections.map((section, i) => (
+          <FeatureRow key={section.id} t={t} section={section} reverse={i % 2 === 1} />
+        ))}
       </div>
     </section>
   );
@@ -1462,7 +1311,7 @@ function About({ t }) {
         <figure className="md:col-span-5">
           <div className="relative aspect-[16/9] md:aspect-[19/9] overflow-hidden rounded-3xl ring-1 ring-[var(--border)]">
             <img
-              src="/about/hugolab-team.webp"   // ← your image (public/about/hugolab-team.webp)
+              src="/about/hugolab-team-web.jpg"   // ← your image (public/about/hugolab-team.webp)
               alt="HügoLab — l’équipe au travail"
               loading="lazy"
               width="1280"
@@ -1803,7 +1652,7 @@ function WorkPage({ t }) {
 }
 
 function PricingRedirect() {
-  return <Navigate to="/#pricing" replace />;
+  return <Navigate to="/services#pricing" replace />;
 }
 
 function ContactRedirect() {
@@ -1825,6 +1674,13 @@ export default function App() {
   useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
+
+  // Titre d’onglet par page (le SPA ne sert qu’un index.html)
+  useEffect(() => {
+    if (isDemoRoute) return;
+    const title = PAGE_TITLES[location.pathname];
+    document.title = title ? title[lang] : PAGE_TITLES["/"][lang];
+  }, [location.pathname, lang, isDemoRoute]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -1966,25 +1822,17 @@ export default function App() {
           element={
             <main>
               <Hero t={t} />
-              <IntroSection t={t} />
+              <Branches data={t.branches} />
+              <StudyTeaser data={t.studyTeaser} />
               <FeaturedMockups t={t} />
               <ApproachSection data={t.homeApproach} lang={t.langLabel} />
               <WhyUs section={t.whyUs} />
-              <PricingSection
-                briefFormUrl="https://tally.so/r/mJ7Zgd"
-                logoFormUrl="https://tally.so/r/mOveKp"
-                paymentLinks={{
-                  starterDeposit: "https://buy.stripe.com/eVq6oJ8QC3SzdoH6LV8so00",
-                  vitrineDeposit: "https://buy.stripe.com/5kQ6oJ7My0Gn1FZgmv8so01",
-                  maintenance49: "https://buy.stripe.com/7sYdRbaYKagXbgz4DN8so02",
-                  maintenance99: "https://buy.stripe.com/4gMaEZ7MygFl2K39Y78so03",
-                }}
-              />
-              <TestimonialsSection data={t.homeTestimonials} />
               <Contact t={t} />
             </main>
           }
         />
+        <Route path="/visibilite-ia" element={<VisibiliteIA lang={lang} email={CONTACT.email} />} />
+        <Route path="/audit-ia" element={<Navigate to="/visibilite-ia" replace />} />
         <Route path="/about" element={<AboutPage t={t} />} />
         <Route path="/services" element={<ServicesPage t={t} />} />
         <Route path="/work" element={<WorkPage t={t} />} />

@@ -80,7 +80,7 @@ export default function PricingSection({
     <section className="border-t border-[var(--border)] py-20 md:py-24" id="pricing">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-14 max-w-2xl">
-          <p className="kicker">Tarifs</p>
+          <p className="kicker">Tarifs · Sites web &amp; identité</p>
           <h2 className="font-display mt-4 text-3xl font-medium tracking-tight text-[var(--ink)] md:text-4xl">
             Des offres simples, un prix annoncé dès le départ
           </h2>
@@ -202,7 +202,7 @@ export default function PricingSection({
             </div>
             <div className="text-left md:text-right">
               <p className="font-display text-2xl text-[var(--ink)]">
-                dès 249 € <span className="text-base font-normal text-[var(--muted)]">HT</span>
+                dès 490 € <span className="text-base font-normal text-[var(--muted)]">HT</span>
               </p>
               <div className="mt-3 flex flex-wrap gap-2 md:justify-end">
                 <button
@@ -223,7 +223,7 @@ export default function PricingSection({
                     href={paymentLinks.logo}
                     className="inline-flex items-center justify-center rounded-full bg-[var(--violet)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#9d6cff]"
                   >
-                    Commander Logo 249 €
+                    Commander le logo — 490 €
                   </a>
                 )}
               </div>

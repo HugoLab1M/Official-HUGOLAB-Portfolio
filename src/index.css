@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&display=swap");
+/* Plus Jakarta Sans : police du site. Manrope reste chargée pour les démos qui l'utilisent. */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700&display=swap");
 
 /* Tailwind layers */
 @tailwind base;
@@ -7,20 +8,21 @@
 
 /* =========================
    HügoLab — design tokens
-   Palette construite autour du violet du logo (#8C52FF)
+   Palette construite autour du violet du logo (#8C52FF), fond légèrement lavande
+   (et non plus crème) pour une identité propre
    ========================= */
 
 :root {
-  --paper: #faf9f5;        /* fond principal, papier chaud */
-  --surface: #f2efe9;      /* surfaces secondaires */
+  --paper: #f8f7fb;        /* fond principal, blanc lavande */
+  --surface: #efedf5;      /* surfaces secondaires */
   --lavender: #efeafd;     /* teinte violette douce */
   --ink: #17141f;          /* texte principal, encre violacée */
   --muted: #5d5868;        /* texte secondaire — AA sur papier */
   --violet: #8c52ff;       /* violet logo, usage décoratif */
   --violet-deep: #5b34e8;  /* interactions, hovers */
   --violet-text: #4c2bd3;  /* violet lisible en texte sur papier */
-  --border: #e6e2d9;
-  --border-strong: #d6d1c4;
+  --border: #e4e1eb;
+  --border-strong: #d2cedd;
 
   /* rétro-compatibilité avec les anciens tokens utilisés dans le code */
   --bg: var(--paper);
@@ -42,13 +44,15 @@ html,
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   text-rendering: optimizeLegibility;
 }
 
+/* Titres : même famille, plus grasse et resserrée (déclaré après les utilitaires, donc prioritaire sur font-medium) */
 .font-display {
-  font-family: "Fraunces", Georgia, serif;
-  font-optical-sizing: auto;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
 /* Respect user's motion preference */

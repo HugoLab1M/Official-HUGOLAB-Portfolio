@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://hugolab.fr/</loc></url>
-  <url><loc>https://hugolab.fr/#work</loc></url>
-  <url><loc>https://hugolab.fr/#services</loc></url>
-  <url><loc>https://hugolab.fr/#pricing</loc></url>
-  <url><loc>https://hugolab.fr/#about</loc></url>
-  <url><loc>https://hugolab.fr/#contact</loc></url>
-  <!-- Optional: surface icons -->
-  <url><loc>https://hugolab.fr/favicon.ico</loc></url>
-  <url><loc>https://hugolab.fr/favicon-48x48.png</loc></url>
-  <url><loc>https://hugolab.fr/logo.svg</loc></url>
+  <url><loc>https://hugolab.fr/visibilite-ia</loc></url>
+  <url><loc>https://hugolab.fr/services</loc></url>
+  <url><loc>https://hugolab.fr/work</loc></url>
+  <url><loc>https://hugolab.fr/about</loc></url>
 </urlset>

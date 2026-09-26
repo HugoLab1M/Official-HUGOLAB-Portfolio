@@ -144,7 +144,8 @@ export default function FooterPro({ t, onManageCookies, contact, socials }) {
                 <nav className="flex flex-wrap items-center gap-3">
                   {bottomNavKeys.map((key) => {
                     let href = `/${key}`;
-                    if (key === "pricing") href = "/#pricing";
+                    if (key === "pricing") href = "/services#pricing";
+                    if (key === "ia") href = "/visibilite-ia";
                     if (key === "contact") href = "/#contact";
                     if (key === "work") href = "/work";
                     if (key === "services") href = "/services";
