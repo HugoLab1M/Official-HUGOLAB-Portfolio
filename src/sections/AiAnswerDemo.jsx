@@ -66,7 +66,7 @@ export default function AiAnswerDemo({ lang = "fr", compact = false, showToggle 
             <span className="h-2.5 w-2.5 rounded-full bg-[var(--border-strong)]" />
             <span className="h-2.5 w-2.5 rounded-full bg-[var(--border-strong)]" />
           </div>
-          <p className="hidden text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)] sm:block">{t.engine}</p>
+          <p className="hidden whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)] sm:block">{t.engine}</p>
           {showToggle ? (
             <div role="group" aria-label={t.toggle} className="flex rounded-full border border-[var(--border)] bg-white p-0.5">
               {Object.entries(ETUDE).map(([k, v]) => (

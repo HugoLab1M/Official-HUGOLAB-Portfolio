@@ -202,7 +202,7 @@ export default function PricingSection({
             </div>
             <div className="text-left md:text-right">
               <p className="font-display text-2xl text-[var(--ink)]">
-                dès 249 € <span className="text-base font-normal text-[var(--muted)]">HT</span>
+                dès 490 € <span className="text-base font-normal text-[var(--muted)]">HT</span>
               </p>
               <div className="mt-3 flex flex-wrap gap-2 md:justify-end">
                 <button
@@ -223,7 +223,7 @@ export default function PricingSection({
                     href={paymentLinks.logo}
                     className="inline-flex items-center justify-center rounded-full bg-[var(--violet)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#9d6cff]"
                   >
-                    Commander Logo 249 €
+                    Commander le logo — 490 €
                   </a>
                 )}
               </div>

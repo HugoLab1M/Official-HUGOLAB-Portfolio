@@ -36,7 +36,7 @@ import { openMail } from "./utils/mail.js";
 // =============================================
 
 // --- Hero carousel images ----------------------------------------------------
-const HERO_IMAGES = ["/hero/1_v2.jpg", "/hero/2_v2.jpg", "/hero/3_v2.jpg"];
+const HERO_IMAGES = ["/hero/1_v2-web.jpg", "/hero/2_v2-web.jpg", "/hero/3_v2-web.jpg"];
 
 // --- Projects (replace with real ones) --------------------------------------
 const PROJECTS = [
@@ -47,7 +47,7 @@ const PROJECTS = [
     industry: "Commerce local",
     stack: ["Next.js", "Tailwind", "Framer Motion", "SEO"],
     image:
-      "/projects/1_v2.jpg",
+      "/projects/1_v2-web.jpg",
     url: "/demos/coup-de-pompe",               // ⇦ route interne
     caseStudyUrl: "#case-au-coup-de-pompe",
   },
@@ -202,7 +202,7 @@ const STRINGS = {
           forWho: "Création · refonte de marque",
           desc: "Un logo et une identité cohérents sur tous vos supports, du site à l’enseigne.",
           bullets: ["2 à 3 pistes créatives", "Fichiers sources et déclinaisons", "Mini guide d’usage"],
-          price: "dès 249 € HT",
+          price: "dès 490 € HT",
           cta: "En savoir plus",
           href: "/services#logo",
         },
@@ -305,7 +305,7 @@ const STRINGS = {
             "Analytics & mesure des conversions",
             "Mise en ligne + maintenance légère",
           ],
-          img: "/services/vitrine.jpg",
+          img: "/services/vitrine-web.jpg",
           imgAlt: "Exemple de site vitrine par HügoLab",
         },
         {
@@ -321,7 +321,7 @@ const STRINGS = {
             "E-mails commande & facture",
             "Statistiques de ventes",
           ],
-          img: "/services/eshop.jpg",
+          img: "/services/eshop-web.jpg",
           imgAlt: "Exemple de boutique en ligne",
         },
         {
@@ -336,7 +336,7 @@ const STRINGS = {
             "Guide d’usage (couleurs, typo, marges)",
             "Gabarits réseaux sociaux (option)",
           ],
-          img: "/services/branding.jpg",
+          img: "/services/branding-web.jpg",
           imgAlt: "Création de logo et identité",
         },
         {
@@ -351,7 +351,7 @@ const STRINGS = {
             "Rapport de visites & pistes SEO",
             "Petites évolutions incluses selon formule",
           ],
-          img: "/services/maintenance.jpg",
+          img: "/services/maintenance-web.jpg",
           imgAlt: "Tableau de suivi et maintenance de site web",
         },
       ],
@@ -539,7 +539,7 @@ const STRINGS = {
           forWho: "New brand · rebrand",
           desc: "A logo and identity that stay consistent everywhere, from website to shop sign.",
           bullets: ["2 to 3 creative routes", "Source files and variations", "Quick usage guide"],
-          price: "from €249 excl. VAT",
+          price: "from €490 excl. VAT",
           cta: "Learn more",
           href: "/services#logo",
         },
@@ -618,7 +618,7 @@ const STRINGS = {
             "Analytics & conversion tracking",
             "Launch + light maintenance",
           ],
-          img: "/services/vitrine.jpg",
+          img: "/services/vitrine-web.jpg",
           imgAlt: "Showcase website by HügoLab",
         },
         {
@@ -634,7 +634,7 @@ const STRINGS = {
             "Order & invoice emails",
             "Sales statistics",
           ],
-          img: "/services/eshop.jpg",
+          img: "/services/eshop-web.jpg",
           imgAlt: "Online store example",
         },
         {
@@ -649,7 +649,7 @@ const STRINGS = {
             "Quick style guide (colors, type, spacing)",
             "Social templates (optional)",
           ],
-          img: "/services/branding.jpg",
+          img: "/services/branding-web.jpg",
           imgAlt: "Logo and identity work",
         },
         {
@@ -663,7 +663,7 @@ const STRINGS = {
             "Traffic report & SEO leads",
             "Small enhancements included per plan",
           ],
-          img: "/services/maintenance.jpg",
+          img: "/services/maintenance-web.jpg",
           imgAlt: "Website care and optimisation dashboard",
         },
       ],
@@ -863,7 +863,7 @@ function Nav({ t, onLangToggle, lang, onContactClick }) {
     ? "Ouvrir le menu"
     : "Open menu";
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--border)] backdrop-blur supports-[backdrop-filter]:bg-[rgba(250,249,245,0.85)]">
+    <header className="sticky top-0 z-40 border-b border-[var(--border)] backdrop-blur supports-[backdrop-filter]:bg-[rgba(248,247,251,0.85)]">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         <Link to="/" className="flex items-center gap-3 group" aria-label="HügoLab — accueil">
           <img src="/logo.svg" alt="HügoLab" className="h-9 w-auto" />
@@ -1311,7 +1311,7 @@ function About({ t }) {
         <figure className="md:col-span-5">
           <div className="relative aspect-[16/9] md:aspect-[19/9] overflow-hidden rounded-3xl ring-1 ring-[var(--border)]">
             <img
-              src="/about/hugolab-team.webp"   // ← your image (public/about/hugolab-team.webp)
+              src="/about/hugolab-team-web.jpg"   // ← your image (public/about/hugolab-team.webp)
               alt="HügoLab — l’équipe au travail"
               loading="lazy"
               width="1280"
